@@ -85,7 +85,19 @@ module.exports = function(grunt) {
         eqnull: true,
         shadow: true
       },
-      globals: {}
+      globals: {
+        ByteBuffer: true,
+        ArrayBuffer: true,
+        DataView: true,
+        Uint8Array: true,
+        
+        // BusterJS
+        buster: true,
+        describe: true,
+        it: true,
+        before: true,
+        expect: true
+      }
     },
     uglify: {}
   });
