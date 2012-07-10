@@ -1,0 +1,30 @@
+{
+  "name": "byte-buffer",
+  "title": "ByteBuffer",
+  "main": "./dist/byte-buffer.js",
+  "description": "Wrapper for ArrayBuffer/DataView",
+  "version": "0.0.1",
+  "homepage": "http://moonsphere.net",
+  "author": {
+    "name": "Tim Kurvers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timkurvers/byte-buffer"
+  },
+  "bugs": {
+    "url": "https://github.com/timkurvers/byte-buffer/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+  	"buster": ">=0.6.0",
+    "grunt": ">=0.3.9"
+  },
+  "keywords": []
+}
