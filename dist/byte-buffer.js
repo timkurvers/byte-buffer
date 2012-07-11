@@ -17,6 +17,12 @@ ByteBuffer = (function() {
   var getter, setter,
     _this = this;
 
+  ByteBuffer.LITTLE_ENDIAN = true;
+
+  ByteBuffer.BIG_ENDIAN = false;
+
+  ByteBuffer.DEFAULT_ENDIAN = ByteBuffer.BIG_ENDIAN;
+
   getter = function(name, getter) {
     return Object.defineProperty(ByteBuffer.prototype, name, {
       get: getter,
@@ -33,12 +39,16 @@ ByteBuffer = (function() {
     });
   };
 
-  function ByteBuffer(source) {
+  function ByteBuffer(source, order) {
     if (source == null) {
       source = 0;
     }
+    if (order == null) {
+      order = this.constructor.DEFAULT_ENDIAN;
+    }
     this._buffer = null;
     this._view = null;
+    this.order = order;
     if (source.byteLength != null) {
       if (source.buffer != null) {
         this._buffer = source.buffer.slice(0);

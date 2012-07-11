@@ -12,6 +12,13 @@
 
 class ByteBuffer
   
+  # Byte order constants
+  @LITTLE_ENDIAN = true
+  @BIG_ENDIAN    = false
+  
+  # Big endian is the default byte order (sticking to the spec)
+  @DEFAULT_ENDIAN = @BIG_ENDIAN
+  
   # Shielded utility methods for creating getters/setters on the prototype
   getter = (name, getter) =>
     Object.defineProperty @::, name, get: getter, enumerable: true, configurable: true
@@ -20,7 +27,7 @@ class ByteBuffer
     Object.defineProperty @::, name, set: setter, enumerable: true, configurable: true
   
   # Creates a new ByteBuffer from given source (assumed to be amount of bytes when numeric)
-  constructor: (source=0) ->
+  constructor: (source=0, order=@constructor.DEFAULT_ENDIAN) ->
     
     # Holds raw buffer
     @_buffer = null
@@ -28,10 +35,13 @@ class ByteBuffer
     # Holds internal view for reading/writing
     @_view = null
     
+    # Holds byte order
+    @order = order
+    
     # Determine whether source is a byte-aware object or a primitive
     if source.byteLength?
       
-      # Determine whether source is view or a raw buffer
+      # Determine whether source is a view or a raw buffer
       if source.buffer?
         # TODO: Support creating ByteBuffer from another ByteBuffer
         @_buffer = source.buffer.slice(0)

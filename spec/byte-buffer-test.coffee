@@ -26,3 +26,16 @@ describe 'ByteBuffer', ->
     
     b = new ByteBuffer(new Uint8Array(3))
     expect(b.length).toEqual(3)
+
+  it 'has a (default) byte order', ->
+    expect(ByteBuffer.BIG_ENDIAN).toEqual(false)
+    expect(ByteBuffer.LITTLE_ENDIAN).toEqual(true)
+  
+    b = new ByteBuffer()
+    expect(b.order).toEqual(ByteBuffer.BIG_ENDIAN)
+  
+    b = new ByteBuffer(0, ByteBuffer.BIG_ENDIAN)
+    expect(b.order).toEqual(ByteBuffer.BIG_ENDIAN)
+    
+    b = new ByteBuffer(0, ByteBuffer.LITTLE_ENDIAN)
+    expect(b.order).toEqual(ByteBuffer.LITTLE_ENDIAN)
