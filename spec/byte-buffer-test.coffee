@@ -119,6 +119,15 @@ describe 'ByteBuffer', ->
     expect(b.readShort(ByteBuffer.BIG_ENDIAN)).toEqual(-128)
     expect(b.readUnsignedShort(ByteBuffer.LITTLE_ENDIAN)).toEqual(128)
   
+  it 'can skip bytes', ->
+    b = new ByteBuffer(4)
+    expect(b.skip(2).index).toEqual(2)
+    expect(b.skip(2).index).toEqual(4)
+  
+    expect(->
+      b.skip(1)
+    ).toThrow('RangeError')
+  
   it 'has the amount of bytes available', ->
     b = new ByteBuffer(8)
     expect(b.available).toEqual(8)

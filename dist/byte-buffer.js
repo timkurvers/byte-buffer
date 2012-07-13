@@ -107,6 +107,11 @@ ByteBuffer = (function() {
     return this;
   };
 
+  ByteBuffer.prototype.skip = function(bytes) {
+    this.index += bytes;
+    return this;
+  };
+
   getter('available', function() {
     return this.length - this._index;
   });

@@ -103,6 +103,11 @@ class ByteBuffer
     @_index = @length
     return @
   
+  # Skips given number of bytes
+  skip: (bytes) ->
+    @index += bytes
+    return @
+  
   # Retrieves number of available bytes
   getter 'available', ->
     return @length - @_index
