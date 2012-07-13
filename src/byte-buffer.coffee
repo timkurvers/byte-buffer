@@ -33,7 +33,7 @@ class ByteBuffer
     @_view = null
     
     # Holds byte order
-    @order = order
+    @_order = order
     
     # Determine whether source is a byte-aware object or a primitive
     if source.byteLength?
@@ -69,3 +69,11 @@ class ByteBuffer
   # Note: This allows for ByteBuffer to be detected as a proper source by its own constructor
   getter 'byteLength', ->
     return @length
+
+  # Retrieves byte order
+  getter 'order', ->
+    return @_order
+  
+  # Sets byte order
+  setter 'order', (order) ->
+    @_order = !!order
