@@ -11,6 +11,7 @@
 #
 
 class ByteBuffer
+  'use strict'
   
   # Byte order constants
   @LITTLE_ENDIAN = true
@@ -34,6 +35,9 @@ class ByteBuffer
     
     # Holds byte order
     @_order = order
+    
+    # Holds read/write index
+    @_index = 0
     
     # Determine whether source is a byte-aware object or a primitive
     if source.byteLength?
@@ -77,3 +81,68 @@ class ByteBuffer
   # Sets byte order
   setter 'order', (order) ->
     @_order = !!order
+
+  # Retrieves read/write index
+  getter 'index', ->
+    return @_index
+  
+  # Sets read/write index
+  setter 'index', (index) ->
+    if index < 0 or index > @length
+      throw new RangeError('Invalid index ' + index + ', should be between 0 and ' + @length)
+    
+    @_index = index
+  
+  # Sets index to front of the buffer
+  front: ->
+    @_index = 0
+    return @
+  
+  # Sets index to end of the buffer
+  end: ->
+    @_index = @length
+    return @
+  
+  # Retrieves number of available bytes
+  getter 'available', ->
+    return @length - @_index
+  
+  # Generic reader
+  reader = (method, bytes) ->
+    return (order=@_order) ->
+      if bytes > @available
+        throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
+      
+      value = @_view[method](@_index, order)
+      @_index += bytes
+      return value
+  
+  # Generic writer
+  writer = (method, bytes) ->
+    return (value, order=@_order) ->
+      if bytes > @available
+        throw new Error('Cannot write ' + value + ' using ' + bytes + ' byte(s), ' + @available + ' available')
+      
+      @_view[method](@_index, value, order)
+      @_index += bytes
+      return @
+  
+  # Readers for bytes, shorts, integers, floats and doubles
+  readByte: reader('getInt8', 1)
+  readUnsignedByte: reader('getUint8', 1)
+  readShort: reader('getInt16', 2)
+  readUnsignedShort: reader('getUint16', 2)
+  readInt: reader('getInt32', 4)
+  readUnsignedInt: reader('getUint32', 4)
+  readFloat: reader('getFloat32', 4)
+  readDouble: reader('getFloat64', 8)
+  
+  # Writers for bytes, shorts, integers, floats and doubles
+  writeByte: writer('setInt8', 1)
+  writeUnsignedByte: writer('setUint8', 1)
+  writeShort: writer('setInt16', 2)
+  writeUnsignedShort: writer('setUint16', 2)
+  writeInt: writer('setInt32', 4)
+  writeUnsignedInt: writer('setUint32', 4)
+  writeFloat: writer('setFloat32', 4)
+  writeDouble: writer('setFloat64', 8)
