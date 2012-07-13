@@ -119,6 +119,12 @@ describe 'ByteBuffer', ->
     expect(b.readShort(ByteBuffer.BIG_ENDIAN)).toEqual(-128)
     expect(b.readUnsignedShort(ByteBuffer.LITTLE_ENDIAN)).toEqual(128)
   
+  it '//can read and write UTF-8 strings', ->
+    # TODO: Assertions
+  
+  it '//can read and write NULL-terminated C-strings', ->
+    # TODO: Assertions
+  
   it 'can skip bytes', ->
     b = new ByteBuffer(4)
     expect(b.skip().index).toEqual(1)
