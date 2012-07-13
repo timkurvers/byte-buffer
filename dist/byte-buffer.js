@@ -21,8 +21,6 @@ ByteBuffer = (function() {
 
   ByteBuffer.BIG_ENDIAN = false;
 
-  ByteBuffer.DEFAULT_ENDIAN = ByteBuffer.BIG_ENDIAN;
-
   getter = function(name, getter) {
     return Object.defineProperty(ByteBuffer.prototype, name, {
       get: getter,
@@ -44,11 +42,11 @@ ByteBuffer = (function() {
       source = 0;
     }
     if (order == null) {
-      order = this.constructor.DEFAULT_ENDIAN;
+      order = this.constructor.BIG_ENDIAN;
     }
     this._buffer = null;
     this._view = null;
-    this.order = order;
+    this._order = order;
     if (source.byteLength != null) {
       if (source.buffer != null) {
         this._buffer = source.buffer.slice(0);
@@ -75,6 +73,14 @@ ByteBuffer = (function() {
 
   getter('byteLength', function() {
     return this.length;
+  });
+
+  getter('order', function() {
+    return this._order;
+  });
+
+  setter('order', function(order) {
+    return this._order = !!order;
   });
 
   return ByteBuffer;

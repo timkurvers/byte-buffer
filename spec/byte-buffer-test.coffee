@@ -39,3 +39,5 @@ describe 'ByteBuffer', ->
     
     b = new ByteBuffer(0, ByteBuffer.LITTLE_ENDIAN)
     expect(b.order).toEqual(ByteBuffer.LITTLE_ENDIAN)
+    b.order = ByteBuffer.BIG_ENDIAN
+    expect(b.order).toEqual(ByteBuffer.BIG_ENDIAN)
