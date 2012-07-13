@@ -45,6 +45,12 @@ Node Support
 No considerations have been made to make this project compatible with Node.. yet! Contributions are more than welcome.
 
 
+Usage & API
+-----------
+
+Will be added shortly.
+
+
 Development & Contribution
 --------------------------
 
@@ -74,7 +80,7 @@ Getting this toolchain up and running, is easy and straight-forward:
    which buster
    ```
 
-5. Testing requires running `buster server` in a separate separate terminal window.
+5. Testing requires running `buster server` in a separate terminal window.
 
 6. Navigate to the listed address (normally localhost:1111) with at least one browser and hit the capture button. Each browser you capture will be tested against.
 
