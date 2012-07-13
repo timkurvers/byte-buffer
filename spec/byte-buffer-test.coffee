@@ -121,11 +121,11 @@ describe 'ByteBuffer', ->
   
   it 'can skip bytes', ->
     b = new ByteBuffer(4)
-    expect(b.skip(2).index).toEqual(2)
-    expect(b.skip(2).index).toEqual(4)
-  
+    expect(b.skip().index).toEqual(1)
+    expect(b.skip(2).index).toEqual(3)
+    
     expect(->
-      b.skip(1)
+      b.skip(2)
     ).toThrow('RangeError')
   
   it 'has the amount of bytes available', ->

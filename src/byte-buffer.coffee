@@ -104,7 +104,7 @@ class ByteBuffer
     return @
   
   # Skips given number of bytes
-  skip: (bytes) ->
+  skip: (bytes=1) ->
     @index += bytes
     return @
   

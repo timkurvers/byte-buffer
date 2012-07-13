@@ -108,6 +108,9 @@ ByteBuffer = (function() {
   };
 
   ByteBuffer.prototype.skip = function(bytes) {
+    if (bytes == null) {
+      bytes = 1;
+    }
     this.index += bytes;
     return this;
   };
