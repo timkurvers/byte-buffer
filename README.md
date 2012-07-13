@@ -1,11 +1,10 @@
 ByteBuffer
 ==========
 
-Copyright (c) 2012 Tim Kurvers <http://www.moonsphere.net>
-
 Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endianness. Supports arbitrary reading/writing, automatic growth, slicing, cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
 
 Licensed under the **MIT** license, see LICENSE for more information.
+
 
 Browser Support
 ---------------
