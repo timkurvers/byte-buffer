@@ -16,9 +16,6 @@ class ByteBuffer
   @LITTLE_ENDIAN = true
   @BIG_ENDIAN    = false
   
-  # Big endian is the default byte order (sticking to the spec)
-  @DEFAULT_ENDIAN = @BIG_ENDIAN
-  
   # Shielded utility methods for creating getters/setters on the prototype
   getter = (name, getter) =>
     Object.defineProperty @::, name, get: getter, enumerable: true, configurable: true
@@ -27,7 +24,7 @@ class ByteBuffer
     Object.defineProperty @::, name, set: setter, enumerable: true, configurable: true
   
   # Creates a new ByteBuffer from given source (assumed to be amount of bytes when numeric)
-  constructor: (source=0, order=@constructor.DEFAULT_ENDIAN) ->
+  constructor: (source=0, order=@constructor.BIG_ENDIAN) ->
     
     # Holds raw buffer
     @_buffer = null
@@ -64,11 +61,11 @@ class ByteBuffer
   getter 'view', ->
     return @_view
   
-  # Retrieves number of bytes in this buffer
+  # Retrieves number of bytes
   getter 'length', ->
     return @_buffer.byteLength
   
-  # Retrieves number of bytes in this buffer
+  # Retrieves number of bytes
   # Note: This allows for ByteBuffer to be detected as a proper source by its own constructor
   getter 'byteLength', ->
     return @length
