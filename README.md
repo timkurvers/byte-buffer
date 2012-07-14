@@ -6,6 +6,139 @@ Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endi
 Licensed under the **MIT** license, see LICENSE for more information.
 
 
+Usage & API
+-----------
+
+ByteBuffer's API borrows heavily from Adobe's [IDataInput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataInput.html) and [IDataOutput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataOutput.html) as well as David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView).
+
+The concept of buffers and views separately - as outlined in [MDN's JavaScript typed arrays](https://developer.mozilla.org/en/JavaScript_typed_arrays) is *not* used. ByteBuffer handles this separation for you.
+
+
+### Construction
+
+```javascript
+new ByteBuffer(1) // Buffer of one byte with big-endian byte order
+new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN) // Little-endian byte order instead
+```
+
+ByteBuffers may also be constructed from other byte-aware sources:
+
+```javascript
+new ByteBuffer(new ArrayBuffer(2))
+new ByteBuffer(new Uint8Array(3))
+new ByteBuffer(new DataView(new ArrayBuffer(4)))
+```
+
+After construction a ByteBuffer's read/write index is always at the front of the buffer.
+
+Hereafter ```b``` is assumed to be an instance of ByteBuffer.
+
+
+### Properties
+
+```javascript
+b.buffer // Reference to internal ArrayBuffer (read-only)
+```
+
+```javascript
+b.view // Reference to internal DataView (read-only)
+```
+
+```javascript
+b.length // Number of bytes in the buffer (read-only)
+b.byteLength
+```
+
+```javascript
+b.order // Default byte order
+b.order = ByteBuffer.BIG_ENDIAN // Sets byte order
+```
+
+```javascript
+b.available // Number of available bytes (read-only)
+```
+
+
+### Index Manipulation
+
+ByteBuffer maintains a read/write index to simplify usage.
+
+```javascript
+b.index // Current read/write index
+b.index = 4 // Sets index
+```
+
+If the index is out of bounds, a RangeError will be thrown.
+
+```javascript
+b.front() : ByteBuffer // Sets index to front of the buffer, returns buffer itself
+```
+
+```javascript
+b.end() : ByteBuffer // Sets index to end of the buffer, returns buffer itself
+```
+
+
+### Read API
+
+All read methods default to the ByteBuffer's byte order if not given.
+
+```javascript
+b.readByte(optional order) : byte
+```
+```javascript
+b.readUnsignedByte(optional order) : byte
+```
+```javascript
+b.readShort(optional order) : short
+```
+```javascript
+b.readUnsignedShort(optional order) : short
+```
+```javascript
+b.readInt(optional order) : int
+```
+```javascript
+b.readUnsignedInt(optional order) : int
+```
+```javascript
+b.readFloat(optional order) : float
+```
+```javascript
+b.readDouble(optional order) : double
+```
+
+
+### Write API
+
+All write methods default to the ByteBuffer's byte order if not given.
+
+```javascript
+b.writeByte(byte, optional order) : ByteBuffer
+```
+```javascript
+b.writeUnsignedByte(byte, optional order) : ByteBuffer
+```
+```javascript
+b.writeShort(short, optional order) : ByteBuffer
+```
+```javascript
+b.writeUnsignedShort(short, optional order) : ByteBuffer
+```
+```javascript
+b.writeInt(int, optional order) : ByteBuffer
+```
+```javascript
+b.writeUnsignedInt(int, optional order) : ByteBuffer
+```
+```javascript
+b.writeFloat(float, optional order) : ByteBuffer
+```
+```javascript
+b.writeDouble(double, optional order) : ByteBuffer
+```
+
+
 Browser Support
 ---------------
 
@@ -42,12 +175,6 @@ Node Support
 ------------
 
 No considerations have been made to make this project compatible with Node.. yet! Contributions are more than welcome.
-
-
-Usage & API
------------
-
-Will be added shortly.
 
 
 Development & Contribution
@@ -96,7 +223,18 @@ When contributing, please:
 Alternative Comparisons
 -----------------------
 
-Comparisons will be added shortly.
+### Christopher Chedeau's [jDataView](https://github.com/vjeux/jDataView/)
 
-* [jDataView](https://github.com/vjeux/jDataView/)
-* [BufferView](https://github.com/davidflanagan/BufferView)
+* Maintains read-index and supports seeking
+* Various string/char utilities (may support UTF-8)
+* Does *not* support writing values
+* Does *not* support NULL-terminated C-strings
+* Does *not* support growing, slicing, cloning and reversing
+
+### David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView)
+
+* Supports reading/writing values
+* Maintains index and supports seeking
+* Supports UTF-8 characters
+* Does *not* support NULL-terminated C-strings
+* Does *not* support growing, slicing, cloning and reversing as view and buffer are immutable
