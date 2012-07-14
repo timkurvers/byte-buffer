@@ -40,6 +40,7 @@ ByteBuffer = (function() {
   };
 
   function ByteBuffer(source, order) {
+    var buffer;
     if (source == null) {
       source = 0;
     }
@@ -47,20 +48,29 @@ ByteBuffer = (function() {
       order = this.constructor.BIG_ENDIAN;
     }
     this._buffer = null;
+    this._raw = null;
     this._view = null;
     this._order = order;
     this._index = 0;
     if (source.byteLength != null) {
       if (source.buffer != null) {
-        this._buffer = source.buffer.slice(0);
+        buffer = source.buffer.slice(0);
       } else {
-        this._buffer = source.slice(0);
+        buffer = source.slice(0);
       }
+    } else if (source.length != null) {
+      buffer = (new Uint8Array(source)).buffer;
     } else {
-      this._buffer = new ArrayBuffer(source);
+      buffer = new ArrayBuffer(source);
     }
-    this._view = new DataView(this._buffer);
+    this._setup(buffer);
   }
+
+  ByteBuffer.prototype._setup = function(buffer) {
+    this._buffer = buffer;
+    this._raw = new Uint8Array(this._buffer);
+    return this._view = new DataView(this._buffer);
+  };
 
   getter('buffer', function() {
     return this._buffer;

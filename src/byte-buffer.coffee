@@ -27,8 +27,11 @@ class ByteBuffer
   # Creates a new ByteBuffer from given source (assumed to be amount of bytes when numeric)
   constructor: (source=0, order=@constructor.BIG_ENDIAN) ->
     
-    # Holds raw buffer
+    # Holds buffer
     @_buffer = null
+    
+    # Holds raw buffer
+    @_raw = null
     
     # Holds internal view for reading/writing
     @_view = null
@@ -39,21 +42,30 @@ class ByteBuffer
     # Holds read/write index
     @_index = 0
     
-    # Determine whether source is a byte-aware object or a primitive
+    # Whether source is a byte-aware object
     if source.byteLength?
       
       # Determine whether source is a view or a raw buffer
       if source.buffer?
-        @_buffer = source.buffer.slice(0)
+        buffer = source.buffer.slice(0)
       else
-        @_buffer = source.slice(0)
-      
-    else
-      
-      # Let's assume number of bytes
-      @_buffer = new ArrayBuffer(source)
+        buffer = source.slice(0)
     
-    # Set up fresh view for buffer
+    # Whether source is a sequence of bytes
+    else if source.length?
+      buffer = (new Uint8Array(source)).buffer
+    
+    # Assume source is a primitive indicating the number of bytes
+    else
+      buffer = new ArrayBuffer(source)
+    
+    # Set up state
+    @_setup(buffer)
+  
+  # Sets up properties for given buffer
+  _setup: (buffer) ->
+    @_buffer = buffer
+    @_raw = new Uint8Array(@_buffer)
     @_view = new DataView(@_buffer)
   
   # Retrieves buffer
