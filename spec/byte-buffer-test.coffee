@@ -27,6 +27,9 @@ describe 'ByteBuffer', ->
     b = new ByteBuffer(new Uint8Array(3))
     expect(b.length).toEqual(3)
     
+    b = new ByteBuffer(new Uint16Array(1))
+    expect(b.length).toEqual(2)
+    
     b = new ByteBuffer([0, 1, 2, 3])
     expect(b.length).toEqual(4)
     
@@ -110,7 +113,7 @@ describe 'ByteBuffer', ->
     expect(b.readDouble()).toBeNear(Math.PI, 0)
 
   it 'can be written to and read from with different byte orders', ->
-    b = new ByteBuffer(8, ByteBuffer.LITTLE_ENDIAN)
+    b = new ByteBuffer(4, ByteBuffer.LITTLE_ENDIAN)
     
     b.writeShort(-128, ByteBuffer.BIG_ENDIAN)
     b.writeUnsignedShort(128, ByteBuffer.LITTLE_ENDIAN)
@@ -124,6 +127,39 @@ describe 'ByteBuffer', ->
 
     expect(b.readShort(ByteBuffer.BIG_ENDIAN)).toEqual(-128)
     expect(b.readUnsignedShort(ByteBuffer.LITTLE_ENDIAN)).toEqual(128)
+    
+    expect(->
+      b.readByte()
+    ).toThrow('Error')
+  
+  it 'can write and read byte sequences', ->
+    b = new ByteBuffer(8)
+    
+    expect(->
+      b.write(666)
+    ).toThrow('TypeError')
+    
+    expect(->
+      b.write('unwritable')
+    ).toThrow('TypeError')
+    
+    b.write(new Uint8Array([1, 2]))
+    b.write(new Uint16Array([(1 << 16) - 1]))
+    b.write(new ByteBuffer([3, 4]))
+    b.write([13, 37])
+    
+    b.front()
+    
+    expect(b.read(1).toArray()).toEqual([1])
+    
+    b.skip(1)
+    
+    expect(b.read(2).toArray()).toEqual([255, 255])
+    expect(b.read().toArray()).toEqual([3, 4, 13, 37])
+  
+    expect(->
+      b.read(1)
+    ).toThrow('Error')
   
   it '//can read and write UTF-8 strings', ->
     # TODO: Assertions
@@ -150,7 +186,7 @@ describe 'ByteBuffer', ->
     expect(b.end().available).toEqual(0)
   
   it 'has writers that can be chained', ->
-    b = new ByteBuffer(26)
+    b = new ByteBuffer(28)
     expect(
       b.writeByte(0)
        .writeUnsignedByte(0)
@@ -160,4 +196,5 @@ describe 'ByteBuffer', ->
        .writeUnsignedInt(0)
        .writeFloat(0)
        .writeDouble(0)
+       .write([0, 0])
     ).toBe(b)
