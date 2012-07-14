@@ -44,7 +44,6 @@ class ByteBuffer
       
       # Determine whether source is a view or a raw buffer
       if source.buffer?
-        # TODO: Support creating ByteBuffer from another ByteBuffer
         @_buffer = source.buffer.slice(0)
       else
         @_buffer = source.slice(0)

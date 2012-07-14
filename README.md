@@ -27,6 +27,7 @@ ByteBuffers may also be constructed from other byte-aware sources:
 new ByteBuffer(new ArrayBuffer(2))
 new ByteBuffer(new Uint8Array(3))
 new ByteBuffer(new DataView(new ArrayBuffer(4)))
+new ByteBuffer(new ByteBuffer(5))
 ```
 
 After construction a ByteBuffer's read/write index is always at the front of the buffer.
