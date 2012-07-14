@@ -75,7 +75,7 @@ describe 'ByteBuffer', ->
     b.writeFloat(Math.PI)
     b.writeDouble(Math.PI)
     
-    b.index = 0
+    b.front()
     
     expect(b.readByte()).toEqual(-1 << 7)
     expect(b.readUnsignedByte()).toEqual(1 << 7)
@@ -98,7 +98,7 @@ describe 'ByteBuffer', ->
     b.writeFloat(Math.PI)
     b.writeDouble(Math.PI)
     
-    b.index = 0
+    b.front()
     
     expect(b.readByte()).toEqual(-1 << 7)
     expect(b.readUnsignedByte()).toEqual(1 << 7)
@@ -115,12 +115,12 @@ describe 'ByteBuffer', ->
     b.writeShort(-128, ByteBuffer.BIG_ENDIAN)
     b.writeUnsignedShort(128, ByteBuffer.LITTLE_ENDIAN)
     
-    b.index = 0
+    b.front()
     
     expect(b.readShort(ByteBuffer.LITTLE_ENDIAN)).toEqual(-32513)
     expect(b.readUnsignedShort(ByteBuffer.BIG_ENDIAN)).toEqual(32768)
     
-    b.index = 0
+    b.front()
 
     expect(b.readShort(ByteBuffer.BIG_ENDIAN)).toEqual(-128)
     expect(b.readUnsignedShort(ByteBuffer.LITTLE_ENDIAN)).toEqual(128)
