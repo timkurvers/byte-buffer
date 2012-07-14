@@ -114,6 +114,9 @@ b.readFloat(optional order) : float
 ```javascript
 b.readDouble(optional order) : double
 ```
+```javascript
+b.read(optional bytes) : ByteBuffer // Defaults to available number of bytes
+```
 
 
 ### Write API
@@ -143,6 +146,19 @@ b.writeFloat(float, optional order) : ByteBuffer
 ```
 ```javascript
 b.writeDouble(double, optional order) : ByteBuffer
+```
+```javascript
+b.write(byte sequence) : ByteBuffer
+```
+
+
+### Miscellaneous
+
+```javascript
+b.toArray() : Array
+```
+```javascript
+b.toString() : String
 ```
 
 
