@@ -30,6 +30,12 @@ new ByteBuffer(new DataView(new ArrayBuffer(4)))
 new ByteBuffer(new ByteBuffer(5))
 ```
 
+Or from generic sequences:
+
+```javascript
+new ByteBuffer([0, 1, 2, 3])
+```
+
 After construction a ByteBuffer's read/write index is always at the front of the buffer.
 
 Hereafter ```b``` is assumed to be an instance of ByteBuffer.
