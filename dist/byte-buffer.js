@@ -16,7 +16,7 @@ var ByteBuffer;
 ByteBuffer = (function() {
   'use strict';
 
-  var getter, reader, setter, writer,
+  var extractBuffer, getter, reader, setter, writer,
     _this = this;
 
   ByteBuffer.LITTLE_ENDIAN = true;
@@ -52,15 +52,8 @@ ByteBuffer = (function() {
     this._view = null;
     this._order = order;
     this._index = 0;
-    if (source.byteLength != null) {
-      if (source.buffer != null) {
-        buffer = source.buffer.slice(0);
-      } else {
-        buffer = source.slice(0);
-      }
-    } else if (source.length != null) {
-      buffer = (new Uint8Array(source)).buffer;
-    } else {
+    buffer = extractBuffer(source, true);
+    if (!buffer) {
       buffer = new ArrayBuffer(source);
     }
     this._setup(buffer);
@@ -70,6 +63,35 @@ ByteBuffer = (function() {
     this._buffer = buffer;
     this._raw = new Uint8Array(this._buffer);
     return this._view = new DataView(this._buffer);
+  };
+
+  extractBuffer = function(source, clone) {
+    if (clone == null) {
+      clone = false;
+    }
+    if (source.byteLength != null) {
+      if (source.buffer != null) {
+        if (clone) {
+          return source.buffer.slice(0);
+        } else {
+          return source.buffer;
+        }
+      } else {
+        if (clone) {
+          return source.slice(0);
+        } else {
+          return source;
+        }
+      }
+    } else if (source.length != null) {
+      try {
+        return (new Uint8Array(source)).buffer;
+      } catch (error) {
+        return null;
+      }
+    } else {
+      return null;
+    }
   };
 
   getter('buffer', function() {
@@ -189,6 +211,46 @@ ByteBuffer = (function() {
   ByteBuffer.prototype.writeFloat = writer('setFloat32', 4);
 
   ByteBuffer.prototype.writeDouble = writer('setFloat64', 8);
+
+  ByteBuffer.prototype.read = function(bytes) {
+    var value;
+    if (bytes == null) {
+      bytes = this.available;
+    }
+    if (bytes > this.available) {
+      throw new Error('Cannot read ' + bytes + ' byte(s), ' + this.available + ' available');
+    }
+    value = new this.constructor(this._buffer.slice(this._index, this._index + bytes));
+    this._index += bytes;
+    return value;
+  };
+
+  ByteBuffer.prototype.write = function(sequence) {
+    var buffer;
+    if (!(sequence instanceof Uint8Array)) {
+      buffer = extractBuffer(sequence);
+      if (!buffer) {
+        throw new TypeError('Cannot write ' + sequence + ', not a sequence');
+      }
+      sequence = new Uint8Array(buffer);
+    }
+    if (sequence.byteLength > this.available) {
+      throw new Error('Cannot write ' + sequence + ' using ' + sequence.byteLength + ' byte(s), ' + this.available + ' available');
+    }
+    this._raw.set(sequence, this._index);
+    this._index += sequence.byteLength;
+    return this;
+  };
+
+  ByteBuffer.prototype.toArray = function() {
+    return Array.prototype.slice.call(this._raw, 0);
+  };
+
+  ByteBuffer.prototype.toString = function() {
+    var order;
+    order = this._order === this.constructor.BIG_ENDIAN ? 'big-endian' : 'little-endian';
+    return '[ByteBuffer; Order: ' + order + '; Length: ' + this.length + '; Index: ' + this._index + ']';
+  };
 
   return ByteBuffer;
 

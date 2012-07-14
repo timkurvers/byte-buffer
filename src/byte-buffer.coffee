@@ -42,21 +42,11 @@ class ByteBuffer
     # Holds read/write index
     @_index = 0
     
-    # Whether source is a byte-aware object
-    if source.byteLength?
-      
-      # Determine whether source is a view or a raw buffer
-      if source.buffer?
-        buffer = source.buffer.slice(0)
-      else
-        buffer = source.slice(0)
+    # Attempt to extract a buffer from given source
+    buffer = extractBuffer(source, true)
     
-    # Whether source is a sequence of bytes
-    else if source.length?
-      buffer = (new Uint8Array(source)).buffer
-    
-    # Assume source is a primitive indicating the number of bytes
-    else
+    # On failure, assume source is a primitive indicating the number of bytes
+    if not buffer
       buffer = new ArrayBuffer(source)
     
     # Set up state
@@ -67,6 +57,29 @@ class ByteBuffer
     @_buffer = buffer
     @_raw = new Uint8Array(@_buffer)
     @_view = new DataView(@_buffer)
+  
+  # Extracts buffer from given source and optionally clones it
+  extractBuffer = (source, clone=false) ->
+    
+    # Whether source is a byte-aware object
+    if source.byteLength?
+      
+      # Determine whether source is a view or a raw buffer
+      if source.buffer?
+        return if clone then source.buffer.slice(0) else source.buffer
+      else
+        return if clone then source.slice(0) else source
+    
+    # Whether source is a sequence of bytes
+    else if source.length?
+      try
+        return (new Uint8Array(source)).buffer
+      catch error
+        return null
+    
+    # No buffer found
+    else
+      return null
   
   # Retrieves buffer
   getter 'buffer', ->
@@ -162,3 +175,42 @@ class ByteBuffer
   writeUnsignedInt: writer('setUint32', 4)
   writeFloat: writer('setFloat32', 4)
   writeDouble: writer('setFloat64', 8)
+  
+  # Reads sequence of given number of bytes
+  read: (bytes=@available) ->
+    if bytes > @available
+      throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
+    
+    value = new @constructor(@_buffer.slice(@_index, @_index + bytes))
+    @_index += bytes
+    return value
+  
+  # Writes sequence of bytes
+  write: (sequence) ->
+    
+    # Ensure we're dealing with a Uint8Array view
+    if sequence not instanceof Uint8Array
+      
+      # Extract the buffer from the sequence
+      buffer = extractBuffer(sequence)
+      if not buffer
+        throw new TypeError('Cannot write ' + sequence + ', not a sequence')
+      
+      # And create a new Uint8Array view for it
+      sequence = new Uint8Array(buffer)
+    
+    if sequence.byteLength > @available
+      throw new Error('Cannot write ' + sequence + ' using ' + sequence.byteLength + ' byte(s), ' + @available + ' available')
+    
+    @_raw.set(sequence, @_index)
+    @_index += sequence.byteLength
+    return @
+  
+  # Generates an array of bytes of this buffer
+  toArray: ->
+    return Array::slice.call(@_raw, 0)
+
+  # Generates (short) string representation of this buffer
+  toString: ->
+    order = if @_order is @constructor.BIG_ENDIAN then 'big-endian' else 'little-endian'
+    return '[ByteBuffer; Order: ' + order + '; Length: ' + @length + '; Index: ' + @_index + ']'
