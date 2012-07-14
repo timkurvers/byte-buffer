@@ -11,7 +11,7 @@ Usage & API
 
 ByteBuffer's API borrows heavily from Adobe's [IDataInput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataInput.html) and [IDataOutput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataOutput.html) as well as David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView).
 
-The concept of buffers and views separately - as outlined in [MDN's JavaScript typed arrays](https://developer.mozilla.org/en/JavaScript_typed_arrays) is *not* used. ByteBuffer handles this separation for you.
+The concept of separate buffers and views - as outlined in MDN's [JavaScript typed arrays](https://developer.mozilla.org/en/JavaScript_typed_arrays) - is *not* used. ByteBuffer handles this separation for you.
 
 
 ### Construction
