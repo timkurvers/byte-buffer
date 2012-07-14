@@ -90,6 +90,7 @@ module.exports = function(grunt) {
         ArrayBuffer: true,
         DataView: true,
         Uint8Array: true,
+        Uint16Array: true,
         
         // BusterJS
         buster: true,
