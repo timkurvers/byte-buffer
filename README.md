@@ -230,6 +230,7 @@ Alternative Comparisons
 * Does *not* support writing values
 * Does *not* support NULL-terminated C-strings
 * Does *not* support growing, slicing, cloning and reversing
+* Supports a wide range of browsers/setups
 
 ### David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView)
 
