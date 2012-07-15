@@ -24,8 +24,10 @@ class ByteBuffer
   setter = (name, setter) =>
     Object.defineProperty @::, name, set: setter, enumerable: true, configurable: true
   
-  # Creates a new ByteBuffer from given source (assumed to be amount of bytes when numeric)
-  constructor: (source=0, order=@constructor.BIG_ENDIAN) ->
+  # Creates a new ByteBuffer
+  # - from given source (assumed to be amount of bytes when numeric)
+  # - with given byte order (defaults to big-endian)
+  constructor: (source=0, order=@constructor.BIG_ENDIAN, implicitGrowth=true) ->
     
     # Holds buffer
     @_buffer = null
