@@ -85,6 +85,11 @@ b.front() : ByteBuffer // Sets index to front of the buffer, returns buffer itse
 b.end() : ByteBuffer // Sets index to end of the buffer, returns buffer itself
 ```
 
+```javascript
+b.skip(10) : ByteBuffer // Skips ten bytes
+b.skip(-2) : ByteBuffer // Reverts two bytes
+```
+
 
 ### Read API
 
@@ -116,6 +121,10 @@ b.readDouble(optional order) : double
 ```
 ```javascript
 b.read(optional bytes) : ByteBuffer // Defaults to available number of bytes
+```
+```javascript
+b.readString(optional bytes) : String // Defaults to available number of bytes
+b.readUTFChars(optional bytes) : String
 ```
 
 
@@ -149,6 +158,10 @@ b.writeDouble(double, optional order) : ByteBuffer
 ```
 ```javascript
 b.write(byte sequence) : ByteBuffer
+```
+```javascript
+b.writeString(string) : int // Returns number of bytes
+b.writeUTFChars(string) : int
 ```
 
 
