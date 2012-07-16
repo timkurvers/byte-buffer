@@ -179,6 +179,10 @@ describe 'ByteBuffer', ->
     expect(->
       b.read(1)
     ).toThrow('Error')
+    
+    expect(->
+      b.read(-1)
+    ).toThrow('RangeError')
   
   it 'can read and write UTF-8 strings', ->
     b = new ByteBuffer(22)
@@ -198,6 +202,10 @@ describe 'ByteBuffer', ->
     b.front()
     
     expect(b.readString()).toEqual(long)
+    
+    expect(->
+      b.readString(-1)
+    ).toThrow('RangeError')
   
   it 'can read and write NULL-terminated C-strings', ->
     b = new ByteBuffer(27)

@@ -191,6 +191,9 @@ class ByteBuffer
     if bytes > @available
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
     
+    if bytes <= 0
+      throw new RangeError('Invalid number of bytes ' + bytes)
+    
     value = new @constructor(@_buffer.slice(@_index, @_index + bytes))
     @_index += bytes
     return value
@@ -222,6 +225,9 @@ class ByteBuffer
   readString: (bytes=@available) ->
     if bytes > @available
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
+    
+    if bytes <= 0
+      throw new RangeError('Invalid number of bytes ' + bytes)
     
     # Local reference
     raw = @_raw

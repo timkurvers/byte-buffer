@@ -229,6 +229,9 @@ ByteBuffer = (function() {
     if (bytes > this.available) {
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + this.available + ' available');
     }
+    if (bytes <= 0) {
+      throw new RangeError('Invalid number of bytes ' + bytes);
+    }
     value = new this.constructor(this._buffer.slice(this._index, this._index + bytes));
     this._index += bytes;
     return value;
@@ -258,6 +261,9 @@ ByteBuffer = (function() {
     }
     if (bytes > this.available) {
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + this.available + ' available');
+    }
+    if (bytes <= 0) {
+      throw new RangeError('Invalid number of bytes ' + bytes);
     }
     raw = this._raw;
     codepoints = [];
