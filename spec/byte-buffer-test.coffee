@@ -3,7 +3,7 @@
 # Copyright (c) 2012 Tim Kurvers <http://moonsphere.net>
 #
 # Wrapper for ArrayBuffer/DataView maintaining index and default endianness.
-# Supports arbitrary reading/writing, automatic growth, slicing, cloning and
+# Supports arbitrary reading/writing, automatic growth, clipping, cloning and
 # reversing as well as UTF-8 characters and NULL-terminated C-strings.
 #
 # The contents of this file are subject to the MIT License, under which
@@ -152,7 +152,7 @@ describe 'ByteBuffer', ->
     
     expect(b.read(1).toArray()).toEqual([1])
     
-    b.skip(1)
+    b.seek(1)
     
     expect(b.read(2).toArray()).toEqual([255, 255])
     expect(b.read().toArray()).toEqual([3, 4, 13, 37])
@@ -191,14 +191,14 @@ describe 'ByteBuffer', ->
     expect(b.readCString()).toEqual('Byte $¢€𝇇 Buffer')
     expect(b.available).toEqual(4)
   
-  it 'can skip bytes', ->
+  it 'can seek', ->
     b = new ByteBuffer(4)
-    expect(b.skip().index).toEqual(1)
-    expect(b.skip(2).index).toEqual(3)
-    expect(b.skip(-1).index).toEqual(2)
+    expect(b.seek().index).toEqual(1)
+    expect(b.seek(2).index).toEqual(3)
+    expect(b.seek(-1).index).toEqual(2)
     
     expect(->
-      b.skip(3)
+      b.seek(3)
     ).toThrow('RangeError')
   
   it 'has the amount of bytes available', ->

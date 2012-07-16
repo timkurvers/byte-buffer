@@ -1,7 +1,7 @@
 ByteBuffer
 ==========
 
-Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endianness. Supports arbitrary reading/writing, automatic growth, slicing, cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
+Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endianness. Supports arbitrary reading/writing, automatic growth, clipping, cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
 
 Licensed under the **MIT** license, see LICENSE for more information.
 
@@ -86,8 +86,8 @@ b.end() : ByteBuffer // Sets index to end of the buffer, returns buffer itself
 ```
 
 ```javascript
-b.skip(10) : ByteBuffer // Skips ten bytes
-b.skip(-2) : ByteBuffer // Reverts two bytes
+b.seek(10) : ByteBuffer // Forwards ten bytes
+b.seek(-2) : ByteBuffer // Backs two bytes
 ```
 
 
@@ -277,7 +277,7 @@ Alternative Comparisons
 * Various string/char utilities (may support UTF-8)
 * Does *not* support writing values
 * Does *not* support NULL-terminated C-strings
-* Does *not* support growing, slicing, cloning and reversing
+* Does *not* support growing, clipping, cloning and reversing
 * Supports a wide range of browsers/setups
 
 ### David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView)
@@ -286,4 +286,4 @@ Alternative Comparisons
 * Maintains index and supports seeking
 * Supports UTF-8 characters
 * Does *not* support NULL-terminated C-strings
-* Does *not* support growing, slicing, cloning and reversing as view and buffer are immutable
+* Does *not* support growing, clipping, cloning and reversing as view and buffer are immutable

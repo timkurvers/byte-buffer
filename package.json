@@ -2,7 +2,7 @@
   "name": "byte-buffer",
   "title": "ByteBuffer",
   "main": "./dist/byte-buffer.js",
-  "description": "Wrapper for ArrayBuffer/DataView",
+  "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
   "version": "0.0.1",
   "homepage": "http://moonsphere.net",
   "author": {

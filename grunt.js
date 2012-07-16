@@ -12,7 +12,7 @@ module.exports = function(grunt) {
               ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> <<%= pkg.homepage %>>\n' +
               ' *\n' +
               ' * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.\n' + 
-              ' * Supports arbitrary reading/writing, automatic growth, slicing, cloning and\n' + 
+              ' * Supports arbitrary reading/writing, automatic growth, clipping, cloning and\n' + 
               ' * reversing as well as UTF-8 characters and NULL-terminated C-strings.\n' + 
               ' *\n' +
               ' * The contents of this file are subject to the MIT License, under which\n' +
