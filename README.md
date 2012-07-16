@@ -126,6 +126,9 @@ b.read(optional bytes) : ByteBuffer // Defaults to available number of bytes
 b.readString(optional bytes) : String // Defaults to available number of bytes
 b.readUTFChars(optional bytes) : String
 ```
+```javascript
+b.readCString() : String // Reads string up to NULL-byte or end of buffer
+```
 
 
 ### Write API
@@ -162,6 +165,9 @@ b.write(byte sequence) : ByteBuffer
 ```javascript
 b.writeString(string) : int // Returns number of bytes
 b.writeUTFChars(string) : int
+```
+```javascript
+b.writeCString(string) : int // Returns number of bytes (including NULL-byte)
 ```
 
 
