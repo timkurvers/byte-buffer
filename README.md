@@ -180,10 +180,10 @@ b.toArray() : Array // Changes to this array are not backed
 b.toString() : String
 ```
 ```javascript
-b.toHex() : String
+b.toHex(optional spacer) : String
 ```
 ```javascript
-b.toASCII() : String
+b.toASCII(optional spacer) : String
 ```
 
 
