@@ -178,7 +178,7 @@ class ByteBuffer
   writeFloat: writer('setFloat32', 4)
   writeDouble: writer('setFloat64', 8)
   
-  # Reads sequence of given number of bytes
+  # Reads sequence of given number of bytes (defaults to number of bytes available)
   read: (bytes=@available) ->
     if bytes > @available
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
@@ -207,6 +207,169 @@ class ByteBuffer
     @_raw.set(sequence, @_index)
     @_index += sequence.byteLength
     return @
+  
+  # Reads UTF-8 encoded string of given number of bytes (defaults to number of bytes available)
+  # 
+  # Based on David Flanagan's BufferView (https://github.com/davidflanagan/BufferView/blob/master/BufferView.js#L195)
+  readString: (bytes=@available) ->
+    if bytes > @available
+      throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
+    
+    # Local reference
+    raw = @_raw
+    
+    # Holds decoded characters
+    codepoints = []
+    
+    # Index into codepoints
+    c = 0
+    
+    # Bytes
+    b1 = b2 = b3 = b4 = null
+    
+    # Target index
+    target = @_index + bytes
+    
+    while @_index < target
+      b1 = raw[@_index]
+      
+      if b1 < 128
+        # One byte sequence
+        codepoints[c++] = b1
+        @_index++
+      
+      else if b1 < 194
+        throw new Error('Unexpected continuation byte')
+      
+      else if b1 < 224
+        # Two byte sequence
+        b2 = raw[@_index + 1]
+        
+        if b2 < 128 || b2 > 191
+          throw new Error('Bad continuation byte')
+        
+        codepoints[c++] = ((b1 & 0x1F) << 6) + (b2 & 0x3F)
+        
+        @_index += 2
+      
+      else if b1 < 240
+        # Three byte sequence
+        b2 = raw[@_index + 1]
+        
+        if b2 < 128 || b2 > 191
+          throw new Error('Bad continuation byte')
+        
+        b3 = raw[@_index + 2]
+        
+        if b3 < 128 || b3 > 191
+          throw new Error('Bad continuation byte')
+        
+        codepoints[c++] = ((b1 & 0x0F) << 12) + ((b2 & 0x3F) << 6) + (b3 & 0x3F)
+        
+        @_index += 3
+      
+      else if b1 < 245
+        # Four byte sequence
+        b2 = raw[@_index + 1]
+        
+        if b2 < 128 || b2 > 191
+          throw new Error('Bad continuation byte')
+        
+        b3 = raw[@_index + 2]
+        
+        if b3 < 128 || b3 > 191
+          throw new Error('Bad continuation byte')
+        
+        b4 = raw[@_index + 3]
+        
+        if b4 < 128 || b4 > 191
+          throw new Error('Bad continuation byte')
+        
+        cp = ((b1 & 0x07) << 18) + ((b2 & 0x3F) << 12) + ((b3 & 0x3F) << 6) + (b4 & 0x3F)
+        cp -= 0x10000
+        
+        # Turn code point into two surrogate pairs
+        codepoints[c++] = 0xD800 + ((cp & 0x0FFC00) >>> 10)
+        codepoints[c++] = 0xDC00 + (cp & 0x0003FF)
+        
+        @_index += 4
+      
+      else
+        throw new Error('Illegal byte')
+    
+    # Browsers may have hardcoded or implicit limits on the array length when applying a function
+    # See: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/apply#apply_and_built-in_functions
+    limit = 1 << 16
+    length = codepoints.length
+    if length < limit
+      return String.fromCharCode.apply(String, codepoints)
+    else
+      chars = []
+      i = 0
+      while i < length
+        chars.push String.fromCharCode.apply(String, codepoints.slice(i, i + limit))
+        i += limit
+      return chars.join('')
+  
+  # Writes UTF-8 encoded string
+  # Note: Does not write string length or terminator
+  #
+  # Based on David Flanagan's BufferView (https://github.com/davidflanagan/BufferView/blob/master/BufferView.js#L264)
+  writeString: (string) ->
+    
+    # Encoded UTF-8 bytes
+    bytes = []
+    
+    # String length, offset and byte offset
+    length = string.length
+    i = 0
+    b = 0
+    
+    while i < length
+      c = string.charCodeAt(i)
+      
+      if c <= 0x7F
+        # One byte sequence
+        bytes[b++] = c
+      
+      else if c <= 0x7FF
+        # Two byte sequence
+        bytes[b++] = 0xC0 | ((c & 0x7C0) >>> 6)
+        bytes[b++] = 0x80 | (c & 0x3F)
+      
+      else if c <= 0xD7FF || (c >= 0xE000 && c <= 0xFFFF)
+        # Three byte sequence
+        # Source character is not a UTF-16 surrogate
+        bytes[b++] = 0xE0 | ((c & 0xF000) >>> 12)
+        bytes[b++] = 0x80 | ((c & 0x0FC0) >>> 6)
+        bytes[b++] = 0x80 | (c & 0x3F)
+      
+      else
+        # Four byte sequence
+        if i == length - 1
+          throw new Error('Unpaired surrogate ' + string[i] + ' (index ' + i + ')')
+        
+        # Retrieve surrogate
+        d = string.charCodeAt(++i)
+        if c < 0xD800 || c > 0xDBFF || d < 0xDC00 || d > 0xDFFF
+          throw new Error('Unpaired surrogate ' + string[i] + ' (index ' + i + ')')
+        
+        cp = ((c & 0x03FF) << 10) + (d & 0x03FF) + 0x10000
+        
+        bytes[b++] = 0xF0 | ((cp & 0x1C0000) >>> 18)
+        bytes[b++] = 0x80 | ((cp & 0x03F000) >>> 12)
+        bytes[b++] = 0x80 | ((cp & 0x000FC0) >>> 6)
+        bytes[b++] = 0x80 | (cp & 0x3F)
+      
+      ++i
+    
+    @write(bytes)
+    
+    return bytes.length
+    
+  # Aliases for reading/writing UTF-8 encoded strings
+  readUTFChars: @::readString
+  writeUTFChars: @::writeString
   
   # Array of bytes in this buffer
   toArray: ->

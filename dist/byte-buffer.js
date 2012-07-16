@@ -242,6 +242,122 @@ ByteBuffer = (function() {
     return this;
   };
 
+  ByteBuffer.prototype.readString = function(bytes) {
+    var b1, b2, b3, b4, c, chars, codepoints, cp, i, length, limit, raw, target;
+    if (bytes == null) {
+      bytes = this.available;
+    }
+    if (bytes > this.available) {
+      throw new Error('Cannot read ' + bytes + ' byte(s), ' + this.available + ' available');
+    }
+    raw = this._raw;
+    codepoints = [];
+    c = 0;
+    b1 = b2 = b3 = b4 = null;
+    target = this._index + bytes;
+    while (this._index < target) {
+      b1 = raw[this._index];
+      if (b1 < 128) {
+        codepoints[c++] = b1;
+        this._index++;
+      } else if (b1 < 194) {
+        throw new Error('Unexpected continuation byte');
+      } else if (b1 < 224) {
+        b2 = raw[this._index + 1];
+        if (b2 < 128 || b2 > 191) {
+          throw new Error('Bad continuation byte');
+        }
+        codepoints[c++] = ((b1 & 0x1F) << 6) + (b2 & 0x3F);
+        this._index += 2;
+      } else if (b1 < 240) {
+        b2 = raw[this._index + 1];
+        if (b2 < 128 || b2 > 191) {
+          throw new Error('Bad continuation byte');
+        }
+        b3 = raw[this._index + 2];
+        if (b3 < 128 || b3 > 191) {
+          throw new Error('Bad continuation byte');
+        }
+        codepoints[c++] = ((b1 & 0x0F) << 12) + ((b2 & 0x3F) << 6) + (b3 & 0x3F);
+        this._index += 3;
+      } else if (b1 < 245) {
+        b2 = raw[this._index + 1];
+        if (b2 < 128 || b2 > 191) {
+          throw new Error('Bad continuation byte');
+        }
+        b3 = raw[this._index + 2];
+        if (b3 < 128 || b3 > 191) {
+          throw new Error('Bad continuation byte');
+        }
+        b4 = raw[this._index + 3];
+        if (b4 < 128 || b4 > 191) {
+          throw new Error('Bad continuation byte');
+        }
+        cp = ((b1 & 0x07) << 18) + ((b2 & 0x3F) << 12) + ((b3 & 0x3F) << 6) + (b4 & 0x3F);
+        cp -= 0x10000;
+        codepoints[c++] = 0xD800 + ((cp & 0x0FFC00) >>> 10);
+        codepoints[c++] = 0xDC00 + (cp & 0x0003FF);
+        this._index += 4;
+      } else {
+        throw new Error('Illegal byte');
+      }
+    }
+    limit = 1 << 16;
+    length = codepoints.length;
+    if (length < limit) {
+      return String.fromCharCode.apply(String, codepoints);
+    } else {
+      chars = [];
+      i = 0;
+      while (i < length) {
+        chars.push(String.fromCharCode.apply(String, codepoints.slice(i, i + limit)));
+        i += limit;
+      }
+      return chars.join('');
+    }
+  };
+
+  ByteBuffer.prototype.writeString = function(string) {
+    var b, bytes, c, cp, d, i, length;
+    bytes = [];
+    length = string.length;
+    i = 0;
+    b = 0;
+    while (i < length) {
+      c = string.charCodeAt(i);
+      if (c <= 0x7F) {
+        bytes[b++] = c;
+      } else if (c <= 0x7FF) {
+        bytes[b++] = 0xC0 | ((c & 0x7C0) >>> 6);
+        bytes[b++] = 0x80 | (c & 0x3F);
+      } else if (c <= 0xD7FF || (c >= 0xE000 && c <= 0xFFFF)) {
+        bytes[b++] = 0xE0 | ((c & 0xF000) >>> 12);
+        bytes[b++] = 0x80 | ((c & 0x0FC0) >>> 6);
+        bytes[b++] = 0x80 | (c & 0x3F);
+      } else {
+        if (i === length - 1) {
+          throw new Error('Unpaired surrogate ' + string[i] + ' (index ' + i + ')');
+        }
+        d = string.charCodeAt(++i);
+        if (c < 0xD800 || c > 0xDBFF || d < 0xDC00 || d > 0xDFFF) {
+          throw new Error('Unpaired surrogate ' + string[i] + ' (index ' + i + ')');
+        }
+        cp = ((c & 0x03FF) << 10) + (d & 0x03FF) + 0x10000;
+        bytes[b++] = 0xF0 | ((cp & 0x1C0000) >>> 18);
+        bytes[b++] = 0x80 | ((cp & 0x03F000) >>> 12);
+        bytes[b++] = 0x80 | ((cp & 0x000FC0) >>> 6);
+        bytes[b++] = 0x80 | (cp & 0x3F);
+      }
+      ++i;
+    }
+    this.write(bytes);
+    return bytes.length;
+  };
+
+  ByteBuffer.prototype.readUTFChars = ByteBuffer.prototype.readString;
+
+  ByteBuffer.prototype.writeUTFChars = ByteBuffer.prototype.writeString;
+
   ByteBuffer.prototype.toArray = function() {
     return Array.prototype.slice.call(this._raw, 0);
   };
