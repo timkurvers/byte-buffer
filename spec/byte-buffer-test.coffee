@@ -171,9 +171,10 @@ describe 'ByteBuffer', ->
     b = new ByteBuffer(4)
     expect(b.skip().index).toEqual(1)
     expect(b.skip(2).index).toEqual(3)
+    expect(b.skip(-1).index).toEqual(2)
     
     expect(->
-      b.skip(2)
+      b.skip(3)
     ).toThrow('RangeError')
   
   it 'has the amount of bytes available', ->
