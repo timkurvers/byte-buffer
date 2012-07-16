@@ -60,6 +60,13 @@ class ByteBuffer
     @_raw = new Uint8Array(@_buffer)
     @_view = new DataView(@_buffer)
   
+  # Sanitizes read/write index
+  _sanitizeIndex: ->
+    if @_index < 0
+      @_index = 0
+    if @_index > @length
+      @_index = @length
+  
   # Extracts buffer from given source and optionally clones it
   extractBuffer = (source, clone=false) ->
     
@@ -394,7 +401,27 @@ class ByteBuffer
     @writeByte(0x00)
     return ++bytes
   
+  # Clips this buffer
+  clip: (begin=@_index, end=@length) ->
+    if begin < 0
+      begin = @length + begin
+    buffer = @_buffer.slice(begin, end)
+    @_setup(buffer)
+    @_index -= begin
+    @_sanitizeIndex()
+    return @
   
+  # Clones this buffer
+  clone: ->
+    clone = new @constructor(@_buffer.slice(0))
+    clone.index = @_index
+    return clone
+  
+  # Reverses this buffer
+  reverse: ->
+    Array::reverse.call(@_raw)
+    @_index = 0
+    return @
   
   # Array of bytes in this buffer
   toArray: ->

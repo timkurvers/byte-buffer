@@ -223,7 +223,40 @@ describe 'ByteBuffer', ->
        .writeDouble(0)
        .write([0, 0])
     ).toBe(b)
-
+  
+  it 'can be clipped', ->
+    b = new ByteBuffer([1, 2, 3, 4, 5, 6])
+    
+    b.index = 1
+    
+    expect(b.clip().toArray()).toEqual([2, 3, 4, 5, 6])
+    expect(b.index).toEqual(0)
+    
+    b.index = 2
+    
+    expect(b.clip(1).toArray()).toEqual([3, 4, 5, 6])
+    expect(b.index).toEqual(1)
+    
+    b.end()
+    
+    expect(b.clip(0, -2).toArray()).toEqual([3, 4])
+    expect(b.index).toEqual(2)
+  
+  it 'can be cloned', ->
+    b = new ByteBuffer(3)
+    b.end()    
+    
+    clone = b.clone()
+    expect(clone).toEqual(b)
+    expect(clone).not.toBe(b)
+  
+  it 'can be reversed', ->
+    b = new ByteBuffer([1, 2, 3])
+    b.end()
+    
+    expect(b.reverse().toArray()).toEqual([3, 2, 1])
+    expect(b.index).toEqual(0)
+  
   it 'has various representations', ->
     b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114])
     

@@ -65,6 +65,15 @@ ByteBuffer = (function() {
     return this._view = new DataView(this._buffer);
   };
 
+  ByteBuffer.prototype._sanitizeIndex = function() {
+    if (this._index < 0) {
+      this._index = 0;
+    }
+    if (this._index > this.length) {
+      return this._index = this.length;
+    }
+  };
+
   extractBuffer = function(source, clone) {
     if (clone == null) {
       clone = false;
@@ -380,6 +389,37 @@ ByteBuffer = (function() {
     bytes = this.writeString(string);
     this.writeByte(0x00);
     return ++bytes;
+  };
+
+  ByteBuffer.prototype.clip = function(begin, end) {
+    var buffer;
+    if (begin == null) {
+      begin = this._index;
+    }
+    if (end == null) {
+      end = this.length;
+    }
+    if (begin < 0) {
+      begin = this.length + begin;
+    }
+    buffer = this._buffer.slice(begin, end);
+    this._setup(buffer);
+    this._index -= begin;
+    this._sanitizeIndex();
+    return this;
+  };
+
+  ByteBuffer.prototype.clone = function() {
+    var clone;
+    clone = new this.constructor(this._buffer.slice(0));
+    clone.index = this._index;
+    return clone;
+  };
+
+  ByteBuffer.prototype.reverse = function() {
+    Array.prototype.reverse.call(this._raw);
+    this._index = 0;
+    return this;
   };
 
   ByteBuffer.prototype.toArray = function() {
