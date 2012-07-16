@@ -85,7 +85,7 @@ describe 'ByteBuffer', ->
     
     expect(b.end().available).toEqual(0)
   
-  it 'can be written to and read from in big-endian', ->
+  it 'can read and write in big-endian', ->
     b = new ByteBuffer(26)
     
     b.writeByte(-1 << 7)
@@ -108,7 +108,7 @@ describe 'ByteBuffer', ->
     expect(b.readFloat()).toBeNear(Math.PI, 0.0000001)
     expect(b.readDouble()).toBeNear(Math.PI, 0)
 
-  it 'can be written to and read from in little-endian', ->
+  it 'can read and write in little-endian', ->
     b = new ByteBuffer(26, ByteBuffer.LITTLE_ENDIAN)
     
     b.writeByte(-1 << 7)
@@ -131,7 +131,7 @@ describe 'ByteBuffer', ->
     expect(b.readFloat()).toBeNear(Math.PI, 0.0000001)
     expect(b.readDouble()).toBeNear(Math.PI, 0)
 
-  it 'can be written to and read from with different byte orders', ->
+  it 'can read and write with different byte orders arbitrarily', ->
     b = new ByteBuffer(4, ByteBuffer.LITTLE_ENDIAN)
     
     b.writeShort(-128, ByteBuffer.BIG_ENDIAN)
@@ -151,7 +151,7 @@ describe 'ByteBuffer', ->
       b.readByte()
     ).toThrow('Error')
   
-  it 'can write and read byte sequences', ->
+  it 'can read and write byte sequences', ->
     b = new ByteBuffer(8)
     
     expect(->
