@@ -238,19 +238,21 @@ ByteBuffer = (function() {
   };
 
   ByteBuffer.prototype.write = function(sequence) {
-    var buffer;
+    var buffer, view;
     if (!(sequence instanceof Uint8Array)) {
       buffer = extractBuffer(sequence);
       if (!buffer) {
         throw new TypeError('Cannot write ' + sequence + ', not a sequence');
       }
-      sequence = new Uint8Array(buffer);
+      view = new Uint8Array(buffer);
+    } else {
+      view = sequence;
     }
-    if (sequence.byteLength > this.available) {
-      throw new Error('Cannot write ' + sequence + ' using ' + sequence.byteLength + ' byte(s), ' + this.available + ' available');
+    if (view.byteLength > this.available) {
+      throw new Error('Cannot write ' + sequence + ' using ' + view.byteLength + ' byte(s), ' + this.available + ' available');
     }
-    this._raw.set(sequence, this._index);
-    this._index += sequence.byteLength;
+    this._raw.set(view, this._index);
+    this._index += view.byteLength;
     return this;
   };
 

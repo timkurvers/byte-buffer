@@ -210,13 +210,16 @@ class ByteBuffer
         throw new TypeError('Cannot write ' + sequence + ', not a sequence')
       
       # And create a new Uint8Array view for it
-      sequence = new Uint8Array(buffer)
+      view = new Uint8Array(buffer)
     
-    if sequence.byteLength > @available
-      throw new Error('Cannot write ' + sequence + ' using ' + sequence.byteLength + ' byte(s), ' + @available + ' available')
+    else
+      view = sequence
     
-    @_raw.set(sequence, @_index)
-    @_index += sequence.byteLength
+    if view.byteLength > @available
+      throw new Error('Cannot write ' + sequence + ' using ' + view.byteLength + ' byte(s), ' + @available + ' available')
+    
+    @_raw.set(view, @_index)
+    @_index += view.byteLength
     return @
   
   # Reads UTF-8 encoded string of given number of bytes (defaults to number of bytes available)
