@@ -66,6 +66,25 @@ describe 'ByteBuffer', ->
     expect(b.front().index).toEqual(0)
     expect(b.end().index).toEqual(8)
   
+  it 'can seek', ->
+    b = new ByteBuffer(4)
+    expect(b.seek().index).toEqual(1)
+    expect(b.seek(2).index).toEqual(3)
+    expect(b.seek(-1).index).toEqual(2)
+    
+    expect(->
+      b.seek(3)
+    ).toThrow('RangeError')
+  
+  it 'has the number of bytes available', ->
+    b = new ByteBuffer(8)
+    expect(b.available).toEqual(8)
+    
+    b.index = 4
+    expect(b.available).toEqual(4)
+    
+    expect(b.end().available).toEqual(0)
+  
   it 'can be written to and read from in big-endian', ->
     b = new ByteBuffer(26)
     
@@ -190,25 +209,6 @@ describe 'ByteBuffer', ->
     
     expect(b.readCString()).toEqual('Byte $¢€𝇇 Buffer')
     expect(b.available).toEqual(4)
-  
-  it 'can seek', ->
-    b = new ByteBuffer(4)
-    expect(b.seek().index).toEqual(1)
-    expect(b.seek(2).index).toEqual(3)
-    expect(b.seek(-1).index).toEqual(2)
-    
-    expect(->
-      b.seek(3)
-    ).toThrow('RangeError')
-  
-  it 'has the amount of bytes available', ->
-    b = new ByteBuffer(8)
-    expect(b.available).toEqual(8)
-    
-    b.index = 4
-    expect(b.available).toEqual(4)
-    
-    expect(b.end().available).toEqual(0)
   
   it 'has writers that can be chained', ->
     b = new ByteBuffer(28)
