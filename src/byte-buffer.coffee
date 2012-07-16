@@ -208,11 +208,25 @@ class ByteBuffer
     @_index += sequence.byteLength
     return @
   
-  # Generates an array of bytes of this buffer
+  # Array of bytes in this buffer
   toArray: ->
     return Array::slice.call(@_raw, 0)
 
-  # Generates (short) string representation of this buffer
+  # Short string representation of this buffer
   toString: ->
     order = if @_order is @constructor.BIG_ENDIAN then 'big-endian' else 'little-endian'
-    return '[ByteBuffer; Order: ' + order + '; Length: ' + @length + '; Index: ' + @_index + ']'
+    return '[ByteBuffer; Order: ' + order + '; Length: ' + @length + '; Index: ' + @_index + '; Available: ' + @available + ']'
+
+  # Hex representation of this buffer with given spacer
+  toHex: (spacer=' ') ->
+    return Array::map.call(@_raw, (byte) ->
+      ('  ' + byte.toString(16).toUpperCase()).slice(-2)
+    ).join(spacer)
+
+  # ASCII representation of this buffer with given spacer and optional byte alignment
+  toASCII: (spacer=' ', align=true) ->
+    prefix = if align then ' ' else ''
+    return Array::map.call(@_raw, (byte) ->
+      return if (byte < 0x20 || byte > 0x7E) then prefix + '?' else prefix + String.fromCharCode(byte)
+    ).join(spacer)
+

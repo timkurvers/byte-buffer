@@ -198,3 +198,17 @@ describe 'ByteBuffer', ->
        .writeDouble(0)
        .write([0, 0])
     ).toBe(b)
+
+  it 'has various representations', ->
+    b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114])
+    
+    expect(b.toArray()).toEqual([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114])
+    
+    expect(b.toHex())  .toEqual('F5 42 79 74 65 D7 42 75 66 66 65 72')
+    expect(b.toASCII()).toEqual(' ?  B  y  t  e  ?  B  u  f  f  e  r')
+    
+    expect(b.toHex(''))  .toEqual('F542797465D7427566666572')
+    expect(b.toASCII('')).toEqual(' ? B y t e ? B u f f e r')
+    
+    expect(b.toASCII('', false)).toEqual('?Byte?Buffer')
+    

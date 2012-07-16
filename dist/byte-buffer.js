@@ -39,13 +39,16 @@ ByteBuffer = (function() {
     });
   };
 
-  function ByteBuffer(source, order) {
+  function ByteBuffer(source, order, implicitGrowth) {
     var buffer;
     if (source == null) {
       source = 0;
     }
     if (order == null) {
       order = this.constructor.BIG_ENDIAN;
+    }
+    if (implicitGrowth == null) {
+      implicitGrowth = true;
     }
     this._buffer = null;
     this._raw = null;
@@ -249,7 +252,34 @@ ByteBuffer = (function() {
   ByteBuffer.prototype.toString = function() {
     var order;
     order = this._order === this.constructor.BIG_ENDIAN ? 'big-endian' : 'little-endian';
-    return '[ByteBuffer; Order: ' + order + '; Length: ' + this.length + '; Index: ' + this._index + ']';
+    return '[ByteBuffer; Order: ' + order + '; Length: ' + this.length + '; Index: ' + this._index + '; Available: ' + this.available + ']';
+  };
+
+  ByteBuffer.prototype.toHex = function(spacer) {
+    if (spacer == null) {
+      spacer = ' ';
+    }
+    return Array.prototype.map.call(this._raw, function(byte) {
+      return ('  ' + byte.toString(16).toUpperCase()).slice(-2);
+    }).join(spacer);
+  };
+
+  ByteBuffer.prototype.toASCII = function(spacer, align) {
+    var prefix;
+    if (spacer == null) {
+      spacer = ' ';
+    }
+    if (align == null) {
+      align = true;
+    }
+    prefix = align ? ' ' : '';
+    return Array.prototype.map.call(this._raw, function(byte) {
+      if (byte < 0x20 || byte > 0x7E) {
+        return prefix + '?';
+      } else {
+        return prefix + String.fromCharCode(byte);
+      }
+    }).join(spacer);
   };
 
   return ByteBuffer;
