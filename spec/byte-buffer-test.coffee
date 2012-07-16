@@ -180,8 +180,16 @@ describe 'ByteBuffer', ->
     
     expect(b.readString()).toEqual(long)
   
-  it '//can read and write NULL-terminated C-strings', ->
-    # TODO: Assertions
+  it 'can read and write NULL-terminated C-strings', ->
+    b = new ByteBuffer(27)
+    
+    expect(b.writeCString('Byte $¢€𝇇 Buffer')).toEqual(23)
+    b.writeUnsignedInt(10)
+    
+    b.front()
+    
+    expect(b.readCString()).toEqual('Byte $¢€𝇇 Buffer')
+    expect(b.available).toEqual(4)
   
   it 'can skip bytes', ->
     b = new ByteBuffer(4)

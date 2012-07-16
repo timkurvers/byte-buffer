@@ -358,6 +358,30 @@ ByteBuffer = (function() {
 
   ByteBuffer.prototype.writeUTFChars = ByteBuffer.prototype.writeString;
 
+  ByteBuffer.prototype.readCString = function() {
+    var bytes, i, length, string;
+    bytes = this._raw;
+    length = bytes.length;
+    i = this._index;
+    while (bytes[i] !== 0x00 && i < length) {
+      ++i;
+    }
+    length = i - this._index;
+    if (length > 0) {
+      string = this.readString(length);
+      this.readByte();
+      return string;
+    }
+    return null;
+  };
+
+  ByteBuffer.prototype.writeCString = function(string) {
+    var bytes;
+    bytes = this.writeString(string);
+    this.writeByte(0x00);
+    return ++bytes;
+  };
+
   ByteBuffer.prototype.toArray = function() {
     return Array.prototype.slice.call(this._raw, 0);
   };

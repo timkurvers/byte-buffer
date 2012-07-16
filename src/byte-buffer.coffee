@@ -346,7 +346,7 @@ class ByteBuffer
       
       else
         # Four byte sequence
-        if i == length - 1
+        if i is length - 1
           throw new Error('Unpaired surrogate ' + string[i] + ' (index ' + i + ')')
         
         # Retrieve surrogate
@@ -370,6 +370,28 @@ class ByteBuffer
   # Aliases for reading/writing UTF-8 encoded strings
   readUTFChars: @::readString
   writeUTFChars: @::writeString
+  
+  # Reads UTF-8 encoded C-string (excluding the actual NULL-byte)
+  readCString: ->
+    bytes = @_raw
+    length = bytes.length
+    i = @_index
+    while bytes[i] isnt 0x00 && i < length
+      ++i
+    
+    length = i - @_index
+    if length > 0
+      string = @readString(length)
+      @readByte()
+      return string
+    
+    return null
+  
+  # Writes UTF-8 encoded C-string (NULL-terminated)
+  writeCString: (string) ->
+    bytes = @writeString(string)
+    @writeByte(0x00)
+    return ++bytes
   
   # Array of bytes in this buffer
   toArray: ->
