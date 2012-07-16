@@ -171,8 +171,30 @@ b.writeCString(string) : int // Returns number of bytes (including NULL-byte)
 ```
 
 
+### Size Manipulation
+
+#### Growth
+
+Not yet implemented.
+
+
+#### Clipping
+
+Truncates the buffer at the front, end or both. Both arguments are optional and may be negative in which case the offsets are calculated from the end of the buffer. The ```begin```-argument defaults to the current index, allowing efficient clipping in various scenarios, e.g. when used in combination with network sockets to shift off read data.
+
+```javascript
+b.clip(optional begin, optional end) : ByteBuffer
+```
+
+
 ### Miscellaneous
 
+```javascript
+b.clone() : ByteBuffer // Independent clone
+```
+```javascript
+b.reverse() : ByteBuffer // Reverses buffer in place
+```
 ```javascript
 b.toArray() : Array // Changes to this array are not backed
 ```
