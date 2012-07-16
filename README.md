@@ -155,10 +155,16 @@ b.write(byte sequence) : ByteBuffer
 ### Miscellaneous
 
 ```javascript
-b.toArray() : Array
+b.toArray() : Array // Changes to this array are not backed
 ```
 ```javascript
 b.toString() : String
+```
+```javascript
+b.toHex() : String
+```
+```javascript
+b.toASCII() : String
 ```
 
 
