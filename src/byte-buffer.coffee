@@ -27,7 +27,7 @@ class ByteBuffer
   # Creates a new ByteBuffer
   # - from given source (assumed to be amount of bytes when numeric)
   # - with given byte order (defaults to big-endian)
-  constructor: (source=0, order=@constructor.BIG_ENDIAN, implicitGrowth=true) ->
+  constructor: (source=0, order=@constructor.BIG_ENDIAN) ->
     
     # Holds buffer
     @_buffer = null

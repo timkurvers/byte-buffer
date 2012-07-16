@@ -39,16 +39,13 @@ ByteBuffer = (function() {
     });
   };
 
-  function ByteBuffer(source, order, implicitGrowth) {
+  function ByteBuffer(source, order) {
     var buffer;
     if (source == null) {
       source = 0;
     }
     if (order == null) {
       order = this.constructor.BIG_ENDIAN;
-    }
-    if (implicitGrowth == null) {
-      implicitGrowth = true;
     }
     this._buffer = null;
     this._raw = null;
