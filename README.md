@@ -175,12 +175,19 @@ b.writeCString(string) : int // Returns number of bytes (including NULL-byte)
 
 #### Growth
 
-Not yet implemented.
+The buffer may be grown at the front or at the end. When prepending, the buffer's index is adjusted accordingly.
+
+```javascript
+b.prepend(bytes) : ByteBuffer // Prepends given number of bytes
+```
+```javascript
+b.append(bytes) : ByteBuffer // Appends given number of bytes
+```
 
 
 #### Clipping
 
-Truncates the buffer at the front, end or both. Both arguments are optional and may be negative in which case the offsets are calculated from the end of the buffer. The ```begin```-argument defaults to the current index, allowing efficient clipping in various scenarios, e.g. when used in combination with network sockets to shift off read data.
+The buffer may be truncated at the front, end or both. Both arguments are optional and may be negative in which case the offsets are calculated from the end of the buffer. The ```begin```-argument defaults to the current index, allowing efficient clipping in various scenarios, e.g. when used in combination with network sockets to shift off read data.
 
 ```javascript
 b.clip(optional begin, optional end) : ByteBuffer
@@ -205,7 +212,7 @@ b.toString() : String
 b.toHex(optional spacer) : String
 ```
 ```javascript
-b.toASCII(optional spacer) : String
+b.toASCII(optional spacer, optional alignment) : String
 ```
 
 
