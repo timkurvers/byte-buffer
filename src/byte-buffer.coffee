@@ -410,6 +410,27 @@ class ByteBuffer
     @writeByte(0x00)
     return ++bytes
   
+  # Prepends given number of bytes
+  prepend: (bytes) ->
+    if bytes <= 0
+      throw new RangeError('Invalid number of bytes ' + bytes)
+    
+    view = new Uint8Array(@length + bytes)
+    view.set(@_raw, bytes)
+    @_setup(view.buffer)
+    @_index += bytes
+    return @
+  
+  # Appends given number of bytes
+  append: (bytes) ->
+    if bytes <= 0
+      throw new RangeError('Invalid number of bytes ' + bytes)
+    
+    view = new Uint8Array(@length + bytes)
+    view.set(@_raw, 0)
+    @_setup(view.buffer)
+    return @
+  
   # Clips this buffer
   clip: (begin=@_index, end=@length) ->
     if begin < 0
@@ -444,13 +465,13 @@ class ByteBuffer
   # Hex representation of this buffer with given spacer
   toHex: (spacer=' ') ->
     return Array::map.call(@_raw, (byte) ->
-      ('  ' + byte.toString(16).toUpperCase()).slice(-2)
+      ('00' + byte.toString(16).toUpperCase()).slice(-2)
     ).join(spacer)
 
   # ASCII representation of this buffer with given spacer and optional byte alignment
-  toASCII: (spacer=' ', align=true) ->
+  toASCII: (spacer=' ', align=true, unknown='\uFFFD') ->
     prefix = if align then ' ' else ''
     return Array::map.call(@_raw, (byte) ->
-      return if (byte < 0x20 || byte > 0x7E) then prefix + '?' else prefix + String.fromCharCode(byte)
+      return if (byte < 0x20 || byte > 0x7E) then prefix + unknown else prefix + String.fromCharCode(byte)
     ).join(spacer)
 

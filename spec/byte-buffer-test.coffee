@@ -232,6 +232,15 @@ describe 'ByteBuffer', ->
        .write([0, 0])
     ).toBe(b)
   
+  it 'can grow', ->
+    b = new ByteBuffer([1, 2])
+    
+    expect(b.prepend(2).toArray()).toEqual([0, 0, 1, 2])
+    expect(b.index).toEqual(2)
+    
+    expect(b.append(2).toArray()).toEqual([0, 0, 1, 2, 0, 0])
+    expect(b.index).toEqual(2)
+  
   it 'can be clipped', ->
     b = new ByteBuffer([1, 2, 3, 4, 5, 6])
     
@@ -266,15 +275,15 @@ describe 'ByteBuffer', ->
     expect(b.index).toEqual(0)
   
   it 'has various representations', ->
-    b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114])
+    b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0])
     
-    expect(b.toArray()).toEqual([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114])
+    expect(b.toArray()).toEqual([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0])
     
-    expect(b.toHex())  .toEqual('F5 42 79 74 65 D7 42 75 66 66 65 72')
-    expect(b.toASCII()).toEqual(' ?  B  y  t  e  ?  B  u  f  f  e  r')
+    expect(b.toHex())  .toEqual('F5 42 79 74 65 D7 42 75 66 66 65 72 00')
+    expect(b.toASCII()).toEqual(' \uFFFD  B  y  t  e  \uFFFD  B  u  f  f  e  r  \uFFFD')
     
-    expect(b.toHex(''))  .toEqual('F542797465D7427566666572')
-    expect(b.toASCII('')).toEqual(' ? B y t e ? B u f f e r')
+    expect(b.toHex(''))  .toEqual('F542797465D742756666657200')
+    expect(b.toASCII('')).toEqual(' \uFFFD B y t e \uFFFD B u f f e r \uFFFD')
     
-    expect(b.toASCII('', false)).toEqual('?Byte?Buffer')
+    expect(b.toASCII('', false)).toEqual('\uFFFDByte\uFFFDBuffer\uFFFD')
     

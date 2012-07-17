@@ -399,6 +399,29 @@ ByteBuffer = (function() {
     return ++bytes;
   };
 
+  ByteBuffer.prototype.prepend = function(bytes) {
+    var view;
+    if (bytes <= 0) {
+      throw new RangeError('Invalid number of bytes ' + bytes);
+    }
+    view = new Uint8Array(this.length + bytes);
+    view.set(this._raw, bytes);
+    this._setup(view.buffer);
+    this._index += bytes;
+    return this;
+  };
+
+  ByteBuffer.prototype.append = function(bytes) {
+    var view;
+    if (bytes <= 0) {
+      throw new RangeError('Invalid number of bytes ' + bytes);
+    }
+    view = new Uint8Array(this.length + bytes);
+    view.set(this._raw, 0);
+    this._setup(view.buffer);
+    return this;
+  };
+
   ByteBuffer.prototype.clip = function(begin, end) {
     var buffer;
     if (begin == null) {
@@ -445,11 +468,11 @@ ByteBuffer = (function() {
       spacer = ' ';
     }
     return Array.prototype.map.call(this._raw, function(byte) {
-      return ('  ' + byte.toString(16).toUpperCase()).slice(-2);
+      return ('00' + byte.toString(16).toUpperCase()).slice(-2);
     }).join(spacer);
   };
 
-  ByteBuffer.prototype.toASCII = function(spacer, align) {
+  ByteBuffer.prototype.toASCII = function(spacer, align, unknown) {
     var prefix;
     if (spacer == null) {
       spacer = ' ';
@@ -457,10 +480,13 @@ ByteBuffer = (function() {
     if (align == null) {
       align = true;
     }
+    if (unknown == null) {
+      unknown = '\uFFFD';
+    }
     prefix = align ? ' ' : '';
     return Array.prototype.map.call(this._raw, function(byte) {
       if (byte < 0x20 || byte > 0x7E) {
-        return prefix + '?';
+        return prefix + unknown;
       } else {
         return prefix + String.fromCharCode(byte);
       }
