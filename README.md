@@ -44,7 +44,8 @@ Hereafter ```b``` is assumed to be an instance of ByteBuffer.
 ### Properties
 
 ```javascript
-b.buffer // Reference to internal ArrayBuffer (read-only)
+b.buffer // Reference to internal ArrayBuffer
+b.buffer = new ArrayBuffer(3) // Sets new buffer
 ```
 
 ```javascript

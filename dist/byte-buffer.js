@@ -56,14 +56,8 @@ ByteBuffer = (function() {
     if (!buffer) {
       buffer = new ArrayBuffer(source);
     }
-    this._setup(buffer);
+    this.buffer = buffer;
   }
-
-  ByteBuffer.prototype._setup = function(buffer) {
-    this._buffer = buffer;
-    this._raw = new Uint8Array(this._buffer);
-    return this._view = new DataView(this._buffer);
-  };
 
   ByteBuffer.prototype._sanitizeIndex = function() {
     if (this._index < 0) {
@@ -105,6 +99,13 @@ ByteBuffer = (function() {
 
   getter('buffer', function() {
     return this._buffer;
+  });
+
+  setter('buffer', function(buffer) {
+    this._buffer = buffer;
+    this._raw = new Uint8Array(this._buffer);
+    this._view = new DataView(this._buffer);
+    return this._sanitizeIndex();
   });
 
   getter('view', function() {
@@ -406,8 +407,8 @@ ByteBuffer = (function() {
     }
     view = new Uint8Array(this.length + bytes);
     view.set(this._raw, bytes);
-    this._setup(view.buffer);
     this._index += bytes;
+    this.buffer = view.buffer;
     return this;
   };
 
@@ -418,7 +419,7 @@ ByteBuffer = (function() {
     }
     view = new Uint8Array(this.length + bytes);
     view.set(this._raw, 0);
-    this._setup(view.buffer);
+    this.buffer = view.buffer;
     return this;
   };
 
@@ -434,9 +435,8 @@ ByteBuffer = (function() {
       begin = this.length + begin;
     }
     buffer = this._buffer.slice(begin, end);
-    this._setup(buffer);
     this._index -= begin;
-    this._sanitizeIndex();
+    this.buffer = buffer;
     return this;
   };
 

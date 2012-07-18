@@ -53,14 +53,8 @@ class ByteBuffer
     if not buffer
       buffer = new ArrayBuffer(source)
     
-    # Set up state
-    @_setup(buffer)
-  
-  # Sets up properties for given buffer
-  _setup: (buffer) ->
-    @_buffer = buffer
-    @_raw = new Uint8Array(@_buffer)
-    @_view = new DataView(@_buffer)
+    # Assign new buffer
+    @buffer = buffer
   
   # Sanitizes read/write index
   _sanitizeIndex: ->
@@ -95,6 +89,13 @@ class ByteBuffer
   # Retrieves buffer
   getter 'buffer', ->
     return @_buffer
+    
+  # Sets new buffer and sanitizes read/write index
+  setter 'buffer', (buffer) ->
+    @_buffer = buffer
+    @_raw = new Uint8Array(@_buffer)
+    @_view = new DataView(@_buffer)
+    @_sanitizeIndex()
   
   # Retrieves view
   getter 'view', ->
@@ -419,8 +420,8 @@ class ByteBuffer
     
     view = new Uint8Array(@length + bytes)
     view.set(@_raw, bytes)
-    @_setup(view.buffer)
     @_index += bytes
+    @buffer = view.buffer
     return @
   
   # Appends given number of bytes
@@ -430,7 +431,7 @@ class ByteBuffer
     
     view = new Uint8Array(@length + bytes)
     view.set(@_raw, 0)
-    @_setup(view.buffer)
+    @buffer = view.buffer
     return @
   
   # Clips this buffer
@@ -438,9 +439,8 @@ class ByteBuffer
     if begin < 0
       begin = @length + begin
     buffer = @_buffer.slice(begin, end)
-    @_setup(buffer)
     @_index -= begin
-    @_sanitizeIndex()
+    @buffer = buffer
     return @
   
   # Clones this buffer
