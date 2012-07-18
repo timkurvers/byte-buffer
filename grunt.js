@@ -107,5 +107,6 @@ module.exports = function(grunt) {
   
   grunt.registerTask('default', 'watch');
   grunt.registerTask('release', 'coffee lint buster concat min');
+  grunt.registerTask('test', 'coffee lint buster');
 
 };
