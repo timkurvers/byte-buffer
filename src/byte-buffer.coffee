@@ -11,11 +11,13 @@
 #
 
 class ByteBuffer
-  'use strict'
   
   # Byte order constants
   @LITTLE_ENDIAN = true
   @BIG_ENDIAN    = false
+  
+  # Reference to ByteBuffer
+  self = @
   
   # Shielded utility methods for creating getters/setters on the prototype
   getter = (name, getter) =>
@@ -27,7 +29,7 @@ class ByteBuffer
   # Creates a new ByteBuffer
   # - from given source (assumed to be number of bytes when numeric)
   # - with given byte order (defaults to big-endian)
-  constructor: (source=0, order=@constructor.BIG_ENDIAN) ->
+  constructor: (source=0, order=self.BIG_ENDIAN) ->
     
     # Holds buffer
     @_buffer = null
@@ -194,7 +196,7 @@ class ByteBuffer
     if bytes <= 0
       throw new RangeError('Invalid number of bytes ' + bytes)
     
-    value = new @constructor(@_buffer.slice(@_index, @_index + bytes))
+    value = new self(@_buffer.slice(@_index, @_index + bytes))
     @_index += bytes
     return value
   
@@ -443,7 +445,7 @@ class ByteBuffer
   
   # Clones this buffer
   clone: ->
-    clone = new @constructor(@_buffer.slice(0))
+    clone = new self(@_buffer.slice(0))
     clone.index = @_index
     return clone
   
@@ -459,7 +461,7 @@ class ByteBuffer
 
   # Short string representation of this buffer
   toString: ->
-    order = if @_order is @constructor.BIG_ENDIAN then 'big-endian' else 'little-endian'
+    order = if @_order is self.BIG_ENDIAN then 'big-endian' else 'little-endian'
     return '[ByteBuffer; Order: ' + order + '; Length: ' + @length + '; Index: ' + @_index + '; Available: ' + @available + ']'
 
   # Hex representation of this buffer with given spacer

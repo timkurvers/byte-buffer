@@ -14,14 +14,14 @@
 var ByteBuffer;
 
 ByteBuffer = (function() {
-  'use strict';
-
-  var extractBuffer, getter, reader, setter, writer,
+  var extractBuffer, getter, reader, self, setter, writer,
     _this = this;
 
   ByteBuffer.LITTLE_ENDIAN = true;
 
   ByteBuffer.BIG_ENDIAN = false;
+
+  self = ByteBuffer;
 
   getter = function(name, getter) {
     return Object.defineProperty(ByteBuffer.prototype, name, {
@@ -45,7 +45,7 @@ ByteBuffer = (function() {
       source = 0;
     }
     if (order == null) {
-      order = this.constructor.BIG_ENDIAN;
+      order = self.BIG_ENDIAN;
     }
     this._buffer = null;
     this._raw = null;
@@ -232,7 +232,7 @@ ByteBuffer = (function() {
     if (bytes <= 0) {
       throw new RangeError('Invalid number of bytes ' + bytes);
     }
-    value = new this.constructor(this._buffer.slice(this._index, this._index + bytes));
+    value = new self(this._buffer.slice(this._index, this._index + bytes));
     this._index += bytes;
     return value;
   };
@@ -442,7 +442,7 @@ ByteBuffer = (function() {
 
   ByteBuffer.prototype.clone = function() {
     var clone;
-    clone = new this.constructor(this._buffer.slice(0));
+    clone = new self(this._buffer.slice(0));
     clone.index = this._index;
     return clone;
   };
@@ -459,7 +459,7 @@ ByteBuffer = (function() {
 
   ByteBuffer.prototype.toString = function() {
     var order;
-    order = this._order === this.constructor.BIG_ENDIAN ? 'big-endian' : 'little-endian';
+    order = this._order === self.BIG_ENDIAN ? 'big-endian' : 'little-endian';
     return '[ByteBuffer; Order: ' + order + '; Length: ' + this.length + '; Index: ' + this._index + '; Available: ' + this.available + ']';
   };
 

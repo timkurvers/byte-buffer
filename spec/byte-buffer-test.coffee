@@ -287,3 +287,13 @@ describe 'ByteBuffer', ->
     
     expect(b.toASCII('', false)).toEqual('\uFFFDByte\uFFFDBuffer\uFFFD')
     
+  it 'can be extended', ->
+    
+    class NetworkPacket extends ByteBuffer
+      
+    p = new NetworkPacket(1)
+    
+    expect(p.order).toEqual(ByteBuffer.BIG_ENDIAN)
+    expect(p.read().constructor).toEqual(ByteBuffer)
+    expect(p.clone().constructor).toEqual(ByteBuffer)
+
