@@ -246,17 +246,18 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 
 ### Fully functional
 
-* Chrome v20.0.1132 (OSX / Windows)
-* Safari v5.1.7 (OSX)
+* Chrome 20.0.1132 (OSX / Windows)
+* Safari 5.1.7 (OSX)
+* Firefox 15 (OSX)
 
 ### Partially broken
 
-* Opera v12.0 (OSX)
+* Opera 12 (OSX)
   * Does not support ArrayBuffer.slice
 
 ### Broken
 
-* Firefox v14.0 (OSX / Windows)
+* Firefox 14 and lower (OSX / Windows)
   * Does not yet [support DataView](https://developer.mozilla.org/en/JavaScript_typed_arrays/DataView#Browser_compatibility)
   * Using David Flanagan's [DataView polyfill](https://github.com/davidflanagan/DataView.js) for Firefox 4.x may be useful
 
