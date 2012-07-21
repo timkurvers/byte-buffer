@@ -196,7 +196,7 @@ To protect the unaware from harm, this feature needs to be explicitly enabled, l
 
 ```javascript
 b = new ByteBuffer(2, ByteBuffer.BIG_ENDIAN, true) // Last argument indicates implicit growth strategy
-b.writeUnsignedInt(23451023) // Implicitly makes room for 4 bytes - by growing the buffer with 2 - prior to writing
+b.writeUnsignedInt(2345102) // Implicitly makes room for 4 bytes - by growing with 2 - prior to writing
 ```
 
 The implicit growth strategy can also be enabled and disabled after construction:
