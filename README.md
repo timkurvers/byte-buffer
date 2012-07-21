@@ -136,6 +136,8 @@ b.readCString() : String // Reads string up to NULL-byte or end of buffer
 
 All write methods default to the ByteBuffer's byte order if not given.
 
+Additionally, the implicit growth strategy documentation a bit further down is well worth reading.
+
 ```javascript
 b.writeByte(byte, optional order) : ByteBuffer
 ```
@@ -184,6 +186,26 @@ b.prepend(bytes) : ByteBuffer // Prepends given number of bytes
 ```javascript
 b.append(bytes) : ByteBuffer // Appends given number of bytes
 ```
+
+
+#### Implicit Growth
+
+This feature allows a ByteBuffer to grow implicitly when writing arbitrary data. Since every implicit growth requires the buffer to be rebuilt from scratch, care must be taken when using this feature. Writing low byte-length pieces of data in rapid succession is not recommended.
+
+To protect the unaware from harm, this feature needs to be explicitly enabled, like so:
+
+```javascript
+b = new ByteBuffer(2, ByteBuffer.BIG_ENDIAN, true) // Last argument indicates implicit growth strategy
+b.writeUnsignedInt(23451023) // Implicitly makes room for 4 bytes - by growing the buffer with 2 - prior to writing
+```
+
+The implicit growth strategy can also be enabled and disabled after construction:
+
+```javascript
+b.implicitGrowth = true or false
+```
+
+Implicit growth is a must when dealing with UTF-8 encoded strings, as dealing with arbitrary user data - e.g. names or addresses - *may* include various characters that require to be encoded in multiple bytes, which would be relatively verbose to calculate beforehand. ByteBuffer will do this for you.
 
 
 #### Clipping

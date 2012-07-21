@@ -29,7 +29,8 @@ class ByteBuffer
   # Creates a new ByteBuffer
   # - from given source (assumed to be number of bytes when numeric)
   # - with given byte order (defaults to big-endian)
-  constructor: (source=0, order=self.BIG_ENDIAN) ->
+  # - with given implicit growth strategy (defaults to false)
+  constructor: (source=0, order=self.BIG_ENDIAN, implicitGrowth=false) ->
     
     # Holds buffer
     @_buffer = null
@@ -41,7 +42,10 @@ class ByteBuffer
     @_view = null
     
     # Holds byte order
-    @_order = order
+    @_order = !!order
+    
+    # Holds implicit growth strategy
+    @_implicitGrowth = !!implicitGrowth
     
     # Holds read/write index
     @_index = 0
@@ -117,7 +121,15 @@ class ByteBuffer
   # Sets byte order
   setter 'order', (order) ->
     @_order = !!order
-
+  
+  # Retrieves implicit growth strategy
+  getter 'implicitGrowth', ->
+    return @_implicitGrowth
+  
+  # Sets implicit growth strategy
+  setter 'implicitGrowth', (implicitGrowth) ->
+    @_implicitGrowth = !!implicitGrowth
+  
   # Retrieves read/write index
   getter 'index', ->
     return @_index
@@ -162,8 +174,12 @@ class ByteBuffer
   # Generic writer
   writer = (method, bytes) ->
     return (value, order=@_order) ->
-      if bytes > @available
-        throw new Error('Cannot write ' + value + ' using ' + bytes + ' byte(s), ' + @available + ' available')
+      available = @available
+      if bytes > available
+        if @_implicitGrowth
+          @append(bytes - available)
+        else
+          throw new Error('Cannot write ' + value + ' using ' + bytes + ' byte(s), ' + available + ' available')
       
       @_view[method](@_index, value, order)
       @_index += bytes
@@ -218,8 +234,12 @@ class ByteBuffer
     else
       view = sequence
     
-    if view.byteLength > @available
-      throw new Error('Cannot write ' + sequence + ' using ' + view.byteLength + ' byte(s), ' + @available + ' available')
+    available = @available
+    if view.byteLength > available
+      if @_implicitGrowth
+        @append(view.byteLength - available)
+      else
+        throw new Error('Cannot write ' + sequence + ' using ' + view.byteLength + ' byte(s), ' + @available + ' available')
     
     @_raw.set(view, @_index)
     @_index += view.byteLength

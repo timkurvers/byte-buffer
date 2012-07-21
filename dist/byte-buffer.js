@@ -3,7 +3,7 @@
  * Copyright (c) 2012 Tim Kurvers <http://moonsphere.net>
  *
  * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.
- * Supports arbitrary reading/writing, automatic growth, clipping, cloning and
+ * Supports arbitrary reading/writing, implicit growth, clipping, cloning and
  * reversing as well as UTF-8 characters and NULL-terminated C-strings.
  *
  * The contents of this file are subject to the MIT License, under which
@@ -39,7 +39,7 @@ ByteBuffer = (function() {
     });
   };
 
-  function ByteBuffer(source, order) {
+  function ByteBuffer(source, order, implicitGrowth) {
     var buffer;
     if (source == null) {
       source = 0;
@@ -47,10 +47,14 @@ ByteBuffer = (function() {
     if (order == null) {
       order = self.BIG_ENDIAN;
     }
+    if (implicitGrowth == null) {
+      implicitGrowth = false;
+    }
     this._buffer = null;
     this._raw = null;
     this._view = null;
-    this._order = order;
+    this._order = !!order;
+    this._implicitGrowth = !!implicitGrowth;
     this._index = 0;
     buffer = extractBuffer(source, true);
     if (!buffer) {
@@ -128,6 +132,14 @@ ByteBuffer = (function() {
     return this._order = !!order;
   });
 
+  getter('implicitGrowth', function() {
+    return this._implicitGrowth;
+  });
+
+  setter('implicitGrowth', function(implicitGrowth) {
+    return this._implicitGrowth = !!implicitGrowth;
+  });
+
   getter('index', function() {
     return this._index;
   });
@@ -178,11 +190,17 @@ ByteBuffer = (function() {
 
   writer = function(method, bytes) {
     return function(value, order) {
+      var available;
       if (order == null) {
         order = this._order;
       }
-      if (bytes > this.available) {
-        throw new Error('Cannot write ' + value + ' using ' + bytes + ' byte(s), ' + this.available + ' available');
+      available = this.available;
+      if (bytes > available) {
+        if (this._implicitGrowth) {
+          this.append(bytes - available);
+        } else {
+          throw new Error('Cannot write ' + value + ' using ' + bytes + ' byte(s), ' + available + ' available');
+        }
       }
       this._view[method](this._index, value, order);
       this._index += bytes;
@@ -239,7 +257,7 @@ ByteBuffer = (function() {
   };
 
   ByteBuffer.prototype.write = function(sequence) {
-    var buffer, view;
+    var available, buffer, view;
     if (!(sequence instanceof Uint8Array)) {
       buffer = extractBuffer(sequence);
       if (!buffer) {
@@ -249,8 +267,13 @@ ByteBuffer = (function() {
     } else {
       view = sequence;
     }
-    if (view.byteLength > this.available) {
-      throw new Error('Cannot write ' + sequence + ' using ' + view.byteLength + ' byte(s), ' + this.available + ' available');
+    available = this.available;
+    if (view.byteLength > available) {
+      if (this._implicitGrowth) {
+        this.append(view.byteLength - available);
+      } else {
+        throw new Error('Cannot write ' + sequence + ' using ' + view.byteLength + ' byte(s), ' + this.available + ' available');
+      }
     }
     this._raw.set(view, this._index);
     this._index += view.byteLength;

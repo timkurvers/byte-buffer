@@ -241,6 +241,23 @@ describe 'ByteBuffer', ->
     expect(b.append(2).toArray()).toEqual([0, 0, 1, 2, 0, 0])
     expect(b.index).toEqual(2)
   
+  it 'will grow implicitly', ->
+    b = new ByteBuffer(2, ByteBuffer.BIG_ENDIAN, true)
+    expect(b.implicitGrowth).toEqual(true)
+    expect(b.writeUnsignedInt(0).length).toEqual(4)
+    
+    b.implicitGrowth = false
+    
+    expect(->
+      b.writeDouble(0)
+    ).toThrow('Error')
+    
+    b.implicitGrowth = true
+    b.append(1)
+    
+    expect(b.writeString('Byte $¢€𝇇 Buffer')).toEqual(22)
+    expect(b.length).toEqual(26)
+  
   it 'can be clipped', ->
     b = new ByteBuffer([1, 2, 3, 4, 5, 6])
     
