@@ -253,7 +253,7 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 ### Broken
 
 * Opera 12 (OSX)
-  * Does not support ArrayBuffer.slice
+  * Does not support ```ArrayBuffer.slice```
 
 ### Not yet tested
 
