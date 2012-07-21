@@ -3,7 +3,7 @@
 # Copyright (c) 2012 Tim Kurvers <http://moonsphere.net>
 #
 # Wrapper for ArrayBuffer/DataView maintaining index and default endianness.
-# Supports arbitrary reading/writing, automatic growth, clipping, cloning and
+# Supports arbitrary reading/writing, implicit growth, clipping, cloning and
 # reversing as well as UTF-8 characters and NULL-terminated C-strings.
 #
 # The contents of this file are subject to the MIT License, under which
