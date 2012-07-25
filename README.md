@@ -49,6 +49,10 @@ b.buffer = new ArrayBuffer(3) // Sets new buffer
 ```
 
 ```javascript
+b.raw // Reference to raw buffer (read-only)
+```
+
+```javascript
 b.view // Reference to internal DataView (read-only)
 ```
 

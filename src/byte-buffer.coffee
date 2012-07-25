@@ -101,6 +101,10 @@ class ByteBuffer
     @_view = new DataView(@_buffer)
     @_sanitizeIndex()
   
+  # Retrieves raw buffer
+  getter 'raw', ->
+    return @_raw
+  
   # Retrieves view
   getter 'view', ->
     return @_view
