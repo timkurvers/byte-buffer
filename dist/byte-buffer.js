@@ -467,6 +467,18 @@ ByteBuffer = (function() {
     return this;
   };
 
+  ByteBuffer.prototype.slice = function(begin, end) {
+    var slice;
+    if (begin == null) {
+      begin = 0;
+    }
+    if (end == null) {
+      end = this.length;
+    }
+    slice = new self(this._buffer.slice(begin, end));
+    return slice;
+  };
+
   ByteBuffer.prototype.clone = function() {
     var clone;
     clone = new self(this._buffer.slice(0));

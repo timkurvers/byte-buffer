@@ -224,7 +224,10 @@ b.clip(optional begin, optional end) : ByteBuffer
 ### Miscellaneous
 
 ```javascript
-b.clone() : ByteBuffer // Independent clone
+b.slice(optional begin, optional end) : ByteBuffer // Independent clone of given slice
+```
+```javascript
+b.clone() : ByteBuffer // Independent clone of the entire buffer
 ```
 ```javascript
 b.reverse() : ByteBuffer // Reverses buffer in place

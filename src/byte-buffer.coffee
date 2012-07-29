@@ -467,6 +467,11 @@ class ByteBuffer
     @buffer = buffer
     return @
   
+  # Slices this buffer
+  slice: (begin=0, end=@length) ->
+    slice = new self(@_buffer.slice(begin, end))
+    return slice
+  
   # Clones this buffer
   clone: ->
     clone = new self(@_buffer.slice(0))

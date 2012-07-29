@@ -276,6 +276,15 @@ describe 'ByteBuffer', ->
     expect(b.clip(0, -2).toArray()).toEqual([3, 4])
     expect(b.index).toEqual(2)
   
+  it 'can be sliced', ->
+    b = new ByteBuffer([1, 2, 3, 4, 5, 6])
+    
+    expect(b.slice().toArray()).toEqual([1, 2, 3, 4, 5, 6])
+    expect(b.slice(1).toArray()).toEqual([2, 3, 4, 5, 6])
+    expect(b.slice(2, -2).toArray()).toEqual([3, 4])
+    
+    expect(b.slice()).not.toBe(b)
+  
   it 'can be cloned', ->
     b = new ByteBuffer(3)
     b.end()    
