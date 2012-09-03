@@ -261,7 +261,6 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 
 * Opera 12 (OSX)
   * Does not support ```ArrayBuffer.slice``` (implemented in [Presto/2.11.322](http://www.opera.com/docs/specs/presto2.11/#m211-323); awaiting stable build)
-
 * Internet Explorer 10 (Windows)
   * Does not support ```ArrayBuffer.slice```
 
