@@ -187,16 +187,16 @@ describe 'ByteBuffer', ->
   it 'can read and write UTF-8 strings', ->
     b = new ByteBuffer(22)
     
-    expect(b.writeString('Byte $¢€𝇇 Buffer')).toEqual(22)
+    expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toEqual(22)
     expect(b.index).toEqual(22)
     expect(b.toHex()).toEqual('42 79 74 65 20 24 C2 A2 E2 82 AC F0 9D 87 87 20 42 75 66 66 65 72')
     
     b.front()
     
-    expect(b.readString()).toEqual('Byte $¢€𝇇 Buffer')
+    expect(b.readString()).toEqual('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')
     
     b = new ByteBuffer(262140)
-    long = (new Array(1 << 16)).join('𝇇')
+    long = (new Array(1 << 16)).join('\uD834\uDDC7')
     expect(b.writeString(long)).toEqual(262140)
     
     b.front()
@@ -210,12 +210,12 @@ describe 'ByteBuffer', ->
   it 'can read and write NULL-terminated C-strings', ->
     b = new ByteBuffer(27)
     
-    expect(b.writeCString('Byte $¢€𝇇 Buffer')).toEqual(23)
+    expect(b.writeCString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toEqual(23)
     b.writeUnsignedInt(10)
     
     b.front()
     
-    expect(b.readCString()).toEqual('Byte $¢€𝇇 Buffer')
+    expect(b.readCString()).toEqual('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')
     expect(b.available).toEqual(4)
   
   it 'has writers that can be chained', ->
@@ -255,7 +255,7 @@ describe 'ByteBuffer', ->
     b.implicitGrowth = true
     b.append(1)
     
-    expect(b.writeString('Byte $¢€𝇇 Buffer')).toEqual(22)
+    expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toEqual(22)
     expect(b.length).toEqual(26)
   
   it 'can be clipped', ->
