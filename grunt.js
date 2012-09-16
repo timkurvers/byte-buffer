@@ -5,21 +5,21 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: '<json:package.json>',
     meta: {
-      
+
       // Banner prepended to distribution
       banner: '/**\n' +
               ' * ByteBuffer v<%= pkg.version %>\n' +
               ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> <<%= pkg.homepage %>>\n' +
               ' *\n' +
-              ' * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.\n' + 
-              ' * Supports arbitrary reading/writing, implicit growth, clipping, cloning and\n' + 
-              ' * reversing as well as UTF-8 characters and NULL-terminated C-strings.\n' + 
+              ' * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.\n' +
+              ' * Supports arbitrary reading/writing, implicit growth, clipping, cloning and\n' +
+              ' * reversing as well as UTF-8 characters and NULL-terminated C-strings.\n' +
               ' *\n' +
               ' * The contents of this file are subject to the MIT License, under which\n' +
               ' * this library is licensed. See the LICENSE file for the full license.\n' +
               ' */'
     },
-    
+
     // Compiles CoffeeScript source and specs
     coffee: {
       src: {
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         dest: 'build-spec'
       }
     },
-    
+
     // Lints compiled JavaScript files
     lint: {
       files: [
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
         'vendor/**/*.js'
       ]
     },
-    
+
     // Concatenate compiled JavaScript files
     concat: {
       dist: {
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
-    
+
     // Minified distribution
     min: {
       dist: {
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
-    
+
     // Watch for changes to CoffeeScript files
     watch: {
       files: [
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
       ],
       tasks: 'coffee lint buster concat'
     },
-    
+
     // JSHint options
     jshint: {
       options: {
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
         DataView: true,
         Uint8Array: true,
         Uint16Array: true,
-        
+
         // BusterJS
         buster: true,
         describe: true,
@@ -102,9 +102,9 @@ module.exports = function(grunt) {
     },
     uglify: {}
   });
-  
+
   grunt.loadTasks('tasks');
-  
+
   grunt.registerTask('default', 'watch');
   grunt.registerTask('release', 'coffee lint buster concat min');
   grunt.registerTask('test', 'coffee lint buster');

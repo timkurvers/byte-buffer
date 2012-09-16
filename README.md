@@ -297,11 +297,11 @@ Getting this toolchain up and running, is easy and straight-forward:
    npm install grunt
    npm install buster
    ```
-   
+
    Note: If you'd rather install these modules globally, append the -g flag to the above commands.
 
 4. Verify availability of the following binaries:
-   
+
    ```shell
    which coffee
    which grunt
