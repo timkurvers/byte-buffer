@@ -256,6 +256,7 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 * Chrome 20.0.1132 (OSX / Windows)
 * Safari 5.1.7 (OSX)
 * Firefox 15 (OSX)
+* Opera 12.11 (OSX)
 
 ### Broken
 
@@ -293,12 +294,12 @@ Getting this toolchain up and running, is easy and straight-forward:
 3. Install the following modules:
 
    ```shell
-   npm install coffee-script
-   npm install grunt
-   npm install buster
+   npm install -g coffee-script
+   npm install -g grunt
+   npm install -g buster
    ```
 
-   Note: If you'd rather install these modules globally, append the -g flag to the above commands.
+   Note: If you'd rather install these modules locally, remove the -g flag from the above commands.
 
 4. Verify availability of the following binaries:
 
