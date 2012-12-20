@@ -217,7 +217,7 @@ class ByteBuffer
     if bytes <= 0
       throw new RangeError('Invalid number of bytes ' + bytes)
 
-    value = new self(@_buffer.slice(@_index, @_index + bytes))
+    value = new self(@_buffer.slice(@_index, @_index + bytes), @order)
     @_index += bytes
     return value
 
@@ -469,12 +469,12 @@ class ByteBuffer
 
   # Slices this buffer
   slice: (begin=0, end=@length) ->
-    slice = new self(@_buffer.slice(begin, end))
+    slice = new self(@_buffer.slice(begin, end), @order)
     return slice
 
   # Clones this buffer
   clone: ->
-    clone = new self(@_buffer.slice(0))
+    clone = new self(@_buffer.slice(0), @order, @implicitGrowth)
     clone.index = @_index
     return clone
 

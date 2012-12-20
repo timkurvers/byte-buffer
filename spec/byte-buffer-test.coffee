@@ -51,6 +51,17 @@ describe 'ByteBuffer', ->
     b.order = ByteBuffer.BIG_ENDIAN
     expect(b.order).toEqual(ByteBuffer.BIG_ENDIAN)
 
+  it 'will maintain byte order when reading, slicing and cloning', ->
+    b = new ByteBuffer(1)
+    expect(b.read().order).toEqual(ByteBuffer.BIG_ENDIAN)
+    expect(b.slice().order).toEqual(ByteBuffer.BIG_ENDIAN)
+    expect(b.clone().order).toEqual(ByteBuffer.BIG_ENDIAN)
+
+    b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN)
+    expect(b.read().order).toEqual(ByteBuffer.LITTLE_ENDIAN)
+    expect(b.slice().order).toEqual(ByteBuffer.LITTLE_ENDIAN)
+    expect(b.clone().order).toEqual(ByteBuffer.LITTLE_ENDIAN)
+
   it 'has a controllable read/write index', ->
     b = new ByteBuffer(8)
     expect(b.index).toEqual(0)
@@ -257,6 +268,14 @@ describe 'ByteBuffer', ->
 
     expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toEqual(22)
     expect(b.length).toEqual(26)
+
+  it 'will maintain implicit growth strategy when cloning', ->
+    b = new ByteBuffer()
+    expect(b.clone().implicitGrowth).toEqual(false)
+
+    b.implicitGrowth = true
+
+    expect(b.clone().implicitGrowth).toEqual(true)
 
   it 'can be clipped', ->
     b = new ByteBuffer([1, 2, 3, 4, 5, 6])
