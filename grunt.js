@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       // Banner prepended to distribution
       banner: '/**\n' +
               ' * ByteBuffer v<%= pkg.version %>\n' +
-              ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> <<%= pkg.homepage %>>\n' +
+              ' * Copyright (c) 2012-<%= grunt.template.today("yyyy") %> <%= pkg.author.name %> <<%= pkg.homepage %>>\n' +
               ' *\n' +
               ' * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.\n' +
               ' * Supports arbitrary reading/writing, implicit growth, clipping, cloning and\n' +
