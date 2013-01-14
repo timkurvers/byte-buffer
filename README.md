@@ -14,6 +14,16 @@ ByteBuffer's API borrows heavily from Adobe's [IDataInput](http://help.adobe.com
 The concept of separate buffers and views - as outlined in MDN's [JavaScript typed arrays](https://developer.mozilla.org/en/JavaScript_typed_arrays) - is *not* used. ByteBuffer handles this separation for you.
 
 
+### Constants
+
+Use the following constants to indicate endianness:
+
+```javascript
+ByteBuffer.BIG_ENDIAN
+ByteBuffer.LITTLE_ENDIAN
+```
+
+
 ### Construction
 
 ```javascript
@@ -58,11 +68,11 @@ b.view // Reference to internal DataView (read-only)
 
 ```javascript
 b.length // Number of bytes in the buffer (read-only)
-b.byteLength
+b.byteLength // Alias
 ```
 
 ```javascript
-b.order // Default byte order
+b.order // Buffer's current default byte order
 b.order = ByteBuffer.BIG_ENDIAN // Sets byte order
 ```
 
@@ -83,16 +93,22 @@ b.index = 4 // Sets index
 If the index is out of bounds, a RangeError will be thrown.
 
 ```javascript
-b.front() : ByteBuffer // Sets index to front of the buffer, returns buffer itself
+b.front() // Sets index to front of the buffer
 ```
 
 ```javascript
-b.end() : ByteBuffer // Sets index to end of the buffer, returns buffer itself
+b.end() // Sets index to end of the buffer
 ```
 
 ```javascript
-b.seek(10) : ByteBuffer // Forwards ten bytes
-b.seek(-2) : ByteBuffer // Backs two bytes
+b.seek(10) // Forwards ten bytes
+b.seek(-2) // Backs two bytes
+```
+
+These methods may be chained:
+
+```javascript
+b.front().seek(2)
 ```
 
 
@@ -101,38 +117,41 @@ b.seek(-2) : ByteBuffer // Backs two bytes
 All read methods default to the ByteBuffer's byte order if not given.
 
 ```javascript
-b.readByte(optional order) : byte
+b.readByte()
 ```
 ```javascript
-b.readUnsignedByte(optional order) : byte
+b.readUnsignedByte()
 ```
 ```javascript
-b.readShort(optional order) : short
+b.readShort() // Buffer's default byte order
+b.readShort(ByteBuffer.LITTLE_ENDIAN) // Explicit byte order
 ```
 ```javascript
-b.readUnsignedShort(optional order) : short
+b.readUnsignedShort()
 ```
 ```javascript
-b.readInt(optional order) : int
+b.readInt()
 ```
 ```javascript
-b.readUnsignedInt(optional order) : int
+b.readUnsignedInt()
 ```
 ```javascript
-b.readFloat(optional order) : float
+b.readFloat()
 ```
 ```javascript
-b.readDouble(optional order) : double
+b.readDouble()
 ```
 ```javascript
-b.read(optional bytes) : ByteBuffer // Defaults to available number of bytes
+b.read(6) // Reads 6 bytes
+b.read() // Reads all remaining bytes
 ```
 ```javascript
-b.readString(optional bytes) : String // Defaults to available number of bytes
-b.readUTFChars(optional bytes) : String
+b.readString(5) // Reads 5 bytes as a string
+b.readString() // Reads all remaining bytes as a string
+b.readUTFChars() // Alias
 ```
 ```javascript
-b.readCString() : String // Reads string up to NULL-byte or end of buffer
+b.readCString() // Reads string up to NULL-byte or end of buffer
 ```
 
 
@@ -140,41 +159,52 @@ b.readCString() : String // Reads string up to NULL-byte or end of buffer
 
 All write methods default to the ByteBuffer's byte order if not given.
 
-Additionally, the implicit growth strategy documentation a bit further down is well worth reading.
+```javascript
+b.writeByte(10)
+```
+```javascript
+b.writeUnsignedByte(-10)
+```
+```javascript
+b.writeShort(-2048)
+b.writeShort(-2048, ByteBuffer.LITTLE_ENDIAN) // Explicit byte order
+```
+```javascript
+b.writeUnsignedShort(4096)
+```
+```javascript
+b.writeInt(-524288)
+```
+```javascript
+b.writeUnsignedInt(1048576)
+```
+```javascript
+b.writeFloat(13.37)
+```
+```javascript
+b.writeDouble(1048576.89)
+```
+```javascript
+b.write([1, 2, 3])
+b.write(new ArrayBuffer(2))
+b.write(new Uint8Array(3))
+b.write(new ByteBuffer(5))
+```
+
+Additionally, all the above write methods may be chained:
 
 ```javascript
-b.writeByte(byte, optional order) : ByteBuffer
+b.writeShort(0x2020).write([1, 2, 3])
+```
+
+The following string related methods do not return the buffer itself, but rather provide the number of bytes that were written to it. More on this under implicit growth strategy a bit further down.
+
+```javascript
+b.writeString('ByteBuffer') // Writes given string and returns number of bytes
+b.writeUTFChars('ByteBuffer') // Alias
 ```
 ```javascript
-b.writeUnsignedByte(byte, optional order) : ByteBuffer
-```
-```javascript
-b.writeShort(short, optional order) : ByteBuffer
-```
-```javascript
-b.writeUnsignedShort(short, optional order) : ByteBuffer
-```
-```javascript
-b.writeInt(int, optional order) : ByteBuffer
-```
-```javascript
-b.writeUnsignedInt(int, optional order) : ByteBuffer
-```
-```javascript
-b.writeFloat(float, optional order) : ByteBuffer
-```
-```javascript
-b.writeDouble(double, optional order) : ByteBuffer
-```
-```javascript
-b.write(byte sequence) : ByteBuffer
-```
-```javascript
-b.writeString(string) : int // Returns number of bytes
-b.writeUTFChars(string) : int
-```
-```javascript
-b.writeCString(string) : int // Returns number of bytes (including NULL-byte)
+b.writeCString('ByteBuffer') // Writes given string and returns number of bytes (including NULL-byte)
 ```
 
 
@@ -185,10 +215,10 @@ b.writeCString(string) : int // Returns number of bytes (including NULL-byte)
 The buffer may be grown at the front or at the end. When prepending, the buffer's index is adjusted accordingly.
 
 ```javascript
-b.prepend(bytes) : ByteBuffer // Prepends given number of bytes
+b.prepend(2) // Prepends given number of bytes
 ```
 ```javascript
-b.append(bytes) : ByteBuffer // Appends given number of bytes
+b.append(2) // Appends given number of bytes
 ```
 
 
@@ -206,43 +236,44 @@ b.writeUnsignedInt(2345102) // Implicitly makes room for 4 bytes - by growing wi
 The implicit growth strategy can also be enabled and disabled after construction:
 
 ```javascript
-b.implicitGrowth = true or false
+b.implicitGrowth = true/false
 ```
 
-Implicit growth is a must when dealing with UTF-8 encoded strings, as dealing with arbitrary user data - e.g. names or addresses - *may* include various characters that require to be encoded in multiple bytes, which would be relatively verbose to calculate beforehand. ByteBuffer will do this for you.
+Implicit growth is a must when dealing with UTF-8 encoded strings, as dealing with arbitrary user data - e.g. names or addresses - *may* include various characters that require to be encoded in multiple bytes, which would be relatively verbose to calculate beforehand.
 
 
 #### Clipping
 
-The buffer may be truncated at the front, end or both. Both arguments are optional and may be negative in which case the offsets are calculated from the end of the buffer. The ```begin```-argument defaults to the current index, allowing efficient clipping in various scenarios, e.g. when used in combination with network sockets to shift off read data.
+The buffer may be truncated at the front, end or both. Both arguments are optional and may be negative in which case the offsets are calculated from the respective boundaries of the buffer. The `begin`-argument defaults to the current index, allowing efficient clipping in various scenarios, e.g. when used in combination with network sockets to shift off read data. The `end`-argument defaults to the end of the buffer.
 
 ```javascript
-b.clip(optional begin, optional end) : ByteBuffer
+b.clip(2, -2)
+b.clip(-2, 4)
 ```
 
 
 ### Miscellaneous
 
 ```javascript
-b.slice(optional begin, optional end) : ByteBuffer // Independent clone of given slice
+b.slice(2, 4) // Independent clone of given slice of the buffer
 ```
 ```javascript
-b.clone() : ByteBuffer // Independent clone of the entire buffer
+b.clone() // Independent clone of the entire buffer
 ```
 ```javascript
-b.reverse() : ByteBuffer // Reverses buffer in place
+b.reverse() // Reverses buffer in place
 ```
 ```javascript
-b.toArray() : Array // Changes to this array are not backed
+b.toArray() // Changes to this array are not backed
 ```
 ```javascript
-b.toString() : String
+b.toString() // String representation of this buffer
 ```
 ```javascript
-b.toHex(optional spacer) : String
+b.toHex() // Hexadecimal representation of this buffer, e.g: 42 79 74 65 42 75 66 66 65 72
 ```
 ```javascript
-b.toASCII(optional spacer, optional alignment) : String
+b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f  e  r
 ```
 
 
