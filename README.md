@@ -1,13 +1,11 @@
-ByteBuffer
-==========
+# ByteBuffer
 
 Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endianness. Supports arbitrary reading/writing, implicit growth, clipping, cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
 
 Licensed under the **MIT** license, see LICENSE for more information.
 
 
-Usage & API
------------
+## Usage & API
 
 ByteBuffer's API borrows heavily from Adobe's [IDataInput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataInput.html) and [IDataOutput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataOutput.html) as well as David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView).
 
@@ -277,8 +275,7 @@ b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f
 ```
 
 
-Browser Support
----------------
+## Browser Support
 
 Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.com/#search=typed%20arrays) is supported. Unfortunately, the spec hasn't been finalized yet and as such support is limited for now.
 
@@ -305,14 +302,12 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 Do you have any of these setups? Please run the tests and report your findings.
 
 
-Node Support
-------------
+## Node Support
 
 No considerations have been made to make this project compatible with Node.. yet! Contributions are more than welcome.
 
 
-Development & Contribution
---------------------------
+## Development & Contribution
 
 ByteBuffer is written in [CoffeeScript](http://coffeescript.org/), developed with [Grunt](http://gruntjs.com/) and tested through [BusterJS](http://busterjs.org/).
 
@@ -354,8 +349,7 @@ When contributing, please:
 * Do *not* include any distribution files (such as byte-buffer.min.js)
 
 
-Alternative Comparisons
------------------------
+## Alternative Comparisons
 
 ### Christopher Chedeau's [jDataView](https://github.com/vjeux/jDataView/)
 
