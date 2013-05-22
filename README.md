@@ -1,5 +1,7 @@
 # ByteBuffer
 
+[![Dependency Status](https://gemnasium.com/timkurvers/byte-buffer.png)](https://gemnasium.com/timkurvers/byte-buffer)
+
 Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endianness. Supports arbitrary reading/writing, implicit growth, clipping, cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
 
 Licensed under the **MIT** license, see LICENSE for more information.
