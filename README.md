@@ -323,11 +323,17 @@ Getting this toolchain up and running, is easy and straight-forward:
 
    ```shell
    npm install -g coffee-script
-   npm install -g grunt
+   npm install -g grunt-cli
    npm install -g buster
    ```
 
    Note: If you'd rather install these modules locally, remove the -g flag from the above commands.
+   
+   The actual task runner for Grunt **has** to be installed locally:
+   
+   ```shell
+   npm install grunt
+   ```
 
 4. Verify availability of the following binaries:
 
