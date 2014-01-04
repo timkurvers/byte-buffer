@@ -301,6 +301,10 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
   * Use David Flanagan's [DataView polyfill](https://github.com/davidflanagan/DataView.js).
 * Internet Explorer 9 and lower
 
+### Unknown
+
+* Internet Explorer 11
+
 Do you have any of these setups? Please run the tests and report your findings.
 
 
