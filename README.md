@@ -290,8 +290,8 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 
 ### Broken
 
-* Internet Explorer 10 (Windows)
-  * Does not support ```ArrayBuffer.slice```
+* Internet Explorer 10
+  * Does not support ```ArrayBuffer.slice``` as [reported](http://connect.microsoft.com/IE/feedback/details/781472/arraybuffer-prototype-slice-is-not-implemented), use polyfill/workaround listed on same page.
 
 ### Not supported
 
