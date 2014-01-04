@@ -281,10 +281,10 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 
 ### Fully functional
 
-* Chrome 20.0.1132 (OSX / Windows)
-* Safari 5.1.7 (OSX)
-* Firefox 15 (OSX)
-* Opera 12.11 (OSX)
+* Google Chrome 20+
+* Safari 5+
+* Mozilla Firefox 15+
+* Opera 12.11+
 
 ### Broken
 
@@ -295,9 +295,9 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 
 ### Not supported
 
-* Firefox 14 and lower (OSX / Windows)
-  * Using David Flanagan's [DataView polyfill](https://github.com/davidflanagan/DataView.js) for Firefox 4.x may be useful
-* Internet Explorer 9 and lower (Windows)
+* Firefox 14 and lower
+  * Use David Flanagan's [DataView polyfill](https://github.com/davidflanagan/DataView.js).
+* Internet Explorer 9 and lower
 
 Do you have any of these setups? Please run the tests and report your findings.
 
