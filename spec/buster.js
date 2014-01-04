@@ -7,6 +7,6 @@ config['ByteBuffer specs'] = {
     'build/byte-buffer.js'
   ],
   specs: [
-    'build-spec/byte-buffer-test.js'
+    'build/byte-buffer-spec.js'
   ]
 };
