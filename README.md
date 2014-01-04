@@ -323,35 +323,23 @@ Getting this toolchain up and running, is easy and straight-forward:
 
 2. Download and install [NodeJS](http://nodejs.org/#download) (includes NPM) for your platform.
 
-3. Install the following modules:
+3. Install dependencies:
 
    ```shell
-   npm install -g coffee-script
+   npm install
+   ```
+
+4. Make sure you have installed `grunt-cli` globally:
+
+   ```shell
    npm install -g grunt-cli
-   npm install -g buster
-   ```
+   ````
 
-   Note: If you'd rather install these modules locally, remove the -g flag from the above commands.
-   
-   The actual task runner for Grunt **has** to be installed locally:
-   
-   ```shell
-   npm install grunt
-   ```
-
-4. Verify availability of the following binaries:
-
-   ```shell
-   which coffee
-   which grunt
-   which buster
-   ```
-
-5. Testing requires running `buster server` in a separate terminal window.
+5. Testing requires running `grunt buster::server` in a separate process.
 
 6. Navigate to the listed address (normally localhost:1111) with at least one browser and hit the capture button. Each browser you capture will be tested against.
 
-7. Run `grunt` which - when source files change - will automatically compile the CoffeeScript source files, lint these as well as run tests using BusterJS.
+7. Run `grunt` which will automatically build the project when source files change.
 
 When contributing, please:
 
