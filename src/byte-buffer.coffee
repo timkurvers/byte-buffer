@@ -69,6 +69,11 @@ class ByteBuffer
 
     # Whether source is a sequence of bytes
     else if source.length?
+
+      # Although Uint8Array's constructor succeeds when given strings,
+      # it does not correctly instantiate the buffer
+      return null if source.constructor is String
+
       try
         return (new Uint8Array(source)).buffer
       catch error
