@@ -1,6 +1,6 @@
 var config = module.exports;
 
-config['ByteBuffer tests'] = {
+config['ByteBuffer specs'] = {
   env: 'browser',
   rootPath: '../',
   sources: [
