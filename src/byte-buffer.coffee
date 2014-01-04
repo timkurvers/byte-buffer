@@ -1,15 +1,3 @@
-#
-# ByteBuffer v1.0.0
-# Copyright (c) 2012-2013 Tim Kurvers <http://moonsphere.net>
-#
-# Wrapper for ArrayBuffer/DataView maintaining index and default endianness.
-# Supports arbitrary reading/writing, implicit growth, clipping, cloning and
-# reversing as well as UTF-8 characters and NULL-terminated C-strings.
-#
-# The contents of this file are subject to the MIT License, under which
-# this library is licensed. See the LICENSE file for the full license.
-#
-
 class ByteBuffer
 
   # Byte order constants
