@@ -1,5 +1,4 @@
 buster.spec.expose()
-expect = buster.expect
 
 describe 'ByteBuffer', ->
 

@@ -8,5 +8,8 @@ config['ByteBuffer specs'] = {
   ],
   specs: [
     'build/byte-buffer-spec.js'
+  ],
+  specHelpers: [
+    'spec/helper.js'
   ]
 };
