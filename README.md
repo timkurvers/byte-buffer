@@ -334,7 +334,7 @@ Getting this toolchain up and running, is easy and straight-forward:
    npm install -g grunt-cli
    ````
 
-5. Testing requires running `grunt buster::server` in a separate process.
+5. Testing requires running `grunt buster::server:block` in a separate process.
 
 6. Navigate to the listed address (normally localhost:1111) with at least one browser and hit the capture button. Each browser you capture will be tested against.
 
