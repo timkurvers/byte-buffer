@@ -1,5 +1,7 @@
 language: node_js
 before_script:
   - buster-server &
+  - sleep 3
   - phantomjs ./node_modules/buster/script/phantom.js &
+  - sleep 3
 script: buster-test --reporter specification
