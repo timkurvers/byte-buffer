@@ -291,7 +291,7 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 ### Broken
 
 * Internet Explorer 10
-  * Does not support ```ArrayBuffer.slice``` as [reported](http://connect.microsoft.com/IE/feedback/details/781472/arraybuffer-prototype-slice-is-not-implemented), use polyfill/workaround listed on same page.
+  * Does not support `ArrayBuffer.slice`. Use Tim Taubert's [polyfill](https://github.com/ttaubert/node-arraybuffer-slice/blob/master/index.js).
 
 ### Not supported
 
