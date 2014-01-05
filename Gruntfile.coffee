@@ -56,9 +56,7 @@ module.exports = (grunt) ->
     # Lints project files using JSHint
     jshint:
       options:
-        boss: true
-        eqnull: true
-        shadow: true
+        jshintrc: true
       all: ['build/**/*.js']
 
     # Minified distribution
