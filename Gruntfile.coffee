@@ -87,7 +87,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
-  grunt.registerTask 'default', ['watch']
+  grunt.registerTask 'default', ['buster::server', 'buster::phantomjs', 'watch']
   grunt.registerTask 'build',   ['clean', 'coffee', 'jshint', 'concat']
   grunt.registerTask 'spec',    ['build', 'buster::test']
   grunt.registerTask 'release', ['spec', 'uglify']

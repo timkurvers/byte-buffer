@@ -336,11 +336,10 @@ Getting this toolchain up and running, is easy and straight-forward:
    npm install -g grunt-cli
    ````
 
-5. Testing requires running `grunt buster::server:block` in a separate process.
+5. Run `grunt` which will launch a BusterJS server, a headless PhantomJS instance and automatically build and test the project when source files change.
 
-6. Navigate to the listed address (normally localhost:1111) with at least one browser and hit the capture button. Each browser you capture will be tested against.
+6. Test on actual browsers by navigating to `http://localhost:1111` and hit the capture button.
 
-7. Run `grunt` which will automatically build the project when source files change.
 
 When contributing, please:
 
