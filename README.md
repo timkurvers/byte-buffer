@@ -1,8 +1,8 @@
 # ByteBuffer
 
-[![Build Status](https://secure.travis-ci.org/timkurvers/byte-buffer.png?branch=master)](https://travis-ci.org/timkurvers/byte-buffer)
-[![Dependency Status](https://gemnasium.com/timkurvers/byte-buffer.png)](https://gemnasium.com/timkurvers/byte-buffer)
-[![Code Climate](https://codeclimate.com/github/timkurvers/byte-buffer.png)](https://codeclimate.com/github/timkurvers/byte-buffer)
+[![Build Status](https://img.shields.io/travis/timkurvers/byte-buffer.svg)](https://travis-ci.org/timkurvers/byte-buffer)
+[![Dependency Status](https://img.shields.io/gemnasium/timkurvers/byte-buffer.svg)](https://gemnasium.com/timkurvers/byte-buffer)
+[![Code Climate](https://img.shields.io/codeclimate/github/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
 
 Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endianness. Supports arbitrary reading/writing, implicit growth, clipping, cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
 
