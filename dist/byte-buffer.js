@@ -13,7 +13,7 @@
 var ByteBuffer;
 
 ByteBuffer = (function() {
-  var extractBuffer, getter, reader, self, setter, writer,
+  var extractBuffer, get, reader, self, set, writer,
     _this = this;
 
   ByteBuffer.LITTLE_ENDIAN = true;
@@ -22,20 +22,32 @@ ByteBuffer = (function() {
 
   self = ByteBuffer;
 
-  getter = function(name, getter) {
-    return Object.defineProperty(ByteBuffer.prototype, name, {
-      get: getter,
-      enumerable: true,
-      configurable: true
-    });
+  get = function(props) {
+    var getter, name, _results;
+    _results = [];
+    for (name in props) {
+      getter = props[name];
+      _results.push(Object.defineProperty(ByteBuffer.prototype, name, {
+        get: getter,
+        enumerable: true,
+        configurable: true
+      }));
+    }
+    return _results;
   };
 
-  setter = function(name, setter) {
-    return Object.defineProperty(ByteBuffer.prototype, name, {
-      set: setter,
-      enumerable: true,
-      configurable: true
-    });
+  set = function(props) {
+    var name, setter, _results;
+    _results = [];
+    for (name in props) {
+      setter = props[name];
+      _results.push(Object.defineProperty(ByteBuffer.prototype, name, {
+        set: setter,
+        enumerable: true,
+        configurable: true
+      }));
+    }
+    return _results;
   };
 
   function ByteBuffer(source, order, implicitGrowth) {
@@ -105,58 +117,82 @@ ByteBuffer = (function() {
     }
   };
 
-  getter('buffer', function() {
-    return this._buffer;
-  });
-
-  setter('buffer', function(buffer) {
-    this._buffer = buffer;
-    this._raw = new Uint8Array(this._buffer);
-    this._view = new DataView(this._buffer);
-    return this._sanitizeIndex();
-  });
-
-  getter('raw', function() {
-    return this._raw;
-  });
-
-  getter('view', function() {
-    return this._view;
-  });
-
-  getter('length', function() {
-    return this._buffer.byteLength;
-  });
-
-  getter('byteLength', function() {
-    return this.length;
-  });
-
-  getter('order', function() {
-    return this._order;
-  });
-
-  setter('order', function(order) {
-    return this._order = !!order;
-  });
-
-  getter('implicitGrowth', function() {
-    return this._implicitGrowth;
-  });
-
-  setter('implicitGrowth', function(implicitGrowth) {
-    return this._implicitGrowth = !!implicitGrowth;
-  });
-
-  getter('index', function() {
-    return this._index;
-  });
-
-  setter('index', function(index) {
-    if (index < 0 || index > this.length) {
-      throw new RangeError('Invalid index ' + index + ', should be between 0 and ' + this.length);
+  get({
+    buffer: function() {
+      return this._buffer;
     }
-    return this._index = index;
+  });
+
+  set({
+    buffer: function(buffer) {
+      this._buffer = buffer;
+      this._raw = new Uint8Array(this._buffer);
+      this._view = new DataView(this._buffer);
+      return this._sanitizeIndex();
+    }
+  });
+
+  get({
+    raw: function() {
+      return this._raw;
+    }
+  });
+
+  get({
+    view: function() {
+      return this._view;
+    }
+  });
+
+  get({
+    length: function() {
+      return this._buffer.byteLength;
+    }
+  });
+
+  get({
+    byteLength: function() {
+      return this.length;
+    }
+  });
+
+  get({
+    order: function() {
+      return this._order;
+    }
+  });
+
+  set({
+    order: function(order) {
+      return this._order = !!order;
+    }
+  });
+
+  get({
+    implicitGrowth: function() {
+      return this._implicitGrowth;
+    }
+  });
+
+  set({
+    implicitGrowth: function(implicitGrowth) {
+      return this._implicitGrowth = !!implicitGrowth;
+    }
+  });
+
+  get({
+    index: function() {
+      return this._index;
+    }
+  });
+
+  set({
+    index: function(index) {
+      if (index < 0 || index > this.length) {
+        throw new RangeError('Invalid index ' + index + ', should be between 0 and ' + this.length);
+      }
+      return this._index = index;
+    }
   });
 
   ByteBuffer.prototype.front = function() {
@@ -177,8 +213,10 @@ ByteBuffer = (function() {
     return this;
   };
 
-  getter('available', function() {
-    return this.length - this._index;
+  get({
+    available: function() {
+      return this.length - this._index;
+    }
   });
 
   reader = function(method, bytes) {

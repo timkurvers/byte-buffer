@@ -8,11 +8,13 @@ class ByteBuffer
   self = @
 
   # Shielded utility methods for creating getters/setters on the prototype
-  getter = (name, getter) =>
-    Object.defineProperty @::, name, get: getter, enumerable: true, configurable: true
+  get = (props) =>
+    for name, getter of props
+      Object.defineProperty @::, name, get: getter, enumerable: true, configurable: true
 
-  setter = (name, setter) =>
-    Object.defineProperty @::, name, set: setter, enumerable: true, configurable: true
+  set = (props) =>
+    for name, setter of props
+      Object.defineProperty @::, name, set: setter, enumerable: true, configurable: true
 
   # Creates a new ByteBuffer
   # - from given source (assumed to be number of bytes when numeric)
@@ -84,55 +86,55 @@ class ByteBuffer
       return null
 
   # Retrieves buffer
-  getter 'buffer', ->
+  get buffer: ->
     return @_buffer
 
   # Sets new buffer and sanitizes read/write index
-  setter 'buffer', (buffer) ->
+  set buffer: (buffer) ->
     @_buffer = buffer
     @_raw = new Uint8Array(@_buffer)
     @_view = new DataView(@_buffer)
     @_sanitizeIndex()
 
   # Retrieves raw buffer
-  getter 'raw', ->
+  get raw: ->
     return @_raw
 
   # Retrieves view
-  getter 'view', ->
+  get view: ->
     return @_view
 
   # Retrieves number of bytes
-  getter 'length', ->
+  get length: ->
     return @_buffer.byteLength
 
   # Retrieves number of bytes
   # Note: This allows for ByteBuffer to be detected as a proper source by its own constructor
-  getter 'byteLength', ->
+  get byteLength: ->
     return @length
 
   # Retrieves byte order
-  getter 'order', ->
+  get order: ->
     return @_order
 
   # Sets byte order
-  setter 'order', (order) ->
+  set order: (order) ->
     @_order = !!order
 
   # Retrieves implicit growth strategy
-  getter 'implicitGrowth', ->
+  get implicitGrowth: ->
     return @_implicitGrowth
 
   # Sets implicit growth strategy
-  setter 'implicitGrowth', (implicitGrowth) ->
+  set implicitGrowth: (implicitGrowth) ->
     @_implicitGrowth = !!implicitGrowth
 
   # Retrieves read/write index
-  getter 'index', ->
+  get index: ->
     return @_index
 
   # Sets read/write index
-  setter 'index', (index) ->
+  set index: (index) ->
     if index < 0 or index > @length
       throw new RangeError('Invalid index ' + index + ', should be between 0 and ' + @length)
 
@@ -155,7 +157,7 @@ class ByteBuffer
     return @
 
   # Retrieves number of available bytes
-  getter 'available', ->
+  get available: ->
     return @length - @_index
 
   # Generic reader
