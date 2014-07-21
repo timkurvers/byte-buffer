@@ -1,5 +1,5 @@
 /**
- * ByteBuffer v1.0.0
+ * ByteBuffer v1.0.1
  * Copyright (c) 2012-2014 Tim Kurvers <http://moonsphere.net>
  *
  * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.
