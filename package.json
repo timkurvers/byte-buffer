@@ -9,7 +9,7 @@
   },
   "repository": "timkurvers/byte-buffer",
   "author": "Tim Kurvers <tim@moonsphere.net>",
-  "licenses": "MIT",
+  "license": "MIT",
   "keywords": [],
   "dependencies": {},
   "devDependencies": {
