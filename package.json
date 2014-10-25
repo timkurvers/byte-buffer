@@ -1,7 +1,7 @@
 {
   "name": "byte-buffer",
   "title": "ByteBuffer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
   "main": "lib/byte-buffer.js",
   "files": [

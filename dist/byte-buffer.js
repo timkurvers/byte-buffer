@@ -1,5 +1,5 @@
 /**
- * byte-buffer v1.0.1
+ * byte-buffer v1.0.2
  * Copyright (c) 2012-2014 Tim Kurvers <tim@moonsphere.net>
  *
  * Wrapper for JavaScript's ArrayBuffer/DataView.
