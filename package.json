@@ -4,6 +4,9 @@
   "version": "1.0.1",
   "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
   "main": "dist/byte-buffer.js",
+  "scripts": {
+    "test": "mocha spec"
+  },
   "repository": "timkurvers/byte-buffer",
   "author": "Tim Kurvers <tim@moonsphere.net>",
   "licenses": "MIT",
