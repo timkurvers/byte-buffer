@@ -4,6 +4,11 @@
   "version": "1.0.1",
   "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
   "main": "lib/byte-buffer.js",
+  "files": [
+    "dist",
+    "lib",
+    "LICENSE.md"
+  ],
   "scripts": {
     "test": "mocha spec"
   },
