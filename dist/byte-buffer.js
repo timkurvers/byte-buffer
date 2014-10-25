@@ -1,20 +1,19 @@
 /**
- * ByteBuffer v1.0.1
- * Copyright (c) 2012-2014 Tim Kurvers <http://moonsphere.net>
+ * byte-buffer v1.0.1
+ * Copyright (c) 2012-2014 Tim Kurvers <tim@moonsphere.net>
  *
- * Wrapper for ArrayBuffer/DataView maintaining index and default endianness.
- * Supports arbitrary reading/writing, implicit growth, clipping, cloning and
- * reversing as well as UTF-8 characters and NULL-terminated C-strings.
+ * Wrapper for JavaScript's ArrayBuffer/DataView.
  *
- * The contents of this file are subject to the MIT License, under which
- * this library is licensed. See the LICENSE file for the full license.
+ * Licensed under the MIT license.
  */
 
+!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.ByteBuffer=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 var ByteBuffer;
 
 ByteBuffer = (function() {
-  var extractBuffer, get, reader, self, set, writer,
-    _this = this;
+  var extractBuffer, get, reader, self, set, writer;
+
+  module.exports = ByteBuffer;
 
   ByteBuffer.LITTLE_ENDIAN = true;
 
@@ -576,4 +575,8 @@ ByteBuffer = (function() {
 
   return ByteBuffer;
 
-}).call(this);
+})();
+
+},{}]},{},[1])
+(1)
+});
