@@ -1,8 +1,4 @@
 language: node_js
-before_script:
-  - npm install -g grunt-cli
-  - grunt buster::server:block &
-  - sleep 3
-  - grunt buster::phantomjs:block &
-  - sleep 3
-script: grunt spec
+node_js:
+  - '0.10'
+  - '0.11'
