@@ -1,4 +1,5 @@
 class ByteBuffer
+  module.exports = @
 
   # Byte order constants
   @LITTLE_ENDIAN = true
