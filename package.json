@@ -13,6 +13,7 @@
   "keywords": [],
   "dependencies": {},
   "devDependencies": {
+    "attr-accessor": "^0.2.0",
     "chai": "^1.9.2",
     "coffee-script": "^1.8.0",
     "gulp": "git://github.com/gulpjs/gulp.git#4.0",

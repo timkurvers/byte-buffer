@@ -1,3 +1,5 @@
+attr = require('attr-accessor')
+
 class ByteBuffer
   module.exports = @
 
@@ -9,13 +11,7 @@ class ByteBuffer
   self = @
 
   # Shielded utility methods for creating getters/setters on the prototype
-  get = (props) =>
-    for name, getter of props
-      Object.defineProperty @::, name, get: getter, enumerable: true, configurable: true
-
-  set = (props) =>
-    for name, setter of props
-      Object.defineProperty @::, name, set: setter, enumerable: true, configurable: true
+  [get, set] = attr.accessors(@)
 
   # Creates a new ByteBuffer
   # - from given source (assumed to be number of bytes when numeric)
