@@ -7,8 +7,8 @@ _ref = require('./spec-helper'), expect = _ref.expect, ByteBuffer = _ref.ByteBuf
 describe('ByteBuffer', function() {
   it('can be constructed in various ways', function() {
     var b;
-    b = new ByteBuffer();
-    expect(b.length).to.eq(0);
+    b = new ByteBuffer(1);
+    expect(b.length).to.eq(1);
     b = new ByteBuffer(new ArrayBuffer(2));
     expect(b.length).to.eq(2);
     b = new ByteBuffer(new Uint8Array(3));
@@ -24,11 +24,11 @@ describe('ByteBuffer', function() {
     var b;
     expect(ByteBuffer.BIG_ENDIAN).to.eq(false);
     expect(ByteBuffer.LITTLE_ENDIAN).to.eq(true);
-    b = new ByteBuffer();
+    b = new ByteBuffer(1);
     expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
-    b = new ByteBuffer(0, ByteBuffer.BIG_ENDIAN);
+    b = new ByteBuffer(1, ByteBuffer.BIG_ENDIAN);
     expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
-    b = new ByteBuffer(0, ByteBuffer.LITTLE_ENDIAN);
+    b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN);
     expect(b.order).to.eq(ByteBuffer.LITTLE_ENDIAN);
     b.order = ByteBuffer.BIG_ENDIAN;
     return expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
@@ -212,7 +212,7 @@ describe('ByteBuffer', function() {
   });
   it('will maintain implicit growth strategy when cloning', function() {
     var b;
-    b = new ByteBuffer();
+    b = new ByteBuffer(1);
     expect(b.clone().implicitGrowth).to.eq(false);
     b.implicitGrowth = true;
     return expect(b.clone().implicitGrowth).to.eq(true);

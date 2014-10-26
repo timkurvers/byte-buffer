@@ -3,8 +3,8 @@
 describe 'ByteBuffer', ->
 
   it 'can be constructed in various ways', ->
-    b = new ByteBuffer()
-    expect(b.length).to.eq 0
+    b = new ByteBuffer(1)
+    expect(b.length).to.eq 1
 
     b = new ByteBuffer(new ArrayBuffer(2))
     expect(b.length).to.eq 2
@@ -25,13 +25,13 @@ describe 'ByteBuffer', ->
     expect(ByteBuffer.BIG_ENDIAN).to.eq false
     expect(ByteBuffer.LITTLE_ENDIAN).to.eq true
 
-    b = new ByteBuffer()
+    b = new ByteBuffer(1)
     expect(b.order).to.eq ByteBuffer.BIG_ENDIAN
 
-    b = new ByteBuffer(0, ByteBuffer.BIG_ENDIAN)
+    b = new ByteBuffer(1, ByteBuffer.BIG_ENDIAN)
     expect(b.order).to.eq ByteBuffer.BIG_ENDIAN
 
-    b = new ByteBuffer(0, ByteBuffer.LITTLE_ENDIAN)
+    b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN)
     expect(b.order).to.eq ByteBuffer.LITTLE_ENDIAN
     b.order = ByteBuffer.BIG_ENDIAN
     expect(b.order).to.eq ByteBuffer.BIG_ENDIAN
@@ -255,7 +255,7 @@ describe 'ByteBuffer', ->
     expect(b.length).to.eq 26
 
   it 'will maintain implicit growth strategy when cloning', ->
-    b = new ByteBuffer()
+    b = new ByteBuffer(1)
     expect(b.clone().implicitGrowth).to.eq false
 
     b.implicitGrowth = true
