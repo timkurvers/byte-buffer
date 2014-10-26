@@ -17,7 +17,7 @@ class ByteBuffer
   # - from given source (assumed to be number of bytes when numeric)
   # - with given byte order (defaults to big-endian)
   # - with given implicit growth strategy (defaults to false)
-  constructor: (source=0, order=self.BIG_ENDIAN, implicitGrowth=false) ->
+  constructor: (source = 0, order = self.BIG_ENDIAN, implicitGrowth = false) ->
 
     # Holds buffer
     @_buffer = null
@@ -55,7 +55,7 @@ class ByteBuffer
       @_index = @length
 
   # Extracts buffer from given source and optionally clones it
-  extractBuffer = (source, clone=false) ->
+  extractBuffer = (source, clone = false) ->
 
     # Whether source is a byte-aware object
     if source.byteLength?
@@ -159,7 +159,7 @@ class ByteBuffer
 
   # Generic reader
   reader = (method, bytes) ->
-    return (order=@_order) ->
+    return (order = @_order) ->
       if bytes > @available
         throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
 
@@ -169,7 +169,7 @@ class ByteBuffer
 
   # Generic writer
   writer = (method, bytes) ->
-    return (value, order=@_order) ->
+    return (value, order = @_order) ->
       available = @available
       if bytes > available
         if @_implicitGrowth
@@ -202,7 +202,7 @@ class ByteBuffer
   writeDouble: writer('setFloat64', 8)
 
   # Reads sequence of given number of bytes (defaults to number of bytes available)
-  read: (bytes=@available) ->
+  read: (bytes = @available) ->
     if bytes > @available
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
 
@@ -244,7 +244,7 @@ class ByteBuffer
   # Reads UTF-8 encoded string of given number of bytes (defaults to number of bytes available)
   #
   # Based on David Flanagan's BufferView (https://github.com/davidflanagan/BufferView/blob/master/BufferView.js#L195)
-  readString: (bytes=@available) ->
+  readString: (bytes = @available) ->
     if bytes > @available
       throw new Error('Cannot read ' + bytes + ' byte(s), ' + @available + ' available')
 
@@ -451,7 +451,7 @@ class ByteBuffer
     return @
 
   # Clips this buffer
-  clip: (begin=@_index, end=@length) ->
+  clip: (begin = @_index, end = @length) ->
     if begin < 0
       begin = @length + begin
     buffer = @_buffer.slice(begin, end)
@@ -460,7 +460,7 @@ class ByteBuffer
     return @
 
   # Slices this buffer
-  slice: (begin=0, end=@length) ->
+  slice: (begin = 0, end = @length) ->
     slice = new self(@_buffer.slice(begin, end), @order)
     return slice
 
@@ -486,13 +486,13 @@ class ByteBuffer
     return '[ByteBuffer; Order: ' + order + '; Length: ' + @length + '; Index: ' + @_index + '; Available: ' + @available + ']'
 
   # Hex representation of this buffer with given spacer
-  toHex: (spacer=' ') ->
+  toHex: (spacer = ' ') ->
     return Array::map.call(@_raw, (byte) ->
       ('00' + byte.toString(16).toUpperCase()).slice(-2)
     ).join(spacer)
 
   # ASCII representation of this buffer with given spacer and optional byte alignment
-  toASCII: (spacer=' ', align=true, unknown='\uFFFD') ->
+  toASCII: (spacer = ' ', align = true, unknown = '\uFFFD') ->
     prefix = if align then ' ' else ''
     return Array::map.call(@_raw, (byte) ->
       return if (byte < 0x20 || byte > 0x7E) then prefix + unknown else prefix + String.fromCharCode(byte)
