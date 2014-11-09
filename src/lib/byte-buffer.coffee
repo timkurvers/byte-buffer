@@ -1,17 +1,17 @@
 attr = require('attr-accessor')
 
 class ByteBuffer
-  module.exports = @
+  module.exports = this
 
   # Byte order constants
   @LITTLE_ENDIAN = true
   @BIG_ENDIAN    = false
 
   # Reference to ByteBuffer
-  self = @
+  self = this
 
   # Shielded utility methods for creating getters/setters on the prototype
-  [get, set] = attr.accessors(@)
+  [get, set] = attr.accessors(this)
 
   # Creates a new ByteBuffer
   # - from given source (assumed to be number of bytes when numeric)
@@ -140,18 +140,18 @@ class ByteBuffer
   # Sets index to front of the buffer
   front: ->
     @_index = 0
-    return @
+    return this
 
   # Sets index to end of the buffer
   end: ->
     @_index = @length
-    return @
+    return this
 
   # Seeks given number of bytes
   # Note: Backwards seeking is supported
   seek: (bytes=1) ->
     @index += bytes
-    return @
+    return this
 
   # Retrieves number of available bytes
   get available: ->
@@ -179,7 +179,7 @@ class ByteBuffer
 
       @_view[method](@_index, value, order)
       @_index += bytes
-      return @
+      return this
 
   # Readers for bytes, shorts, integers, floats and doubles
   readByte: reader('getInt8', 1)
@@ -239,7 +239,7 @@ class ByteBuffer
 
     @_raw.set(view, @_index)
     @_index += view.byteLength
-    return @
+    return this
 
   # Reads UTF-8 encoded string of given number of bytes (defaults to number of bytes available)
   #
@@ -438,7 +438,7 @@ class ByteBuffer
     view.set(@_raw, bytes)
     @_index += bytes
     @buffer = view.buffer
-    return @
+    return this
 
   # Appends given number of bytes
   append: (bytes) ->
@@ -448,7 +448,7 @@ class ByteBuffer
     view = new Uint8Array(@length + bytes)
     view.set(@_raw, 0)
     @buffer = view.buffer
-    return @
+    return this
 
   # Clips this buffer
   clip: (begin = @_index, end = @length) ->
@@ -457,7 +457,7 @@ class ByteBuffer
     buffer = @_buffer.slice(begin, end)
     @_index -= begin
     @buffer = buffer
-    return @
+    return this
 
   # Slices this buffer
   slice: (begin = 0, end = @length) ->
@@ -474,7 +474,7 @@ class ByteBuffer
   reverse: ->
     Array::reverse.call(@_raw)
     @_index = 0
-    return @
+    return this
 
   # Array of bytes in this buffer
   toArray: ->
