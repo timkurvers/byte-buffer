@@ -310,11 +310,6 @@ Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.
 Do you have any of these setups? Please run the tests and report your findings.
 
 
-## Node Support
-
-No considerations have been made to make this project compatible with Node.. yet! Contributions are more than welcome.
-
-
 ## Development & Contribution
 
 ByteBuffer is written in [CoffeeScript](http://coffeescript.org/), developed with [Grunt](http://gruntjs.com/) and tested through [BusterJS](http://busterjs.org/).
