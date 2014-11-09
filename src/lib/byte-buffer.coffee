@@ -71,7 +71,7 @@ class ByteBuffer
 
       # Although Uint8Array's constructor succeeds when given strings,
       # it does not correctly instantiate the buffer
-      return null if source.constructor is String
+      return null if source.constructor == String
 
       try
         return (new Uint8Array(source)).buffer
@@ -132,7 +132,7 @@ class ByteBuffer
 
   # Sets read/write index
   set index: (index) ->
-    if index < 0 or index > @length
+    if index < 0 || index > @length
       throw new RangeError('Invalid index ' + index + ', should be between 0 and ' + @length)
 
     @_index = index
@@ -382,7 +382,7 @@ class ByteBuffer
 
       else
         # Four byte sequence
-        if i is length - 1
+        if i == length - 1
           throw new Error('Unpaired surrogate ' + string[i] + ' (index ' + i + ')')
 
         # Retrieve surrogate
@@ -412,7 +412,7 @@ class ByteBuffer
     bytes = @_raw
     length = bytes.length
     i = @_index
-    while bytes[i] isnt 0x00 && i < length
+    while bytes[i] != 0x00 && i < length
       ++i
 
     length = i - @_index
@@ -482,7 +482,7 @@ class ByteBuffer
 
   # Short string representation of this buffer
   toString: ->
-    order = if @_order is self.BIG_ENDIAN then 'big-endian' else 'little-endian'
+    order = if @_order == self.BIG_ENDIAN then 'big-endian' else 'little-endian'
     return '[ByteBuffer; Order: ' + order + '; Length: ' + @length + '; Index: ' + @_index + '; Available: ' + @available + ']'
 
   # Hex representation of this buffer with given spacer
