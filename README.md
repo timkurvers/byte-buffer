@@ -282,32 +282,7 @@ b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f
 
 ## Browser Support
 
-Theoretically any browser supporting [JavaScript's typed arrays](http://caniuse.com/#search=typed%20arrays) is supported. Unfortunately, the spec hasn't been finalized yet and as such support is limited for now.
-
-### Fully functional
-
-* Google Chrome 20+
-* Safari 5+
-* Mozilla Firefox 15+
-* Opera 12.11+
-
-### Broken
-
-* Internet Explorer 10
-  * Does not support `ArrayBuffer.slice`. Use Tim Taubert's [polyfill](https://github.com/ttaubert/node-arraybuffer-slice/blob/master/index.js).
-
-### Not supported
-
-* Firefox 14 and lower
-  * Use David Flanagan's [DataView polyfill](https://github.com/davidflanagan/DataView.js).
-* Opera 12.10 and lower
-* Internet Explorer 9 and lower
-
-### Unknown
-
-* Internet Explorer 11
-
-Do you have any of these setups? Please run the tests and report your findings.
+[![Testling](https://ci.testling.com/timkurvers/byte-buffer.png)](https://ci.testling.com/timkurvers/byte-buffer)
 
 
 ## Development & Contribution
