@@ -287,7 +287,7 @@ b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f
 
 ## Development & Contribution
 
-ByteBuffer is written in [CoffeeScript](http://coffeescript.org/), developed with [Grunt](http://gruntjs.com/) and tested through [BusterJS](http://busterjs.org/).
+ByteBuffer is written in [CoffeeScript](http://coffeescript.org/), developed with [Gulp](http://gulpjs.com/) and tested through [Mocha](http://mochajs.org/).
 
 Getting this toolchain up and running, is easy and straight-forward:
 
@@ -301,15 +301,7 @@ Getting this toolchain up and running, is easy and straight-forward:
    npm install
    ```
 
-4. Make sure you have installed `grunt-cli` globally:
-
-   ```shell
-   npm install -g grunt-cli
-   ````
-
-5. Run `grunt` which will launch a BusterJS server, a headless PhantomJS instance and automatically build and test the project when source files change.
-
-6. Test on actual browsers by navigating to `http://localhost:1111` and hit the capture button.
+4. Run `gulp` which will automatically build and test the project when source files change.
 
 
 When contributing, please:
