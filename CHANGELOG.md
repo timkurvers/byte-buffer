@@ -1,6 +1,5 @@
 # Changelog
 
-
 ### v1.0.3 - October 27, 2014
 
 - Configures attr-accessor as runtime dependency.
