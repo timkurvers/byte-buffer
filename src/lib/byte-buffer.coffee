@@ -149,7 +149,7 @@ class ByteBuffer
 
   # Seeks given number of bytes
   # Note: Backwards seeking is supported
-  seek: (bytes=1) ->
+  seek: (bytes = 1) ->
     @index += bytes
     return this
 
