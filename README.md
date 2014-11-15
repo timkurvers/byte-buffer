@@ -10,6 +10,20 @@ Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default endi
 Licensed under the **MIT** license, see LICENSE for more information.
 
 
+## Installation
+
+ByteBuffer is available via [npm](https://www.npmjs.org/package/byte-buffer):
+
+```shell
+npm install byte-buffer
+```
+
+Or for usage in the browser:
+
+- `dist/byte-buffer.js`
+- `dist/byte-buffer.min.js`
+
+
 ## Usage & API
 
 ByteBuffer's API borrows heavily from Adobe's [IDataInput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataInput.html) and [IDataOutput](http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataOutput.html) as well as David Flanagan's [BufferView](https://github.com/davidflanagan/BufferView).
