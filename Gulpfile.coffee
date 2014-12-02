@@ -27,7 +27,11 @@ gulp.task 'spec', ->
       .pipe plumber()
       .pipe mocha(bail: true)
 
-gulp.task 'release', gulp.series 'clean', 'build', ->
+gulp.task 'rebuild', gulp.series(
+  'clean', 'build'
+)
+
+gulp.task 'release', gulp.series 'rebuild', ->
   gulp.src 'lib/byte-buffer.js'
       .pipe browserify(standalone: 'ByteBuffer')
       .pipe rename("#{pkg.name}.js")
@@ -44,5 +48,5 @@ gulp.task 'watch', ->
   )
 
 gulp.task 'default', gulp.series(
-  'build', 'spec', 'watch'
+  'rebuild', 'spec', 'watch'
 )
