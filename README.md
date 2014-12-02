@@ -294,11 +294,6 @@ b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f
 ```
 
 
-## Browser Support
-
-[![Testling](https://ci.testling.com/timkurvers/byte-buffer.png)](https://ci.testling.com/timkurvers/byte-buffer)
-
-
 ## Development & Contribution
 
 ByteBuffer is written in [CoffeeScript](http://coffeescript.org/), developed with [Gulp](http://gulpjs.com/) and tested through [Mocha](http://mochajs.org/).
