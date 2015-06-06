@@ -10,7 +10,7 @@
     "LICENSE.md"
   ],
   "scripts": {
-    "test": "mocha spec"
+    "test": "istanbul test ./node_modules/mocha/bin/_mocha -- spec --recursive"
   },
   "repository": "timkurvers/byte-buffer",
   "author": "Tim Kurvers <tim@moonsphere.net>",
@@ -31,6 +31,7 @@
     "gulp-plumber": "^0.6.6",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^1.0.1",
+    "istanbul": "^0.3.14",
     "mocha": "^1.21.5",
     "sinon": "^1.10.3",
     "sinon-chai": "^2.6.0"
