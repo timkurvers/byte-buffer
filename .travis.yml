@@ -5,4 +5,5 @@ node_js:
   - iojs
 matrix:
   fast_finish: true
+script: npm test --coverage
 after_script: codeclimate < coverage/lcov.info
