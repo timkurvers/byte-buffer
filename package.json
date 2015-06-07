@@ -16,17 +16,15 @@
   "author": "Tim Kurvers <tim@moonsphere.net>",
   "license": "MIT",
   "keywords": [],
-  "dependencies": {
-    "attr-accessor": "^0.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "babel": "^5.5.4",
     "chai": "^1.9.2",
     "codeclimate-test-reporter": "0.0.4",
-    "coffee-script": "^1.8.0",
     "del": "^1.2.0",
     "gulp": "git://github.com/gulpjs/gulp.git#4.0",
+    "gulp-babel": "^5.1.0",
     "gulp-browserify": "^0.5.0",
-    "gulp-coffee": "^2.2.0",
     "gulp-header": "^1.1.1",
     "gulp-mocha": "^1.1.1",
     "gulp-plumber": "^0.6.6",
