@@ -1,10 +1,8 @@
-var bridge, chai, sinon;
+'use strict';
 
-chai = require('chai');
-
-sinon = require('sinon');
-
-bridge = require('sinon-chai');
+var chai = require('chai');
+var sinon = require('sinon');
+var bridge = require('sinon-chai');
 
 chai.use(bridge);
 
@@ -14,10 +12,10 @@ module.exports = {
   ByteBuffer: require('../')
 };
 
-beforeEach(function() {
-  return this.sandbox = sinon.sandbox.create();
+beforeEach(function () {
+  this.sandbox = sinon.sandbox.create();
 });
 
-afterEach(function() {
-  return this.sandbox.restore();
+afterEach(function () {
+  this.sandbox.restore();
 });
