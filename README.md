@@ -297,7 +297,7 @@ b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f
 
 ## Development & Contribution
 
-ByteBuffer is written in [CoffeeScript](http://coffeescript.org/), developed with [Gulp](http://gulpjs.com/) and tested through [Mocha](http://mochajs.org/).
+ByteBuffer is written in [ES2015](https://babeljs.io/docs/learn-es2015/), compiled by [Babel](https://babeljs.io/) developed with [Gulp](http://gulpjs.com/) and tested through [Mocha](http://mochajs.org/).
 
 Getting this toolchain up and running, is easy and straight-forward:
 
