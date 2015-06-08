@@ -1,6 +1,6 @@
 /**
  * byte-buffer v1.0.3
- * Copyright (c) 2012-2014 Tim Kurvers <tim@moonsphere.net>
+ * Copyright (c) 2012-2015 Tim Kurvers <tim@moonsphere.net>
  *
  * Wrapper for JavaScript's ArrayBuffer/DataView.
  *
