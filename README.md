@@ -301,7 +301,11 @@ ByteBuffer is written in [ES2015](https://babeljs.io/docs/learn-es2015/), compil
 
 Getting this toolchain up and running, is easy and straight-forward:
 
-1. Get the code `git clone git://github.com/timkurvers/byte-buffer.git`
+1. Get the code:
+
+   ```
+   git clone git://github.com/timkurvers/byte-buffer.git
+   ```
 
 2. Download and install [NodeJS](http://nodejs.org/#download) (includes `npm`) for your platform.
 
