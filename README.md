@@ -307,7 +307,7 @@ Getting this toolchain up and running, is easy and straight-forward:
    git clone git://github.com/timkurvers/byte-buffer.git
    ```
 
-2. Download and install [NodeJS](http://nodejs.org/#download) (includes `npm`) for your platform.
+2. Download and install [Node.js](http://nodejs.org/#download) (includes `npm`) for your platform.
 
 3. Install dependencies:
 
