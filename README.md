@@ -323,7 +323,7 @@ When contributing, please:
 * Fork the repository
 * Accompany each logical unit of operation with at least one test
 * Open a pull request
-* Do *not* include any distribution files (such as byte-buffer.min.js)
+* Do *not* include any distribution files (such as `byte-buffer.js`)
 
 
 ## Alternative Comparisons
