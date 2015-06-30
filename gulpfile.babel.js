@@ -11,7 +11,6 @@ var uglify     = require('gulp-uglify')
 
 gulp.task('clean', function(cb) {
   return del([
-    'dist/**/*',
     'lib/**/*',
     'spec/**/*'
   ], cb)
