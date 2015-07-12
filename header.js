@@ -1,4 +1,4 @@
-const header = require('gulp-header')
+const header = require('gulp-header');
 
 module.exports = function(pkg) {
   return header(`/**
@@ -8,5 +8,5 @@ module.exports = function(pkg) {
  * ${pkg.description}.
  *
  * Licensed under the ${pkg.license} license.
- */\n\n`)
-}
+ */\n\n`);
+};
