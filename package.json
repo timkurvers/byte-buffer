@@ -12,6 +12,7 @@
   "scripts": {
     "gulp": "gulp",
     "pretest": "gulp rebuild",
+    "release": "gulp release",
     "test": "istanbul test ./node_modules/mocha/bin/_mocha -- spec --recursive"
   },
   "repository": "timkurvers/byte-buffer",
