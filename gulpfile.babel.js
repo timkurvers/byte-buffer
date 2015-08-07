@@ -1,13 +1,13 @@
-var babel      = require('gulp-babel');
-var browserify = require('gulp-browserify');
-var del        = require('del');
-var gulp       = require('gulp');
-var header     = require('./header');
-var mocha      = require('gulp-mocha');
-var pkg        = require('./package.json');
-var plumber    = require('gulp-plumber');
-var rename     = require('gulp-rename');
-var uglify     = require('gulp-uglify');
+const babel      = require('gulp-babel');
+const browserify = require('gulp-browserify');
+const del        = require('del');
+const gulp       = require('gulp');
+const header     = require('./header');
+const mocha      = require('gulp-mocha');
+const pkg        = require('./package.json');
+const plumber    = require('gulp-plumber');
+const rename     = require('gulp-rename');
+const uglify     = require('gulp-uglify');
 
 gulp.task('clean', function(cb) {
   return del([

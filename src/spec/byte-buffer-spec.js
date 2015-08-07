@@ -51,7 +51,7 @@ describe('ByteBuffer', function() {
     });
 
     it('maintains byte order when reading, slicing and cloning', function() {
-      var b = new ByteBuffer(1);
+      let b = new ByteBuffer(1);
       expect(b.read().order).to.eq(ByteBuffer.BIG_ENDIAN);
       expect(b.slice().order).to.eq(ByteBuffer.BIG_ENDIAN);
       expect(b.clone().order).to.eq(ByteBuffer.BIG_ENDIAN);
@@ -151,7 +151,7 @@ describe('ByteBuffer', function() {
     Double:         Math.PI
   };
 
-  for(const type in types) {
+  for (const type in types) {
     const value = types[type];
     const writer = `write${type}`;
     const reader = `read${type}`;
@@ -162,7 +162,7 @@ describe('ByteBuffer', function() {
         const result = b[writer](value);
         expect(result).to.eq(b);
 
-        if(['Float', 'Double'].indexOf(type) !== -1) {
+        if (['Float', 'Double'].indexOf(type) !== -1) {
           expect(b.front()[reader]()).to.be.closeTo(value, 0.0000001);
         } else {
           expect(b.front()[reader]()).to.eq(value);
@@ -266,7 +266,7 @@ describe('ByteBuffer', function() {
 
   describe('#writeString / #readString', function() {
     it('writes utf-8 strings, returns bytes used and reads strings', function() {
-      var b = new ByteBuffer(22);
+      let b = new ByteBuffer(22);
 
       expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).to.eq(22);
       expect(b.index).to.eq(22);
