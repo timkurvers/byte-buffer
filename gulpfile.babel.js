@@ -24,9 +24,9 @@ gulp.task('build', function() {
 });
 
 gulp.task('spec', function() {
-  return gulp.src('spec/**/*.js', {read: false})
+  return gulp.src('spec/**/*.js', { read: false })
     .pipe(plumber())
-    .pipe(mocha({bail: true}));
+    .pipe(mocha({ bail: true }));
 });
 
 gulp.task('rebuild', gulp.series(
@@ -35,7 +35,7 @@ gulp.task('rebuild', gulp.series(
 
 gulp.task('release', gulp.series('rebuild', function() {
   return gulp.src('lib/byte-buffer.js')
-    .pipe(browserify({standalone: 'ByteBuffer'}))
+    .pipe(browserify({ standalone: 'ByteBuffer' }))
     .pipe(rename(`${pkg.name}.js`))
     .pipe(header(pkg))
     .pipe(gulp.dest('dist'))

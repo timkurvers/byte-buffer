@@ -6,7 +6,7 @@ chai.use(bridge);
 
 module.exports = {
   expect: chai.expect,
-  sinon:  sinon,
+  sinon: sinon,
   ByteBuffer: require('../')
 };
 
