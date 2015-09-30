@@ -45,10 +45,11 @@ gulp.task('release', gulp.series('rebuild', function() {
     .pipe(gulp.dest('dist'));
 }));
 
-gulp.task('watch', function() {
+gulp.task('watch', function(done) {
   gulp.watch('src/**/*.js', gulp.series(
     'build', 'spec'
   ));
+  done();
 });
 
 gulp.task('default', gulp.series(
