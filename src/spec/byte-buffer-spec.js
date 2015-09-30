@@ -1,4 +1,4 @@
-const { expect, ByteBuffer } = require('./spec-helper');
+import { expect, ByteBuffer } from './spec-helper';
 
 describe('ByteBuffer', function() {
 

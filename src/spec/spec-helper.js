@@ -1,13 +1,14 @@
-const chai   = require('chai');
-const sinon  = require('sinon');
-const bridge = require('sinon-chai');
+import ByteBuffer from '../';
+import chai from 'chai';
+import sinon from 'sinon';
+import bridge from 'sinon-chai';
 
 chai.use(bridge);
 
-module.exports = {
+export default {
   expect: chai.expect,
   sinon: sinon,
-  ByteBuffer: require('../')
+  ByteBuffer: ByteBuffer
 };
 
 beforeEach(function() {
