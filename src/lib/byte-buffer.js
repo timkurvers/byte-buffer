@@ -570,4 +570,4 @@ ByteBuffer.prototype.writeUnsignedInt = writer('setUint32', 4);
 ByteBuffer.prototype.writeFloat = writer('setFloat32', 4);
 ByteBuffer.prototype.writeDouble = writer('setFloat64', 8);
 
-module.exports = ByteBuffer;
+export default ByteBuffer;
