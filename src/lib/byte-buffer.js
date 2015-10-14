@@ -73,7 +73,7 @@ class ByteBuffer {
 
       try {
         return (new Uint8Array(source)).buffer;
-      } catch(error) {
+      } catch (error) {
         return null;
       }
 
@@ -246,7 +246,10 @@ class ByteBuffer {
     let c = 0;
 
     // Bytes
-    let b1, b2, b3, b4 = null;
+    let b1 = null;
+    let b2 = null;
+    let b3 = null;
+    let b4 = null;
 
     // Target index
     const target = this._index + bytes;

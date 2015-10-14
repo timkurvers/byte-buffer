@@ -444,10 +444,10 @@ describe('ByteBuffer', function() {
 
       expect(b.toArray()).to.deep.eq([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
 
-      expect(b.toHex())  .to.eq('F5 42 79 74 65 D7 42 75 66 66 65 72 00');
+      expect(b.toHex()).to.eq('F5 42 79 74 65 D7 42 75 66 66 65 72 00');
       expect(b.toASCII()).to.eq(' \uFFFD  B  y  t  e  \uFFFD  B  u  f  f  e  r  \uFFFD');
 
-      expect(b.toHex(''))  .to.eq('F542797465D742756666657200');
+      expect(b.toHex('')).to.eq('F542797465D742756666657200');
       expect(b.toASCII('')).to.eq(' \uFFFD B y t e \uFFFD B u f f e r \uFFFD');
 
       expect(b.toASCII('', false)).to.eq('\uFFFDByte\uFFFDBuffer\uFFFD');
