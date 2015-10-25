@@ -4,16 +4,13 @@
 
 - Configures attr-accessor as runtime dependency.
 
-
 ### v1.0.2 - October 25, 2014
 
 - Node support.
 
-
 ### v1.0.1 - January 4, 2014
 
 - Work around Uint8Array's constructor behaviour when given strings.
-
 
 ### v1.0.0 - December 20, 2012
 
