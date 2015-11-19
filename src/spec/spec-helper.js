@@ -1,15 +1,8 @@
-import ByteBuffer from '../';
+import bridge from 'sinon-chai';
 import chai from 'chai';
 import sinon from 'sinon';
-import bridge from 'sinon-chai';
 
 chai.use(bridge);
-
-export default {
-  expect: chai.expect,
-  sinon: sinon,
-  ByteBuffer: ByteBuffer
-};
 
 beforeEach(function() {
   this.sandbox = sinon.sandbox.create();
@@ -18,3 +11,7 @@ beforeEach(function() {
 afterEach(function() {
   this.sandbox.restore();
 });
+
+export ByteBuffer from '../';
+export const expect = chai.expect;
+export sinon from 'sinon';

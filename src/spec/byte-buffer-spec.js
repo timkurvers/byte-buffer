@@ -1,4 +1,4 @@
-import { expect, ByteBuffer } from './spec-helper';
+import { ByteBuffer, expect } from './spec-helper';
 
 describe('ByteBuffer', function() {
 
