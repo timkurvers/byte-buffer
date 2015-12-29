@@ -166,7 +166,7 @@ class ByteBuffer {
   // Seeks given number of bytes
   // Note: Backwards seeking is supported
   seek(bytes = 1) {
-    this.index += bytes;
+    this._index += bytes;
     return this;
   }
 
