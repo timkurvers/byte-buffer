@@ -1,7 +1,7 @@
 # ByteBuffer
 
-[![Version](https://img.shields.io/npm/v/byte-buffer.svg?style=flat)](https://www.npmjs.org/package/byte-buffer)
-[![Build Status](https://img.shields.io/travis/timkurvers/byte-buffer.svg?style=flat)](https://travis-ci.org/timkurvers/byte-buffer)
+[![Version](https://img.shields.io/npm/v/byte-buffer.svg)](https://www.npmjs.org/package/byte-buffer)
+[![Build Status](https://img.shields.io/travis/timkurvers/byte-buffer.svg)](https://travis-ci.org/timkurvers/byte-buffer)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
 
