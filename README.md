@@ -4,6 +4,7 @@
 [![Build Status](https://img.shields.io/travis/timkurvers/byte-buffer.svg)](https://travis-ci.org/timkurvers/byte-buffer)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
+[![Known Vulnerabilities](https://snyk.io/test/github/timkurvers/byte-buffer/badge.svg)](https://snyk.io/test/github/timkurvers/byte-buffer)
 
 Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default
 endianness. Supports arbitrary reading/writing, implicit growth, clipping,
