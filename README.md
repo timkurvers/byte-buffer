@@ -2,15 +2,14 @@
 
 [![Version](https://img.shields.io/npm/v/byte-buffer.svg?style=flat)](https://www.npmjs.org/package/byte-buffer)
 [![Build Status](https://img.shields.io/travis/timkurvers/byte-buffer.svg?style=flat)](https://travis-ci.org/timkurvers/byte-buffer)
-[![Dependency Status](https://img.shields.io/gemnasium/timkurvers/byte-buffer.svg?style=flat)](https://gemnasium.com/timkurvers/byte-buffer)
-[![Code Climate](https://img.shields.io/codeclimate/github/timkurvers/byte-buffer.svg?style=flat)](https://codeclimate.com/github/timkurvers/byte-buffer)
-[![Coverage](https://img.shields.io/codeclimate/coverage/github/timkurvers/byte-buffer.svg?style=flat)](https://codeclimate.com/github/timkurvers/byte-buffer)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/timkurvers/byte-buffer.svg)](https://codeclimate.com/github/timkurvers/byte-buffer)
 
 Wrapper for JavaScript's ArrayBuffer/DataView maintaining index and default
 endianness. Supports arbitrary reading/writing, implicit growth, clipping,
 cloning and reversing as well as UTF-8 characters and NULL-terminated C-strings.
 
-Licensed under the **MIT** license, see LICENSE for more information.
+Licensed under the [**MIT** license](LICENSE.md).
 
 ## Installation
 
