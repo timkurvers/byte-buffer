@@ -5,7 +5,7 @@ node_js:
   - '0.12'
   - '4'
   - '5'
-  - 'nodejs'
+  - 'node'
 matrix:
   fast_finish: true
 before_script:
