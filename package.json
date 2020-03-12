@@ -29,7 +29,7 @@
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
     "eslint-config-timkurvers": "^0.2.2",
-    "gulp": "gulpjs/gulp.git#4.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^5.1.0",
     "gulp-browserify": "^0.5.0",
     "gulp-header": "^1.1.1",
