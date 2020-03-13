@@ -1,58 +1,57 @@
-/* eslint-disable guard-for-in, key-spacing, no-loop-func */
+/* eslint-disable no-restricted-syntax */
 
 import { ByteBuffer, expect } from './spec-helper';
 
-describe('ByteBuffer', function() {
-
-  describe('#constructor', function() {
-    it('initializes by length', function() {
+describe('ByteBuffer', () => {
+  describe('#constructor', () => {
+    it('initializes by length', () => {
       const b = new ByteBuffer(1);
       expect(b.length).to.eq(1);
     });
 
-    it('initializes from an ArrayBuffer', function() {
+    it('initializes from an ArrayBuffer', () => {
       const b = new ByteBuffer(new ArrayBuffer(2));
       expect(b.length).to.eq(2);
     });
 
-    it('initializes from an Uint8Array', function() {
+    it('initializes from an Uint8Array', () => {
       const b = new ByteBuffer(new Uint8Array(3));
       expect(b.length).to.eq(3);
     });
 
-    it('initializes from an Uint16Array', function() {
+    it('initializes from an Uint16Array', () => {
       const b = new ByteBuffer(new Uint16Array(1));
       expect(b.length).to.eq(2);
     });
 
-    it('initializes from an array', function() {
+    it('initializes from an array', () => {
       const b = new ByteBuffer([0, 1, 2, 3]);
       expect(b.length).to.eq(4);
     });
 
-    it('initializes from another ByteBuffer', function() {
+    it('initializes from another ByteBuffer', () => {
       const b = new ByteBuffer(new ByteBuffer(4));
       expect(b.length).to.eq(4);
     });
   });
 
-  describe('#order', function() {
-    it('exposes byte order constants', function() {
+  describe('#order', () => {
+    it('exposes byte order constants', () => {
       expect(ByteBuffer.BIG_ENDIAN).to.eq(false);
       expect(ByteBuffer.LITTLE_ENDIAN).to.eq(true);
     });
 
-    it('defaults to big endian', function() {
+    it('defaults to big endian', () => {
       const b = new ByteBuffer(1);
       expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
     });
 
-    it('may be provided during initialization', function() {
+    it('may be provided during initialization', () => {
       const b = new ByteBuffer(1, ByteBuffer.BIG_ENDIAN);
       expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
     });
 
-    it('maintains byte order when reading, slicing and cloning', function() {
+    it('maintains byte order when reading, slicing and cloning', () => {
       let b = new ByteBuffer(1);
       expect(b.read().order).to.eq(ByteBuffer.BIG_ENDIAN);
       expect(b.slice().order).to.eq(ByteBuffer.BIG_ENDIAN);
@@ -65,8 +64,8 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#order=', function() {
-    it('sets byte order', function() {
+  describe('#order=', () => {
+    it('sets byte order', () => {
       const b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN);
       expect(b.order).to.eq(ByteBuffer.LITTLE_ENDIAN);
       b.order = ByteBuffer.BIG_ENDIAN;
@@ -74,45 +73,45 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#index', function() {
-    context('when within valid range', function() {
-      it('returns read/write index', function() {
+  describe('#index', () => {
+    context('when within valid range', () => {
+      it('returns read/write index', () => {
         const b = new ByteBuffer(8);
         expect(b.index).to.eq(0);
       });
     });
 
-    context('when outside of valid range', function() {
-      it('throws RangeError', function() {
+    context('when outside of valid range', () => {
+      it('throws RangeError', () => {
         const b = new ByteBuffer(8);
-        expect(function() {
+        expect(() => {
           b.index = -1;
         }).to.throw(RangeError);
 
-        expect(function() {
+        expect(() => {
           b.index = 9;
         }).to.throw(RangeError);
       });
     });
   });
 
-  describe('#front', function() {
-    it('sets read/write index to front of buffer', function() {
+  describe('#front', () => {
+    it('sets read/write index to front of buffer', () => {
       const b = new ByteBuffer(8);
       expect(b.front().index).to.eq(0);
     });
   });
 
-  describe('#end', function() {
-    it('sets read/write index to end of buffer', function() {
+  describe('#end', () => {
+    it('sets read/write index to end of buffer', () => {
       const b = new ByteBuffer(8);
       expect(b.end().index).to.eq(8);
     });
   });
 
-  describe('#seek', function() {
-    context('when within valid range', function() {
-      it('seeks by relative offset', function() {
+  describe('#seek', () => {
+    context('when within valid range', () => {
+      it('seeks by relative offset', () => {
         const b = new ByteBuffer(4);
         expect(b.seek().index).to.eq(1);
         expect(b.seek(2).index).to.eq(3);
@@ -120,18 +119,18 @@ describe('ByteBuffer', function() {
       });
     });
 
-    context('when outside of valid range', function() {
-      it('throws RangeError', function() {
+    context('when outside of valid range', () => {
+      it('throws RangeError', () => {
         const b = new ByteBuffer(2);
-        expect(function() {
+        expect(() => {
           b.seek(3);
         }).to.throw(RangeError);
       });
     });
   });
 
-  describe('#available', function() {
-    it('returns number of bytes available', function() {
+  describe('#available', () => {
+    it('returns number of bytes available', () => {
       const b = new ByteBuffer(8);
       expect(b.available).to.eq(8);
 
@@ -142,7 +141,7 @@ describe('ByteBuffer', function() {
     });
   });
 
-  const types = {
+  const types = { /* eslint-disable key-spacing */
     Byte:          -1 << 7,
     UnsignedByte:   1 << 7,
     Short:         -1 << 15,
@@ -150,7 +149,7 @@ describe('ByteBuffer', function() {
     Int:           -1 << 30,
     UnsignedInt:    1 << 30,
     Float:          Math.PI,
-    Double:         Math.PI
+    Double:         Math.PI,
   };
 
   for (const type in types) {
@@ -158,8 +157,8 @@ describe('ByteBuffer', function() {
     const writer = `write${type}`;
     const reader = `read${type}`;
 
-    describe(`#write${type} / #read${type}`, function() {
-      it('writes value, returns buffer and reads value', function() {
+    describe(`#write${type} / #read${type}`, () => {
+      it('writes value, returns buffer and reads value', () => {
         const b = new ByteBuffer(8);
         const result = b[writer](value);
         expect(result).to.eq(b);
@@ -171,21 +170,21 @@ describe('ByteBuffer', function() {
         }
       });
 
-      context('when writing and no bytes available', function() {
-        it('throws Error', function() {
+      context('when writing and no bytes available', () => {
+        it('throws Error', () => {
           const b = new ByteBuffer(1);
           b.end();
-          expect(function() {
+          expect(() => {
             b[writer](value);
           }).to.throw(Error);
         });
       });
 
-      context('when reading and no bytes available', function() {
-        it('throws Error', function() {
+      context('when reading and no bytes available', () => {
+        it('throws Error', () => {
           const b = new ByteBuffer(1);
           b.end();
-          expect(function() {
+          expect(() => {
             b[reader]();
           }).to.throw(Error);
         });
@@ -193,81 +192,81 @@ describe('ByteBuffer', function() {
     });
   }
 
-  describe('#write / #read', function() {
-    it('writes Uint8Arrays, returns buffer and reads sequence', function() {
+  describe('#write / #read', () => {
+    it('writes Uint8Arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new Uint8Array([1, 2]));
       expect(result).to.eq(b);
       expect(b.front().read(2).toArray()).to.deep.eq([1, 2]);
     });
 
-    it('writes Uint16Arrays, returns buffer and reads sequence', function() {
+    it('writes Uint16Arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new Uint16Array([(1 << 16) - 1]));
       expect(result).to.eq(b);
       expect(b.front().read(2).toArray()).to.deep.eq([255, 255]);
     });
 
-    it('writes another ByteBuffer, returns buffer and reads sequence', function() {
+    it('writes another ByteBuffer, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new ByteBuffer([3, 4]));
       expect(result).to.eq(b);
       expect(b.front().read(2).toArray()).to.deep.eq([3, 4]);
     });
 
-    it('writes arrays, returns buffer and reads sequence', function() {
+    it('writes arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write([13, 37]);
       expect(result).to.eq(b);
       expect(b.front().read(2).toArray()).to.deep.eq([13, 37]);
     });
 
-    context('when writing non-sequences', function() {
-      it('throws TypeError', function() {
+    context('when writing non-sequences', () => {
+      it('throws TypeError', () => {
         const b = new ByteBuffer(8);
 
-        expect(function() {
+        expect(() => {
           b.write(666);
         }).to.throw(TypeError);
 
-        expect(function() {
+        expect(() => {
           b.write('unwritable');
         }).to.throw(TypeError);
       });
     });
 
-    context('when writing and no bytes available', function() {
-      it('throws Error', function() {
+    context('when writing and no bytes available', () => {
+      it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
-        expect(function() {
+        expect(() => {
           b.write([1]);
         }).to.throw(Error);
       });
     });
 
-    context('when reading and no bytes available', function() {
-      it('throws Error', function() {
+    context('when reading and no bytes available', () => {
+      it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
-        expect(function() {
+        expect(() => {
           b.read(1);
         }).to.throw(Error);
       });
     });
 
-    context('when reading outside of valid range', function() {
-      it('throws RangeError', function() {
+    context('when reading outside of valid range', () => {
+      it('throws RangeError', () => {
         const b = new ByteBuffer(1);
-        expect(function() {
+        expect(() => {
           b.read(-1);
         }).to.throw(RangeError);
       });
     });
   });
 
-  describe('#writeString / #readString', function() {
-    it('writes utf-8 strings, returns bytes used and reads strings', function() {
+  describe('#writeString / #readString', () => {
+    it('writes utf-8 strings, returns bytes used and reads strings', () => {
       let b = new ByteBuffer(22);
 
       expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).to.eq(22);
@@ -287,38 +286,38 @@ describe('ByteBuffer', function() {
       expect(b.readString()).to.eq(long);
     });
 
-    context('when writing and no bytes available', function() {
-      it('throws Error', function() {
+    context('when writing and no bytes available', () => {
+      it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
-        expect(function() {
+        expect(() => {
           b.writeString('foo');
         }).to.throw(Error);
       });
     });
 
-    context('when reading and no bytes available', function() {
-      it('throws Error', function() {
+    context('when reading and no bytes available', () => {
+      it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
-        expect(function() {
+        expect(() => {
           b.readString(1);
         }).to.throw(Error);
       });
     });
 
-    context('when reading outside of valid range', function() {
-      it('throws RangeError', function() {
+    context('when reading outside of valid range', () => {
+      it('throws RangeError', () => {
         const b = new ByteBuffer(1);
-        expect(function() {
+        expect(() => {
           b.readString(-1);
         }).to.throw(RangeError);
       });
     });
   });
 
-  describe('#writeCString / #readCString', function() {
-    it('writes NULL-terminated C-strings, returns bytes used and reads strings', function() {
+  describe('#writeCString / #readCString', () => {
+    it('writes NULL-terminated C-strings, returns bytes used and reads strings', () => {
       const b = new ByteBuffer(27);
 
       expect(b.writeCString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).to.eq(23);
@@ -330,46 +329,46 @@ describe('ByteBuffer', function() {
       expect(b.available).to.eq(4);
     });
 
-    context('when writing and no bytes available', function() {
-      it('throws Error', function() {
+    context('when writing and no bytes available', () => {
+      it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
-        expect(function() {
+        expect(() => {
           b.writeCString('foo');
         }).to.throw(Error);
       });
     });
   });
 
-  describe('#prepend', function() {
-    it('grows buffer at the front', function() {
+  describe('#prepend', () => {
+    it('grows buffer at the front', () => {
       const b = new ByteBuffer([1, 2]);
       expect(b.prepend(2).toArray()).to.deep.eq([0, 0, 1, 2]);
       expect(b.index).to.eq(2);
     });
   });
 
-  describe('#append', function() {
-    it('grows buffer at the end', function() {
+  describe('#append', () => {
+    it('grows buffer at the end', () => {
       const b = new ByteBuffer([1, 2]);
       expect(b.append(2).toArray()).to.deep.eq([1, 2, 0, 0]);
       expect(b.index).to.eq(0);
     });
   });
 
-  describe('#implicitGrowth=', function() {
-    context('when disabled', function() {
-      it('throws Error when writing', function() {
+  describe('#implicitGrowth=', () => {
+    context('when disabled', () => {
+      it('throws Error when writing', () => {
         const b = new ByteBuffer(1);
         expect(b.implicitGrowth).to.eq(false);
-        expect(function() {
+        expect(() => {
           b.writeDouble(0);
         }).to.throw(Error);
       });
     });
 
-    context('when enabled', function() {
-      it('grows implicitly when writing', function() {
+    context('when enabled', () => {
+      it('grows implicitly when writing', () => {
         const b = new ByteBuffer(2, ByteBuffer.BIG_ENDIAN, true);
         expect(b.implicitGrowth).to.eq(true);
         expect(b.writeUnsignedInt(0).length).to.eq(4);
@@ -378,7 +377,7 @@ describe('ByteBuffer', function() {
       });
     });
 
-    it('maintains implicit(growth strategy when cloning', function() {
+    it('maintains implicit(growth strategy when cloning', () => {
       const b = new ByteBuffer(1);
       expect(b.clone().implicitGrowth).to.eq(false);
       b.implicitGrowth = true;
@@ -386,8 +385,8 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#clip', function() {
-    it('clips buffer in place', function() {
+  describe('#clip', () => {
+    it('clips buffer in place', () => {
       const b = new ByteBuffer([1, 2, 3, 4, 5, 6]);
 
       b.index = 1;
@@ -407,8 +406,8 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#slice', function() {
-    it('slices buffer returning a new copy', function() {
+  describe('#slice', () => {
+    it('slices buffer returning a new copy', () => {
       const b = new ByteBuffer([1, 2, 3, 4, 5, 6]);
 
       expect(b.slice().toArray()).to.deep.eq([1, 2, 3, 4, 5, 6]);
@@ -419,8 +418,8 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#clone', function() {
-    it('clones buffer', function() {
+  describe('#clone', () => {
+    it('clones buffer', () => {
       const b = new ByteBuffer(3);
       b.end();
 
@@ -430,8 +429,8 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#reverse', function() {
-    it('reverses/flips buffer', function() {
+  describe('#reverse', () => {
+    it('reverses/flips buffer', () => {
       const b = new ByteBuffer([1, 2, 3]);
       b.end();
 
@@ -440,8 +439,8 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('#toArray / #toHex / #toASCII', function() {
-    it('returns various representations', function() {
+  describe('#toArray / #toHex / #toASCII', () => {
+    it('returns various representations', () => {
       const b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
 
       expect(b.toArray()).to.deep.eq([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
@@ -456,21 +455,20 @@ describe('ByteBuffer', function() {
     });
   });
 
-  describe('class inheritance', function() {
+  describe('class inheritance', () => {
     class NetworkPacket extends ByteBuffer {}
     const p = new NetworkPacket(1);
 
-    it('maintains byte order', function() {
+    it('maintains byte order', () => {
       expect(p.order).to.eq(ByteBuffer.BIG_ENDIAN);
     });
 
-    it('returns ByteBuffer when reading', function() {
+    it('returns ByteBuffer when reading', () => {
       expect(p.read().constructor).to.eq(ByteBuffer);
     });
 
-    it('returns ByteBuffer when cloning', function() {
+    it('returns ByteBuffer when cloning', () => {
       expect(p.clone().constructor).to.eq(ByteBuffer);
     });
   });
-
 });

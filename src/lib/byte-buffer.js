@@ -1,7 +1,6 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable lines-between-class-members, no-param-reassign */
 
 class ByteBuffer {
-
   // Byte order constants
   static LITTLE_ENDIAN = true;
   static BIG_ENDIAN = false;

@@ -1,3 +1,7 @@
 {
-  "extends": "timkurvers"
+  "extends": "@timkurvers",
+  "rules": {
+    "no-bitwise": "off",
+    "no-underscore-dangle": "off"
+  }
 }
