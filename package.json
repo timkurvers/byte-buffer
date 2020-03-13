@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "gulp": "gulp",
-    "lint": "eslint src *.js; exit 0",
+    "lint": "eslint src *.js",
     "pretest": "gulp rebuild",
     "release": "gulp release",
     "test": "istanbul test ./node_modules/mocha/bin/_mocha -- spec --recursive"
