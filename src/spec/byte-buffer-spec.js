@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in, key-spacing, no-loop-func */
+
 import { ByteBuffer, expect } from './spec-helper';
 
 describe('ByteBuffer', function() {
