@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in, no-restricted-syntax */
 
 import { ByteBuffer, expect } from './spec-helper';
 

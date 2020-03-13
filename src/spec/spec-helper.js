@@ -4,14 +4,14 @@ import sinon from 'sinon';
 
 chai.use(bridge);
 
-beforeEach(function() {
+beforeEach(function () {
   this.sandbox = sinon.sandbox.create();
 });
 
-afterEach(function() {
+afterEach(function () {
   this.sandbox.restore();
 });
 
-export ByteBuffer from '../';
-export const expect = chai.expect;
-export sinon from 'sinon';
+export ByteBuffer from '../lib/byte-buffer';
+export const { expect } = chai;
+export { sinon };
