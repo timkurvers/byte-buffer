@@ -1,8 +1,10 @@
+/* eslint-disable no-param-reassign */
+
 class ByteBuffer {
 
   // Byte order constants
   static LITTLE_ENDIAN = true;
-  static BIG_ENDIAN    = false;
+  static BIG_ENDIAN = false;
 
   // Creates a new ByteBuffer
   // - from given source (assumed to be number of bytes when numeric)
