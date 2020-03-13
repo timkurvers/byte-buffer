@@ -27,7 +27,7 @@ jobs:
       - run: npm install
       - run: npm run lint
       - uses: paambaati/codeclimate-action@v2.5.4
-        # env:
-        #   CC_TEST_REPORTER_ID: <code_climate_reporter_id>
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: npm test --coverage
