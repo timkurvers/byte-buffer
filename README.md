@@ -1,7 +1,7 @@
 # ByteBuffer
 
 [![Version](https://badgen.net/npm/v/byte-buffer)](https://www.npmjs.org/package/byte-buffer)
-![Node Version](https://badgen.net/badge/node/8+/green)
+![Node Version](https://badgen.net/badge/node/10+/green)
 [![MIT License](https://badgen.net/github/license/timkurvers/byte-buffer)](LICENSE.md)
 ![Checks](https://badgen.net/github/checks/timkurvers/byte-buffer)
 [![Maintainability](https://badgen.net/codeclimate/maintainability/timkurvers/byte-buffer)](https://codeclimate.com/github/timkurvers/byte-buffer)
