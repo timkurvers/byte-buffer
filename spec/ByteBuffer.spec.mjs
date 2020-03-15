@@ -1,96 +1,96 @@
 /* eslint-disable guard-for-in, no-restricted-syntax */
 
-import { ByteBuffer, expect } from './spec-helper';
+import { ByteBuffer } from './spec-helper';
 
 describe('ByteBuffer', () => {
   describe('#constructor', () => {
     it('initializes by length', () => {
       const b = new ByteBuffer(1);
-      expect(b.length).to.eq(1);
+      expect(b.length).toEqual(1);
     });
 
     it('initializes from an ArrayBuffer', () => {
       const b = new ByteBuffer(new ArrayBuffer(2));
-      expect(b.length).to.eq(2);
+      expect(b.length).toBe(2);
     });
 
     it('initializes from an Uint8Array', () => {
       const b = new ByteBuffer(new Uint8Array(3));
-      expect(b.length).to.eq(3);
+      expect(b.length).toBe(3);
     });
 
     it('initializes from an Uint16Array', () => {
       const b = new ByteBuffer(new Uint16Array(1));
-      expect(b.length).to.eq(2);
+      expect(b.length).toBe(2);
     });
 
     it('initializes from an array', () => {
       const b = new ByteBuffer([0, 1, 2, 3]);
-      expect(b.length).to.eq(4);
+      expect(b.length).toBe(4);
     });
 
     it('initializes from another ByteBuffer', () => {
       const b = new ByteBuffer(new ByteBuffer(4));
-      expect(b.length).to.eq(4);
+      expect(b.length).toBe(4);
     });
   });
 
   describe('#order', () => {
     it('exposes byte order constants', () => {
-      expect(ByteBuffer.BIG_ENDIAN).to.eq(false);
-      expect(ByteBuffer.LITTLE_ENDIAN).to.eq(true);
+      expect(ByteBuffer.BIG_ENDIAN).toBe(false);
+      expect(ByteBuffer.LITTLE_ENDIAN).toBe(true);
     });
 
     it('defaults to big endian', () => {
       const b = new ByteBuffer(1);
-      expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
+      expect(b.order).toBe(ByteBuffer.BIG_ENDIAN);
     });
 
     it('may be provided during initialization', () => {
       const b = new ByteBuffer(1, ByteBuffer.BIG_ENDIAN);
-      expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
+      expect(b.order).toBe(ByteBuffer.BIG_ENDIAN);
     });
 
     it('maintains byte order when reading, slicing and cloning', () => {
       let b = new ByteBuffer(1);
-      expect(b.read().order).to.eq(ByteBuffer.BIG_ENDIAN);
-      expect(b.slice().order).to.eq(ByteBuffer.BIG_ENDIAN);
-      expect(b.clone().order).to.eq(ByteBuffer.BIG_ENDIAN);
+      expect(b.read().order).toBe(ByteBuffer.BIG_ENDIAN);
+      expect(b.slice().order).toBe(ByteBuffer.BIG_ENDIAN);
+      expect(b.clone().order).toBe(ByteBuffer.BIG_ENDIAN);
 
       b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN);
-      expect(b.read().order).to.eq(ByteBuffer.LITTLE_ENDIAN);
-      expect(b.slice().order).to.eq(ByteBuffer.LITTLE_ENDIAN);
-      expect(b.clone().order).to.eq(ByteBuffer.LITTLE_ENDIAN);
+      expect(b.read().order).toBe(ByteBuffer.LITTLE_ENDIAN);
+      expect(b.slice().order).toBe(ByteBuffer.LITTLE_ENDIAN);
+      expect(b.clone().order).toBe(ByteBuffer.LITTLE_ENDIAN);
     });
   });
 
   describe('#order=', () => {
     it('sets byte order', () => {
       const b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN);
-      expect(b.order).to.eq(ByteBuffer.LITTLE_ENDIAN);
+      expect(b.order).toBe(ByteBuffer.LITTLE_ENDIAN);
       b.order = ByteBuffer.BIG_ENDIAN;
-      expect(b.order).to.eq(ByteBuffer.BIG_ENDIAN);
+      expect(b.order).toBe(ByteBuffer.BIG_ENDIAN);
     });
   });
 
   describe('#index', () => {
-    context('when within valid range', () => {
+    describe('when within valid range', () => {
       it('returns read/write index', () => {
         const b = new ByteBuffer(8);
-        expect(b.index).to.eq(0);
+        expect(b.index).toBe(0);
       });
     });
 
-    context('when outside of valid range', () => {
+    describe('when outside of valid range', () => {
       it('throws RangeError', () => {
         const b = new ByteBuffer(8);
         expect(() => {
           b.index = -1;
-        }).to.throw(RangeError);
+        }).toThrow(RangeError);
 
         expect(() => {
           b.index = 9;
-        }).to.throw(RangeError);
+        }).toThrow(RangeError);
       });
     });
   });
@@ -98,33 +98,33 @@ describe('ByteBuffer', () => {
   describe('#front', () => {
     it('sets read/write index to front of buffer', () => {
       const b = new ByteBuffer(8);
-      expect(b.front().index).to.eq(0);
+      expect(b.front().index).toBe(0);
     });
   });
 
   describe('#end', () => {
     it('sets read/write index to end of buffer', () => {
       const b = new ByteBuffer(8);
-      expect(b.end().index).to.eq(8);
+      expect(b.end().index).toBe(8);
     });
   });
 
   describe('#seek', () => {
-    context('when within valid range', () => {
+    describe('when within valid range', () => {
       it('seeks by relative offset', () => {
         const b = new ByteBuffer(4);
-        expect(b.seek().index).to.eq(1);
-        expect(b.seek(2).index).to.eq(3);
-        expect(b.seek(-1).index).to.eq(2);
+        expect(b.seek().index).toBe(1);
+        expect(b.seek(2).index).toBe(3);
+        expect(b.seek(-1).index).toBe(2);
       });
     });
 
-    context('when outside of valid range', () => {
+    describe('when outside of valid range', () => {
       it('throws RangeError', () => {
         const b = new ByteBuffer(2);
         expect(() => {
           b.seek(3);
-        }).to.throw(RangeError);
+        }).toThrow(RangeError);
       });
     });
   });
@@ -132,12 +132,12 @@ describe('ByteBuffer', () => {
   describe('#available', () => {
     it('returns number of bytes available', () => {
       const b = new ByteBuffer(8);
-      expect(b.available).to.eq(8);
+      expect(b.available).toBe(8);
 
       b.index = 4;
-      expect(b.available).to.eq(4);
+      expect(b.available).toBe(4);
 
-      expect(b.end().available).to.eq(0);
+      expect(b.end().available).toBe(0);
     });
   });
 
@@ -161,32 +161,32 @@ describe('ByteBuffer', () => {
       it('writes value, returns buffer and reads value', () => {
         const b = new ByteBuffer(8);
         const result = b[writer](value);
-        expect(result).to.eq(b);
+        expect(result).toBe(b);
 
         if (['Float', 'Double'].indexOf(type) !== -1) {
-          expect(b.front()[reader]()).to.be.closeTo(value, 0.0000001);
+          expect(b.front()[reader]()).toBeCloseTo(value, 0.0000001);
         } else {
-          expect(b.front()[reader]()).to.eq(value);
+          expect(b.front()[reader]()).toBe(value);
         }
       });
 
-      context('when writing and no bytes available', () => {
+      describe('when writing and no bytes available', () => {
         it('throws Error', () => {
           const b = new ByteBuffer(1);
           b.end();
           expect(() => {
             b[writer](value);
-          }).to.throw(Error);
+          }).toThrow(Error);
         });
       });
 
-      context('when reading and no bytes available', () => {
+      describe('when reading and no bytes available', () => {
         it('throws Error', () => {
           const b = new ByteBuffer(1);
           b.end();
           expect(() => {
             b[reader]();
-          }).to.throw(Error);
+          }).toThrow(Error);
         });
       });
     });
@@ -196,71 +196,71 @@ describe('ByteBuffer', () => {
     it('writes Uint8Arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new Uint8Array([1, 2]));
-      expect(result).to.eq(b);
-      expect(b.front().read(2).toArray()).to.deep.eq([1, 2]);
+      expect(result).toBe(b);
+      expect(b.front().read(2).toArray()).toEqual([1, 2]);
     });
 
     it('writes Uint16Arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new Uint16Array([(1 << 16) - 1]));
-      expect(result).to.eq(b);
-      expect(b.front().read(2).toArray()).to.deep.eq([255, 255]);
+      expect(result).toBe(b);
+      expect(b.front().read(2).toArray()).toEqual([255, 255]);
     });
 
     it('writes another ByteBuffer, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new ByteBuffer([3, 4]));
-      expect(result).to.eq(b);
-      expect(b.front().read(2).toArray()).to.deep.eq([3, 4]);
+      expect(result).toBe(b);
+      expect(b.front().read(2).toArray()).toEqual([3, 4]);
     });
 
     it('writes arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write([13, 37]);
-      expect(result).to.eq(b);
-      expect(b.front().read(2).toArray()).to.deep.eq([13, 37]);
+      expect(result).toBe(b);
+      expect(b.front().read(2).toArray()).toEqual([13, 37]);
     });
 
-    context('when writing non-sequences', () => {
+    describe('when writing non-sequences', () => {
       it('throws TypeError', () => {
         const b = new ByteBuffer(8);
 
         expect(() => {
           b.write(666);
-        }).to.throw(TypeError);
+        }).toThrow(TypeError);
 
         expect(() => {
           b.write('unwritable');
-        }).to.throw(TypeError);
+        }).toThrow(TypeError);
       });
     });
 
-    context('when writing and no bytes available', () => {
+    describe('when writing and no bytes available', () => {
       it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
         expect(() => {
           b.write([1]);
-        }).to.throw(Error);
+        }).toThrow(Error);
       });
     });
 
-    context('when reading and no bytes available', () => {
+    describe('when reading and no bytes available', () => {
       it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
         expect(() => {
           b.read(1);
-        }).to.throw(Error);
+        }).toThrow(Error);
       });
     });
 
-    context('when reading outside of valid range', () => {
+    describe('when reading outside of valid range', () => {
       it('throws RangeError', () => {
         const b = new ByteBuffer(1);
         expect(() => {
           b.read(-1);
-        }).to.throw(RangeError);
+        }).toThrow(RangeError);
       });
     });
   });
@@ -269,49 +269,49 @@ describe('ByteBuffer', () => {
     it('writes utf-8 strings, returns bytes used and reads strings', () => {
       let b = new ByteBuffer(22);
 
-      expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).to.eq(22);
-      expect(b.index).to.eq(22);
-      expect(b.toHex()).to.eq('42 79 74 65 20 24 C2 A2 E2 82 AC F0 9D 87 87 20 42 75 66 66 65 72');
+      expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toBe(22);
+      expect(b.index).toBe(22);
+      expect(b.toHex()).toBe('42 79 74 65 20 24 C2 A2 E2 82 AC F0 9D 87 87 20 42 75 66 66 65 72');
 
       b.front();
 
-      expect(b.readString()).to.eq('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer');
+      expect(b.readString()).toBe('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer');
 
       b = new ByteBuffer(262140);
       const long = (new Array(1 << 16)).join('\uD834\uDDC7');
-      expect(b.writeString(long)).to.eq(262140);
+      expect(b.writeString(long)).toBe(262140);
 
       b.front();
 
-      expect(b.readString()).to.eq(long);
+      expect(b.readString()).toBe(long);
     });
 
-    context('when writing and no bytes available', () => {
+    describe('when writing and no bytes available', () => {
       it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
         expect(() => {
           b.writeString('foo');
-        }).to.throw(Error);
+        }).toThrow(Error);
       });
     });
 
-    context('when reading and no bytes available', () => {
+    describe('when reading and no bytes available', () => {
       it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
         expect(() => {
           b.readString(1);
-        }).to.throw(Error);
+        }).toThrow(Error);
       });
     });
 
-    context('when reading outside of valid range', () => {
+    describe('when reading outside of valid range', () => {
       it('throws RangeError', () => {
         const b = new ByteBuffer(1);
         expect(() => {
           b.readString(-1);
-        }).to.throw(RangeError);
+        }).toThrow(RangeError);
       });
     });
   });
@@ -320,22 +320,22 @@ describe('ByteBuffer', () => {
     it('writes NULL-terminated C-strings, returns bytes used and reads strings', () => {
       const b = new ByteBuffer(27);
 
-      expect(b.writeCString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).to.eq(23);
+      expect(b.writeCString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toBe(23);
       b.writeUnsignedInt(10);
 
       b.front();
 
-      expect(b.readCString()).to.eq('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer');
-      expect(b.available).to.eq(4);
+      expect(b.readCString()).toBe('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer');
+      expect(b.available).toBe(4);
     });
 
-    context('when writing and no bytes available', () => {
+    describe('when writing and no bytes available', () => {
       it('throws Error', () => {
         const b = new ByteBuffer(1);
         b.end();
         expect(() => {
           b.writeCString('foo');
-        }).to.throw(Error);
+        }).toThrow(Error);
       });
     });
   });
@@ -343,45 +343,45 @@ describe('ByteBuffer', () => {
   describe('#prepend', () => {
     it('grows buffer at the front', () => {
       const b = new ByteBuffer([1, 2]);
-      expect(b.prepend(2).toArray()).to.deep.eq([0, 0, 1, 2]);
-      expect(b.index).to.eq(2);
+      expect(b.prepend(2).toArray()).toEqual([0, 0, 1, 2]);
+      expect(b.index).toBe(2);
     });
   });
 
   describe('#append', () => {
     it('grows buffer at the end', () => {
       const b = new ByteBuffer([1, 2]);
-      expect(b.append(2).toArray()).to.deep.eq([1, 2, 0, 0]);
-      expect(b.index).to.eq(0);
+      expect(b.append(2).toArray()).toEqual([1, 2, 0, 0]);
+      expect(b.index).toBe(0);
     });
   });
 
   describe('#implicitGrowth=', () => {
-    context('when disabled', () => {
+    describe('when disabled', () => {
       it('throws Error when writing', () => {
         const b = new ByteBuffer(1);
-        expect(b.implicitGrowth).to.eq(false);
+        expect(b.implicitGrowth).toBe(false);
         expect(() => {
           b.writeDouble(0);
-        }).to.throw(Error);
+        }).toThrow(Error);
       });
     });
 
-    context('when enabled', () => {
+    describe('when enabled', () => {
       it('grows implicitly when writing', () => {
         const b = new ByteBuffer(2, ByteBuffer.BIG_ENDIAN, true);
-        expect(b.implicitGrowth).to.eq(true);
-        expect(b.writeUnsignedInt(0).length).to.eq(4);
-        expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).to.eq(22);
-        expect(b.length).to.eq(26);
+        expect(b.implicitGrowth).toBe(true);
+        expect(b.writeUnsignedInt(0).length).toBe(4);
+        expect(b.writeString('Byte $\u00A2\u20AC\uD834\uDDC7 Buffer')).toBe(22);
+        expect(b.length).toBe(26);
       });
     });
 
     it('maintains implicit(growth strategy when cloning', () => {
       const b = new ByteBuffer(1);
-      expect(b.clone().implicitGrowth).to.eq(false);
+      expect(b.clone().implicitGrowth).toBe(false);
       b.implicitGrowth = true;
-      expect(b.clone().implicitGrowth).to.eq(true);
+      expect(b.clone().implicitGrowth).toBe(true);
     });
   });
 
@@ -391,18 +391,18 @@ describe('ByteBuffer', () => {
 
       b.index = 1;
 
-      expect(b.clip().toArray()).to.deep.eq([2, 3, 4, 5, 6]);
-      expect(b.index).to.eq(0);
+      expect(b.clip().toArray()).toEqual([2, 3, 4, 5, 6]);
+      expect(b.index).toBe(0);
 
       b.index = 2;
 
-      expect(b.clip(1).toArray()).to.deep.eq([3, 4, 5, 6]);
-      expect(b.index).to.eq(1);
+      expect(b.clip(1).toArray()).toEqual([3, 4, 5, 6]);
+      expect(b.index).toBe(1);
 
       b.end();
 
-      expect(b.clip(0, -2).toArray()).to.deep.eq([3, 4]);
-      expect(b.index).to.eq(2);
+      expect(b.clip(0, -2).toArray()).toEqual([3, 4]);
+      expect(b.index).toBe(2);
     });
   });
 
@@ -410,11 +410,11 @@ describe('ByteBuffer', () => {
     it('slices buffer returning a new copy', () => {
       const b = new ByteBuffer([1, 2, 3, 4, 5, 6]);
 
-      expect(b.slice().toArray()).to.deep.eq([1, 2, 3, 4, 5, 6]);
-      expect(b.slice(1).toArray()).to.deep.eq([2, 3, 4, 5, 6]);
-      expect(b.slice(2, -2).toArray()).to.deep.eq([3, 4]);
+      expect(b.slice().toArray()).toEqual([1, 2, 3, 4, 5, 6]);
+      expect(b.slice(1).toArray()).toEqual([2, 3, 4, 5, 6]);
+      expect(b.slice(2, -2).toArray()).toEqual([3, 4]);
 
-      expect(b.slice()).not.to.eq(b);
+      expect(b.slice()).not.toBe(b);
     });
   });
 
@@ -424,8 +424,8 @@ describe('ByteBuffer', () => {
       b.end();
 
       const clone = b.clone();
-      expect(clone).to.deep.eq(b);
-      expect(clone).not.to.eq(b);
+      expect(clone).toEqual(b);
+      expect(clone).not.toBe(b);
     });
   });
 
@@ -434,8 +434,8 @@ describe('ByteBuffer', () => {
       const b = new ByteBuffer([1, 2, 3]);
       b.end();
 
-      expect(b.reverse().toArray()).to.deep.eq([3, 2, 1]);
-      expect(b.index).to.eq(0);
+      expect(b.reverse().toArray()).toEqual([3, 2, 1]);
+      expect(b.index).toBe(0);
     });
   });
 
@@ -443,15 +443,15 @@ describe('ByteBuffer', () => {
     it('returns various representations', () => {
       const b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
 
-      expect(b.toArray()).to.deep.eq([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
+      expect(b.toArray()).toEqual([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
 
-      expect(b.toHex()).to.eq('F5 42 79 74 65 D7 42 75 66 66 65 72 00');
-      expect(b.toASCII()).to.eq(' \uFFFD  B  y  t  e  \uFFFD  B  u  f  f  e  r  \uFFFD');
+      expect(b.toHex()).toBe('F5 42 79 74 65 D7 42 75 66 66 65 72 00');
+      expect(b.toASCII()).toBe(' \uFFFD  B  y  t  e  \uFFFD  B  u  f  f  e  r  \uFFFD');
 
-      expect(b.toHex('')).to.eq('F542797465D742756666657200');
-      expect(b.toASCII('')).to.eq(' \uFFFD B y t e \uFFFD B u f f e r \uFFFD');
+      expect(b.toHex('')).toBe('F542797465D742756666657200');
+      expect(b.toASCII('')).toBe(' \uFFFD B y t e \uFFFD B u f f e r \uFFFD');
 
-      expect(b.toASCII('', false)).to.eq('\uFFFDByte\uFFFDBuffer\uFFFD');
+      expect(b.toASCII('', false)).toBe('\uFFFDByte\uFFFDBuffer\uFFFD');
     });
   });
 
@@ -460,15 +460,15 @@ describe('ByteBuffer', () => {
     const p = new NetworkPacket(1);
 
     it('maintains byte order', () => {
-      expect(p.order).to.eq(ByteBuffer.BIG_ENDIAN);
+      expect(p.order).toBe(ByteBuffer.BIG_ENDIAN);
     });
 
     it('returns ByteBuffer when reading', () => {
-      expect(p.read().constructor).to.eq(ByteBuffer);
+      expect(p.read().constructor).toBe(ByteBuffer);
     });
 
     it('returns ByteBuffer when cloning', () => {
-      expect(p.clone().constructor).to.eq(ByteBuffer);
+      expect(p.clone().constructor).toBe(ByteBuffer);
     });
   });
 });

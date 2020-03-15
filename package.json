@@ -3,18 +3,19 @@
   "title": "ByteBuffer",
   "version": "1.0.3",
   "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
-  "main": "lib/byte-buffer.js",
+  "main": "dist/byte-buffer.js",
+  "module": "lib/byte-buffer.mjs",
   "files": [
     "dist",
     "lib",
     "LICENSE.md"
   ],
   "scripts": {
-    "gulp": "gulp",
-    "lint": "eslint src",
-    "pretest": "gulp rebuild",
-    "release": "gulp release",
-    "test": "istanbul test ./node_modules/mocha/bin/_mocha -- spec --recursive"
+    "build": "rollup -c",
+    "lint": "eslint . --ignore-pattern dist --ext js,mjs",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "repository": "timkurvers/byte-buffer",
   "author": "Tim Kurvers <tim@moonsphere.net>",
@@ -22,25 +23,18 @@
   "keywords": [],
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
     "@timkurvers/eslint-config": "^2.0.0",
-    "babel-core": "^5.8.20",
     "babel-eslint": "^10.1.0",
-    "chai": "^1.9.2",
-    "del": "^1.2.0",
+    "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-import": "^2.20.1",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^5.1.0",
-    "gulp-browserify": "^0.5.0",
-    "gulp-header": "^1.1.1",
-    "gulp-mocha": "^1.1.1",
-    "gulp-plumber": "^0.6.6",
-    "gulp-rename": "^1.2.0",
-    "gulp-uglify": "^1.0.1",
-    "istanbul": "^0.3.14",
-    "mocha": "^1.21.5",
-    "sinon": "^1.10.3",
-    "sinon-chai": "^2.6.0"
+    "jest": "^25.1.0",
+    "jest-config": "^25.1.0",
+    "rollup": "^2.0.6",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^5.3.0"
   }
 }
