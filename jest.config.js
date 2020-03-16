@@ -1,6 +1,11 @@
 const { defaults } = require('jest-config');
 
 module.exports = {
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'lib/**/*.{js,mjs}',
+  ],
+  coverageDirectory: './coverage/',
   moduleFileExtensions: [
     ...defaults.moduleFileExtensions,
     'mjs',
