@@ -3,7 +3,7 @@
 import { ByteBuffer } from './spec-helper';
 
 describe('ByteBuffer', () => {
-  describe('#constructor', () => {
+  describe('constructor', () => {
     it('initializes by length', () => {
       const b = new ByteBuffer(1);
       expect(b.length).toEqual(1);
@@ -35,7 +35,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#order', () => {
+  describe('get order', () => {
     it('exposes byte order constants', () => {
       expect(ByteBuffer.BIG_ENDIAN).toBe(false);
       expect(ByteBuffer.LITTLE_ENDIAN).toBe(true);
@@ -64,7 +64,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#order=', () => {
+  describe('set order', () => {
     it('sets byte order', () => {
       const b = new ByteBuffer(1, ByteBuffer.LITTLE_ENDIAN);
       expect(b.order).toBe(ByteBuffer.LITTLE_ENDIAN);
@@ -73,7 +73,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#index', () => {
+  describe('get index', () => {
     describe('when within valid range', () => {
       it('returns read/write index', () => {
         const b = new ByteBuffer(8);
@@ -95,21 +95,21 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#front', () => {
+  describe('front()', () => {
     it('sets read/write index to front of buffer', () => {
       const b = new ByteBuffer(8);
       expect(b.front().index).toBe(0);
     });
   });
 
-  describe('#end', () => {
+  describe('end()', () => {
     it('sets read/write index to end of buffer', () => {
       const b = new ByteBuffer(8);
       expect(b.end().index).toBe(8);
     });
   });
 
-  describe('#seek', () => {
+  describe('seek()', () => {
     describe('when within valid range', () => {
       it('seeks by relative offset', () => {
         const b = new ByteBuffer(4);
@@ -129,7 +129,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#available', () => {
+  describe('get available', () => {
     it('returns number of bytes available', () => {
       const b = new ByteBuffer(8);
       expect(b.available).toBe(8);
@@ -157,7 +157,7 @@ describe('ByteBuffer', () => {
     const writer = `write${type}`;
     const reader = `read${type}`;
 
-    describe(`#write${type} / #read${type}`, () => {
+    describe(`write${type}() / read${type}()`, () => {
       it('writes value, returns buffer and reads value', () => {
         const b = new ByteBuffer(8);
         const result = b[writer](value);
@@ -192,7 +192,7 @@ describe('ByteBuffer', () => {
     });
   }
 
-  describe('#write / #read', () => {
+  describe('write() / read()', () => {
     it('writes Uint8Arrays, returns buffer and reads sequence', () => {
       const b = new ByteBuffer(2);
       const result = b.write(new Uint8Array([1, 2]));
@@ -265,7 +265,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#writeString / #readString', () => {
+  describe('writeString() / readString()', () => {
     it('writes utf-8 strings, returns bytes used and reads strings', () => {
       let b = new ByteBuffer(22);
 
@@ -316,7 +316,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#writeCString / #readCString', () => {
+  describe('writeCString() / readCString()', () => {
     it('writes NULL-terminated C-strings, returns bytes used and reads strings', () => {
       const b = new ByteBuffer(27);
 
@@ -340,7 +340,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#prepend', () => {
+  describe('prepend()', () => {
     it('grows buffer at the front', () => {
       const b = new ByteBuffer([1, 2]);
       expect(b.prepend(2).toArray()).toEqual([0, 0, 1, 2]);
@@ -348,7 +348,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#append', () => {
+  describe('append()', () => {
     it('grows buffer at the end', () => {
       const b = new ByteBuffer([1, 2]);
       expect(b.append(2).toArray()).toEqual([1, 2, 0, 0]);
@@ -356,7 +356,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#implicitGrowth=', () => {
+  describe('set implicitGrowth', () => {
     describe('when disabled', () => {
       it('throws Error when writing', () => {
         const b = new ByteBuffer(1);
@@ -385,7 +385,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#clip', () => {
+  describe('clip()', () => {
     it('clips buffer in place', () => {
       const b = new ByteBuffer([1, 2, 3, 4, 5, 6]);
 
@@ -406,7 +406,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#slice', () => {
+  describe('slice()', () => {
     it('slices buffer returning a new copy', () => {
       const b = new ByteBuffer([1, 2, 3, 4, 5, 6]);
 
@@ -418,7 +418,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#clone', () => {
+  describe('clone()', () => {
     it('clones buffer', () => {
       const b = new ByteBuffer(3);
       b.end();
@@ -429,7 +429,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#reverse', () => {
+  describe('reverse()', () => {
     it('reverses/flips buffer', () => {
       const b = new ByteBuffer([1, 2, 3]);
       b.end();
@@ -439,7 +439,7 @@ describe('ByteBuffer', () => {
     });
   });
 
-  describe('#toArray / #toHex / #toASCII', () => {
+  describe('toArray() / toHex() / toASCII()', () => {
     it('returns various representations', () => {
       const b = new ByteBuffer([245, 66, 121, 116, 101, 215, 66, 117, 102, 102, 101, 114, 0]);
 
