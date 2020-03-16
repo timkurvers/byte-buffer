@@ -401,6 +401,8 @@ When contributing, please:
 [IDataInput]: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataInput.html
 [IDataOutput]: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataOutput.html
 [JavaScript typed arrays]: https://developer.mozilla.org/en/JavaScript_typed_arrays
+[Jest]: https://jestjs.io/
 [Node.js]: http://nodejs.org/#download
 [jDataView]: https://github.com/vjeux/jDataView/
 [npm]: https://www.npmjs.com
+[rollup]: https://rollupjs.org
