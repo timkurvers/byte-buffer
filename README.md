@@ -313,10 +313,6 @@ b.toArray() // Changes to this array are not backed
 ```
 
 ```javascript
-b.toString() // String representation of this buffer
-```
-
-```javascript
 b.toHex() // Hexadecimal representation of this buffer, e.g: 42 79 74 65 42 75 66 66 65 72
 ```
 
