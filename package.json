@@ -1,6 +1,6 @@
 {
   "name": "byte-buffer",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
   "author": "Tim Kurvers <tim@moonsphere.net>",
   "repository": "timkurvers/byte-buffer",
