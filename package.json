@@ -1,8 +1,11 @@
 {
   "name": "byte-buffer",
-  "title": "ByteBuffer",
   "version": "1.0.3",
   "description": "Wrapper for JavaScript's ArrayBuffer/DataView",
+  "author": "Tim Kurvers <tim@moonsphere.net>",
+  "repository": "timkurvers/byte-buffer",
+  "license": "MIT",
+  "keywords": ["byte", "byte buffer", "bytebuffer"],
   "main": "dist/byte-buffer.js",
   "module": "lib/byte-buffer.mjs",
   "files": [
@@ -17,10 +20,6 @@
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
-  "repository": "timkurvers/byte-buffer",
-  "author": "Tim Kurvers <tim@moonsphere.net>",
-  "license": "MIT",
-  "keywords": [],
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.8.7",
