@@ -1,7 +1,7 @@
 # ByteBuffer
 
 [![Version](https://badgen.net/npm/v/byte-buffer)](https://www.npmjs.org/package/byte-buffer)
-![Node Version](https://badgen.net/badge/node/8+/green)
+![Node Version](https://badgen.net/badge/node/10+/green)
 [![MIT License](https://badgen.net/github/license/timkurvers/byte-buffer)](LICENSE.md)
 ![Checks](https://badgen.net/github/checks/timkurvers/byte-buffer)
 [![Maintainability](https://badgen.net/codeclimate/maintainability/timkurvers/byte-buffer)](https://codeclimate.com/github/timkurvers/byte-buffer)
@@ -24,7 +24,31 @@ Or for usage in the browser:
 - `dist/byte-buffer.js`
 - `dist/byte-buffer.min.js`
 
-## Usage & API
+## Usage
+
+As an ECMAScript module:
+
+```javascript
+import ByteBuffer from 'byte-buffer';
+
+const b = new ByteBuffer();
+```
+
+In CommonJS environments:
+
+```javascript
+const ByteBuffer = require('byte-buffer');
+
+const b = new ByteBuffer();
+```
+
+Available in the global scope when included in browser environments:
+
+```javascript
+const b = new ByteBuffer();
+```
+
+## API
 
 ByteBuffer's API borrows heavily from Adobe's [IDataInput] and [IDataOutput] as
 well as David Flanagan's [BufferView].
@@ -313,10 +337,6 @@ b.toArray() // Changes to this array are not backed
 ```
 
 ```javascript
-b.toString() // String representation of this buffer
-```
-
-```javascript
 b.toHex() // Hexadecimal representation of this buffer, e.g: 42 79 74 65 42 75 66 66 65 72
 ```
 
@@ -326,8 +346,8 @@ b.toASCII() // ASCII representation of this buffer, e.g:  B  y  t  e  B  u  f  f
 
 ## Development & Contribution
 
-ByteBuffer is written in [ES2015], compiled by [Babel], developed with [Gulp]
-and tested through [Mocha].
+ByteBuffer is written in [ES2015+], modularized using [ECMAScript Modules],
+compiled by [Babel], bundled with [rollup] and tested through [Jest].
 
 Getting this toolchain up and running, is easy and straight-forward:
 
@@ -345,8 +365,7 @@ Getting this toolchain up and running, is easy and straight-forward:
    npm install
    ```
 
-4. Run `npm run gulp` which will automatically build and test the project when
-   source files change.
+4. Run `npm test:watch` which will run tests when source files change.
 
 When contributing, please:
 
@@ -377,12 +396,13 @@ When contributing, please:
 
 [Babel]: https://babeljs.io/
 [BufferView]: https://github.com/davidflanagan/BufferView
-[ES2015]: https://babeljs.io/docs/learn-es2015/
-[Gulp]: http://gulpjs.com/
+[ECMAScript Modules]: https://nodejs.org/api/esm.html#esm_ecmascript_modules
+[ES2015+]: https://babeljs.io/docs/learn-es2015/
 [IDataInput]: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataInput.html
 [IDataOutput]: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/utils/IDataOutput.html
 [JavaScript typed arrays]: https://developer.mozilla.org/en/JavaScript_typed_arrays
-[Mocha]: http://mochajs.org/
+[Jest]: https://jestjs.io/
 [Node.js]: http://nodejs.org/#download
 [jDataView]: https://github.com/vjeux/jDataView/
 [npm]: https://www.npmjs.com
+[rollup]: https://rollupjs.org

@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [8.x, 10.x]
+        node-version: [10.x]
     steps:
       - uses: actions/checkout@v2
       - name: Node.js ${{ matrix.node-version }}
@@ -30,4 +30,4 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: npm test --coverage
+          coverageCommand: npm run test:coverage

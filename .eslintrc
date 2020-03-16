@@ -1,3 +1,9 @@
 {
-  "extends": "timkurvers"
+  "extends": "@timkurvers",
+  "rules": {
+    "func-names": "off",
+    "no-bitwise": "off",
+    "no-plusplus": "off",
+    "no-underscore-dangle": "off"
+  }
 }
