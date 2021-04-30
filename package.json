@@ -5,7 +5,11 @@
   "author": "Tim Kurvers <tim@moonsphere.net>",
   "repository": "timkurvers/byte-buffer",
   "license": "MIT",
-  "keywords": ["byte", "byte buffer", "bytebuffer"],
+  "keywords": [
+    "byte",
+    "byte buffer",
+    "bytebuffer"
+  ],
   "main": "dist/byte-buffer.js",
   "module": "lib/byte-buffer.mjs",
   "files": [
