@@ -9,6 +9,7 @@ module.exports = {
     ...defaults.moduleFileExtensions,
     'mjs',
   ],
+  testEnvironment: 'node',
   testMatch: [
     '**/spec/**/*.spec.mjs',
   ],
