@@ -231,6 +231,8 @@ describe('ByteBuffer', () => {
     UnsignedShort:  1 << 15,
     Int:           -1 << 30,
     UnsignedInt:    1 << 30,
+    BigInt:        -1n << 53n,
+    UnsignedBigInt: 1n << 53n,
     Float:          Math.PI,
     Double:         Math.PI,
   };
